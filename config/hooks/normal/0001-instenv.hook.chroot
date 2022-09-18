@@ -1,0 +1,28 @@
+#!/bin/bash
+
+setup_wheel() {
+	sed -i '15 s/^# //' /etc/pam.d/su
+	addgroup --system wheel
+	touch /etc/doas.conf
+	echo "permit :wheel" > /etc/doas.conf
+}
+
+permissions() {
+	chmod +x /etc/skel/.local/bin/{addwifi.sh,chwall-dmenu,netcon,poweroffreboot,statusbar.sh}
+
+	# until deb package is provided
+	chmod 755 /usr/local/bin/{dmenu,dmenu_path,dmenu_run,dwm,st,stest}
+	chmod 644 /usr/local/share/man/man1/{dmenu.1,dwm.1,st.1,stest.1}
+}
+
+# enabling services that don't get enabled by live-build for some reason
+#enable_srv() {
+#}
+
+main() {
+	setup_wheel
+	permissions
+	#enable_srv
+}
+
+main
