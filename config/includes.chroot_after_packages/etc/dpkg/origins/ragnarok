@@ -1,4 +1,4 @@
 Vendor: Ragnarok
-Vendor-URL: https://github.com/ragnarok
+Vendor-URL: https://github.com/RagnarokOS/
 Parent: Debian
-Bugs:
+Bugs: https://github.com/RagnarokOS/src/issues
