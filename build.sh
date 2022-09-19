@@ -66,6 +66,13 @@ copy_files() {
 	cp "$REPODIR"/splash/grub_splash.png "$WORKDIR"/config/bootloaders/grub-pc/splash.png
 }
 
+# No need to keep dummy packages in two repositories, so they are fetched
+# from src then moved to the build directory in config/packages.chroot/
+fetch_dummies() {
+	/usr/bin/curl -OL https://github.com/RagnarokOS/src/raw/main/dummy-packages/man-db_99_all/man-db_99_all.deb
+	mv man-db_99_all.deb "$WORKDIR"/config/packages.chroot/
+}
+
 # Generating splash.png for isolinux, based on splash.svg.in
 gen_splash() {
 	_kernel=$(uname -r)
