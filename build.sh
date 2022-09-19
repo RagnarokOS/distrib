@@ -109,6 +109,7 @@ do_conf() {
 	mk_dir
 	conf
 	copy_files
+	fetch_dummies
 	gen_splash
 }
 
