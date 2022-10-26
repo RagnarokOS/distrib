@@ -51,8 +51,7 @@ fi
 xwallpaper --stretch ~/Pictures/defwall.jpg &
 xcompmgr &
 dunst &
-lxpolkit &
 sxhkd &
 .local/bin/statusbar.sh &
-exec /usr/local/bin/dwm
+exec /usr/bin/dwm
 

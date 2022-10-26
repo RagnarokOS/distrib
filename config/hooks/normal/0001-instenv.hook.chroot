@@ -1,5 +1,8 @@
 #!/bin/bash
 
+TOPDIR="/usr/src"
+SRC_PATH="$TOPDIR/src"
+
 setup_wheel() {
 	sed -i '15 s/^# //' /etc/pam.d/su
 	addgroup --system wheel
@@ -7,12 +10,25 @@ setup_wheel() {
 	echo "permit :wheel" > /etc/doas.conf
 }
 
+# Build packages from the src tree
+src_build() {
+	cd "$SRC_PATH" || exit
+	chmod +x build
+	./build
+}
+
+# removing cloned src repo
+rm_builddir() {
+	rm -r "$SRC_PATH"
+}
+
+# update man pages
+upd_man() {
+	makewhatis /usr/share/man
+}
+
 permissions() {
 	chmod +x /etc/skel/.local/bin/{addwifi.sh,chwall-dmenu,netcon,poweroffreboot,statusbar.sh}
-
-	# until deb package is provided
-	chmod 755 /usr/local/bin/{dmenu,dmenu_path,dmenu_run,dwm,st,stest}
-	chmod 644 /usr/local/share/man/man1/{dmenu.1,dwm.1,st.1,stest.1}
 }
 
 # enabling services that don't get enabled by live-build for some reason
@@ -21,8 +37,10 @@ permissions() {
 
 main() {
 	setup_wheel
+	src_build
+	upd_man
+	rm_builddir
 	permissions
-	#enable_srv
 }
 
 main

@@ -11,12 +11,9 @@ rsyslog
 logrotate
 opensmtpd
 openntpd
-doas
-signify-openbsd
 ifupdown
 wpasupplicant
 crda
-mandoc
 tmux
 vim
 eject
