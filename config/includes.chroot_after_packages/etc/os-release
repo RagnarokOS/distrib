@@ -1,7 +1,7 @@
-PRETTY_NAME="Ragnarok 0.1 (-dev)"
+PRETTY_NAME="Ragnarok (-dev)"
 NAME="Ragnarok"
-VERSION_ID="0.1"
-VERSION="0.1 (-dev)"
+VERSION_ID="dev"
+VERSION="-dev"
 VERSION_CODENAME=dev
 ID=ragnarok
 HOME_URL=""

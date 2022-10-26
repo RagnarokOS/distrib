@@ -22,6 +22,14 @@ rm_builddir() {
 	rm -r "$SRC_PATH"
 }
 
+# No choice but to create a devel user in order to get ksh as the default login shell
+mk_devuser() {
+	useradd -m devel
+	usermod -aG wheel,cdrom,audio,dip,video,plugdev,netdev devel
+	usermod -s /bin/ksh devel
+	echo "devel:live" | chpasswd
+}
+
 # update man pages
 upd_man() {
 	makewhatis /usr/share/man
@@ -40,6 +48,7 @@ main() {
 	src_build
 	upd_man
 	rm_builddir
+	mk_devuser
 	permissions
 }
 
