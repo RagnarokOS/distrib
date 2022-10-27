@@ -46,44 +46,15 @@ alt + m
 
 # connect / disconnect networks
 alt + n
-	~/.local/bin/netcon
-
-alt + shift + n
-	~/.local/bin/netdiscon
-
-# Mount/Unmount/poweroff Devices
-alt + shift + m
-	~/.local/bin/usbmount
-
-alt + shift + u
-	~/.local/bin/usbunmount
-
-alt + shift + p
-	~/.local/bin/usbpoweroff
+	/usr/local/bin/netcon
 
 # Poweroff / Reboot
 alt + shift + l
-	~/.local/bin/poweroffreboot
-
-# Open Image with sxiv
-alt + i
-	~/.local/bin/openimage
-
-# Open Videos with mpv (from vid folder)
-alt + v
-	~/.local/bin/openvideo
-
-# Open Videos with mpv (from browser)
-alt + shift + v
-	~/.local/bin/mpvload
-
-# Switch Monitors (via dmenu)
-alt + shift + s
-	~/.local/bin/monitor
+	/usr/local/bin/poweroffreboot
 
 # Change Wallpaper
 alt + shift + w
-	~/.local/bin/chwall-dmenu
+	/usr/local/bin/chwall-dmenu
 
 #
 # Misc
@@ -92,10 +63,3 @@ alt + shift + w
 # Take Screenshot
 Print
 	scrot ~/Pictures/screenshot-%Y-%m-%d-%T.png
-
-# Switch Monitor
-super + alt + shift + p
-	/usr/bin/xrandr --output DP-1 --primary --mode 1920x1080 --output HDMI-1 --off
-
-super + alt + shift + t
-	/usr/bin/xrandr --output HDMI-1 --primary --mode 1360x768 --output DP-1 --off
