@@ -72,7 +72,7 @@ conf() {
 		--iso-volume Ragnarok-"$VERSION" \
 		--archive-areas "main contrib non-free" \
 		--debootstrap-options "--variant=minbase" \
-		--bootappend-live "boot=live live-config.hostname=ragnarok live-config.noautologin live-config.sysv-rc=opensmtpd slab_nomerge init_on_alloc=1 init_on_free=1 page_alloc.shuffle=1 pti=on randomize_kstack_offset=on vsyscall=none debugfs=off lockdown=confidentiality"
+		--bootappend-live "boot=live live-config.locales=en_CA.UTF-8 live.config-timezone=Canada/Eastern live-config.hostname=ragnarok live-config.noautologin live-config.sysv-rc=opensmtpd slab_nomerge init_on_alloc=1 init_on_free=1 page_alloc.shuffle=1 pti=on randomize_kstack_offset=on vsyscall=none debugfs=off lockdown=confidentiality"
 }
 
 # Generating splash.png for isolinux, based on splash.svg.in

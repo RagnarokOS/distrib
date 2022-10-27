@@ -28,6 +28,9 @@ mk_devuser() {
 	usermod -aG wheel,cdrom,audio,dip,video,plugdev,netdev devel
 	usermod -s /bin/ksh devel
 	echo "devel:live" | chpasswd
+	# also setting a password for the root account
+	# since it's useful.
+	echo "root:root" | chpasswd
 }
 
 # update man pages
@@ -36,7 +39,7 @@ upd_man() {
 }
 
 permissions() {
-	chmod +x /etc/skel/.local/bin/{addwifi.sh,chwall-dmenu,netcon,poweroffreboot,statusbar.sh}
+	chmod 755 /usr/local/bin/*
 }
 
 # enabling services that don't get enabled by live-build for some reason
