@@ -42,9 +42,9 @@ permissions() {
 	chmod 755 /usr/local/bin/*
 }
 
-# enabling services that don't get enabled by live-build for some reason
-#enable_srv() {
-#}
+hardened_malloc_init() {
+	/usr/sbin/update-rc.d hardened_malloc defaults
+}
 
 main() {
 	setup_wheel
@@ -53,6 +53,7 @@ main() {
 	rm_builddir
 	mk_devuser
 	permissions
+	hardened_malloc_init
 }
 
 main
