@@ -1,0 +1,17 @@
+# A small library that contains functions used by many of Ragnarok's scripts.
+
+getvar() {
+	local _val="$1" _file="$2"
+
+	grep "$_val" "$_file" | cut -d '"' -f2
+}
+
+setvar() {
+	local _var="$1" _val="$2" _file="$3"
+
+	if grep -Rq "$_var" "$_file"; then
+		sed -i -e "s/.*$_var.*/$_var=\"$_val\"/" "$_file"
+	else
+		printf '%s\n' "$_var=$_val" >> "$_file"
+	fi
+}
