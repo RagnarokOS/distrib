@@ -15,3 +15,21 @@ setvar() {
 		printf '%s\n' "$_var=$_val" >> "$_file"
 	fi
 }
+
+verify() {
+	local _pubkey="$2" _sig="$3" _file="$4"
+
+	case "$1" in
+		-d) signify-openbsd -C -p "$_pubkey" -x "$_sig" ;;
+		-f) signify-openbsd -V -p "$_pubkey" -x "$_sig" -m "$_file" ;;
+		*) printf '%s\n' "
+usage:
+
+verify -d </path/to/seckey> <sig-file>
+
+or
+
+verify -f </path/to/seckey> <sig-file> <file-to-verify>
+" ;;
+	esac
+}
