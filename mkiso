@@ -78,18 +78,10 @@ get_root() {
 	fi
 }
 
-# TODO: Change this. Ports/src tree should be used to build the custom packages
-# until a proper deb package repository is set up.
-copy_files() {
-	# Getting dummy packages
-	git -C "$HOME"/.local/src/ clone https://github.com/RagnarokOS/equivs.git
-	mkdir -p "$WORKDIR"/config/packages.chroot/ && \
-		cp "$HOME"/.local/src/equivs/dummies/*.deb "$WORKDIR"/config/packages.chroot/
-
-}
-
 conf() {
-	local _bootparams=$(getvar BOOTPARAMS "$CONFIG")
+	local _bootparams
+	
+	_bootparams=$(getvar BOOTPARAMS "$CONFIG")
 	
 	echo "Generating config..."
 	lb config \
@@ -111,7 +103,9 @@ conf() {
 gen_splash() {
 	echo "generating splash"
 
-	local _kernel=$(uname -r)
+	local _kernel
+	
+	_kernel=$(uname -r)
 
 	cp config/bootloaders/syslinux_common/splash.svg.in config/bootloaders/syslinux_common/splash.svg
 
@@ -159,13 +153,11 @@ gen_sig() {
 	_seckey="$1"		# points to $SECKEY, which is this script's first and only argument.
 	_pubkey="/etc/signify/ragnarok01.pub"
 
-	cd "$WORKDIR" || exit
-
 	# Sign the file
-	/usr/bin/signify-openbsd -S -s "$_seckey" -m "$_imagename" -x "$_imagename".sig
+	/usr/bin/signify-openbsd -S -s "$_seckey" -m "$_imagename"-amd64.hybrid.iso -x "$_imagename"-amd64.hybrid.iso.sig
 
 	# Verify for good measure
-	/usr/bin/signify-openbsd -V -p "$_pubkey" -x "$_imagename".sig -m "$_imagename"
+	/usr/bin/signify-openbsd -V -p "$_pubkey" -x "$_imagename"-amd64.hybrid.iso.sig -m "$_imagename"-amd64.hybrid.iso
 }
 
 # Cleaning up
@@ -174,6 +166,10 @@ do_clean() {
 	# the directory.
 	echo "Removing splash.svg..."
 	rm config/bootloaders/syslinux_common/splash.svg
+
+	echo "Moving the iso and signature file outside the working directory..."
+	mv "$_imagename"-amd64.hybrid.iso ../
+	mv "$_imagename"-amd64.hybrid.iso.sig ../
 
 	echo "Running lb clean..."
 	get_root lb clean
@@ -186,7 +182,6 @@ do_gen() {
 }
 
 do_build() {
-	copy_files
 	gen_splash
 	build
 }
