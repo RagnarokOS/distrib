@@ -20,7 +20,16 @@ do_stop() {
 	/usr/bin/echo "" > /etc/ld.so.preload
 }
 
+do_check_status() {
+	ldd /usr/bin/ls | grep "hardened" >/dev/null
+	_ret=$?
+	if [ $_ret -eq 0 ]; then
+	       exit 0
+	fi
+}
+
 case "$1" in
 	start) do_start ;;
 	stop) do_stop ;;
+	status) do_check_status ;;
 esac
