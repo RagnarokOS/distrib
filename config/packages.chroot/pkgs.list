@@ -1,0 +1,7 @@
+base-files
+bash
+hardened-malloc
+oksh
+ragnarok-files
+man-db
+sudo-ldap

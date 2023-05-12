@@ -125,9 +125,23 @@ build() {
 	get_root lb build
 }
 
-# Custom packages are temporarily stored in config/packages.chroot and signed with
-# Signify. To be extra safe, their signature should be verified before the iso is
-# created.
+# Custom packages are stored in config/packages.chroot, even if Ragnarok has a proper
+# deb repository. This is a bit simpler, since A) it keeps the lb config command a bit
+# shorter by avoiding using '--include=pkg1 pkgs2 ...' and B) it's known to work 100%
+# of the time, as opposed to the standard method highlighted at:
+# https://live-team.pages.debian.net/live-manual/html/live-manual/customizing-package-installation.en.html#distribution-mirrors-build-time
+# which probably works properly, but has yet to be tested. It WILL be used down the road
+# though.
+#
+# This function will remove all .deb packages from the directory and fetch them again
+# from its source in order to ensure they're always up-to-date. See the iso.conf file
+# on how to set the CPKG_SRC variable.
+get_cpkgs() {
+	cd config/packages.chroot && xargs apt-get download < config/packages.chroot/pkgs.list
+}
+
+# Not necessary now, since all custom packages are fetched from Ragnarok's already signed
+# repo. Keeping here for now just in case.
 verif_pkgs() {
 
 
