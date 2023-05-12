@@ -134,8 +134,7 @@ build() {
 # though.
 #
 # This function will remove all .deb packages from the directory and fetch them again
-# from its source in order to ensure they're always up-to-date. See the iso.conf file
-# on how to set the CPKG_SRC variable.
+# from its source in order to ensure they're always up-to-date.
 get_cpkgs() {
 	cd config/packages.chroot && xargs apt-get download < config/packages.chroot/pkgs.list
 }
