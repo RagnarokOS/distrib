@@ -1,4 +1,7 @@
-# iso
+iso
+===
+
 Live iso configuration files, etc.
 
-Extra notes: https://lecorbeausvault.wordpress.com/2022/09/18/iso-release-ragnarok-0-1/
+It may be worthwhile to read the development notes for 2023-05-22 here:
+https://ragnarokos.github.io/logs/devnotes-may-2023.html
