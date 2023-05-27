@@ -20,7 +20,7 @@ tarball:
 
 iso:
 	mkdir -p ${DESTDIR}/iso/chroot
-	# Test using tar2squashfs. If it works, don't extract the tarball at all.
+	# Test using tar2sqfs. If it works, don't extract the tarball at all.
 	tar xpvf ${DESTDIR}/${NAME}.tgz --xattrs --xattrs-include='*' \
 		-C ${DESTDIR}/iso/chroot
 	# etc...
