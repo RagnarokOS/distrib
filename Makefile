@@ -26,7 +26,5 @@ iso:
 	# etc...
 
 sign:
-	/usr/bin/signify-openbsd -S -s ${SEC_KEY} -m ${NAME}.iso \
-		-x ${NAME}.iso.sig
-	/usr/bin/signify-openbsd -S -s ${SEC_KEY} -m ${ISO_NAME}.iso \
-		-x ${ISO_NAME}.iso.sig
+	/usr/bin/mksig ${NAME}.tgz
+	/usr/bin/mksig ${ISO_NAME}.iso

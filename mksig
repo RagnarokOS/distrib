@@ -1,0 +1,26 @@
+#!/bin/sh
+
+# get some values from config.mk using awk.
+_tool=$(awk '/SIGN_WITH/ { print $3 }' config.mk)
+_seckey=$(awk '/SEC_KEY/ { print $3 }' config.mk)
+
+# Probably should simplify this.
+# For better security, the path to the sec key should be left empty
+# unless its located on an encrypted removable device. This function
+# will prompt the user to enter the path to sec key when 'make sign'
+# is run if the field is left empty in config.mk (the default).
+sigcmd() {
+	if [ -z "$_seckey" ]; then
+		printf '%s\n' "Full path to signify sec key: "
+		read -r KEY
+		/usr/bin/signify-openbsd -S -s "$KEY" -m "$1" -x "$1".sig
+	else
+		/usr/bin/signify-openbsd -S -s "$_seckey" -m "$1" -x "$1".sig
+	fi
+}
+
+if [ "$_tool" != "signify" ]; then
+	/usr/bin/gpg --output "$1".sig --detach-sig "$1"
+else
+	sigcmd
+fi
