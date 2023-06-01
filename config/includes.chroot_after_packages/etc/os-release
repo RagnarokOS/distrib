@@ -1,9 +1,0 @@
-PRETTY_NAME="Ragnarok (-dev)"
-NAME="Ragnarok"
-VERSION_ID="dev"
-VERSION="-dev"
-VERSION_CODENAME=dev
-ID=ragnarok
-HOME_URL=""
-SUPPORT_URL="https://github.com/RagnarokOS"
-BUG_REPORT_URL="https://github.com/RagnarokOS/src/issues"
