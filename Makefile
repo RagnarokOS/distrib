@@ -4,7 +4,7 @@
 include config.mk
 
 NAME		= ${DISTRO}${VERSION}
-ISO_NAME	= ${NAME}-${ISOMODE}
+ISO_NAME	= ${NAME}-${ISO_MODE}
 
 release: minbase tarball iso sign
 
@@ -18,12 +18,30 @@ tarball:
 			  --hook-directory=${HOOK_DIR} \
 			  ${PARENT} ${DESTDIR}/${NAME}.tgz
 
+# Using live-build for now. Not tested yet.
+# see: https://ragnarokos.github.io/logs/devnotes-june-2023.html
 iso:
-	mkdir -p ${DESTDIR}/iso/chroot
-	# Test using tar2sqfs. If it works, don't extract the tarball at all.
-	tar xpvf ${DESTDIR}/${NAME}.tgz --xattrs --xattrs-include='*' \
-		-C ${DESTDIR}/iso/chroot
-	# etc...
+	# Creating config
+	lb config \
+		-d ${FLAVOUR} --debian-installer none \
+		--iso-publisher ${PUBLISHER} --inisystem sysvinit \
+		--checksums sha512 --image-name ${ISO_NAME} \
+		--hdd-label ${HDD_LABEL} --iso-application ${PRETTY_NAME} \
+		--iso-volume ${NAME} --archive-areas \"${COMPONENTS}\" \
+		--debootstrap-options \"variant=${VARIANT}\" \
+		--bootappend-live ${BOOTPARAMS}
+
+	# generating bootsplash
+	sed -i	-e "s|@PRETTY@|${PRETTY_NAME}|g" \
+		-e "s|@MODE@|${ISO_MODE}|g" \
+		-e "s|@PUBLISHER@|${PUBLISHER}|g" \
+		-e "s|@DATE@|$(shell date +"%Y%m%d")|g" \
+		-e "s|@VERSION@|${VERSION}|g" \
+		-e "s|@CODENAME@|$_codename|g" \
+		-e "s|@LINUX_VERSION@|$_kernel|g" \
+		config/bootloaders/syslinux_common/splash.svg
+
+
 
 sign:
 	/usr/bin/mksig ${NAME}.tgz

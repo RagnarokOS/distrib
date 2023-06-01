@@ -1,4 +1,12 @@
+base-passwd
+adduser
+ragnarok-files
+signify-openbsd
+oksh
+hardened-malloc
 policy-rcd-declarative-deny-all
+libncurses6
+libncursesw6
 apt-utils
 sysvinit-core
 sysv-rc
