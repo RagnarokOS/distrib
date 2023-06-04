@@ -25,7 +25,7 @@ upd_man() {
 
 # Temporary until they're all properly packaged.
 build_src() {
-	cd /usr/local/src || exit
+	cd /usr/src || exit
 	make && make clean install
 }
 
