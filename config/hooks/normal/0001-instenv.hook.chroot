@@ -1,7 +1,4 @@
-#!/bin/bash
-
-TOPDIR="/usr/src"
-SRC_PATH="$TOPDIR/src"
+#!/bin/sh
 
 setup_wheel() {
 	sed -i '15 s/^# //' /etc/pam.d/su
@@ -10,23 +7,7 @@ setup_wheel() {
 	echo "permit :wheel" > /etc/doas.conf
 }
 
-# TO BE REMOVED: custom packages built from the ports
-# tree will be stored in config/packages.chroot
-# Build packages from the src tree
-#src_build() {
-#	cd "$SRC_PATH" || exit
-#	chmod +x build
-#	./build
-#}
-
-# TO BE REMOVED: same as above
-# removing cloned src repo
-#rm_builddir() {
-#	rm -r "$SRC_PATH"
-#}
-
 # TO BE REMOVED: found another way to set the default shell.
-# No choice but to create a devel user in order to get ksh as the default login shell
 #mk_devuser() {
 #	useradd -m devel
 #	usermod -aG wheel,cdrom,audio,dip,video,plugdev,netdev devel
@@ -42,6 +23,12 @@ upd_man() {
 	makewhatis /usr/share/man
 }
 
+# Temporary until they're all properly packaged.
+build_src() {
+	cd /usr/local/src || exit
+	make && make clean install
+}
+
 permissions() {
 	chmod 755 /usr/local/bin/*
 }
@@ -52,9 +39,8 @@ hardened_malloc_init() {
 
 main() {
 	setup_wheel
-#	src_build
 	upd_man
-#	rm_builddir
+	build_src
 #	mk_devuser
 	permissions
 	hardened_malloc_init
