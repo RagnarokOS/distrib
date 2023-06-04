@@ -6,6 +6,7 @@ xdg-utils
 xdg-user-dirs
 xclip
 xcompmgr
+xterm
 xwallpaper
 libfontconfig1-dev
 libfreetype6-dev
