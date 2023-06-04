@@ -18,15 +18,21 @@ setup_wheel() {
 #	echo "root:root" | chpasswd
 #}
 
-# update man pages
-upd_man() {
-	makewhatis /usr/share/man
-}
-
 # Temporary until they're all properly packaged.
 build_src() {
 	cd /usr/src || exit
 	make && make clean install
+}
+
+# Installing cwm and vifm here to avoid its recommended packages
+# without disabling apt recommends globally.
+inst_pkgs() {
+	apt-get install --no-install-recommends cwm vifm -y
+}
+
+# update man pages
+upd_man() {
+	makewhatis /usr/share/man
 }
 
 permissions() {
@@ -39,8 +45,9 @@ hardened_malloc_init() {
 
 main() {
 	setup_wheel
-	upd_man
 	build_src
+	inst_pkgs
+	upd_man
 #	mk_devuser
 	permissions
 	hardened_malloc_init
