@@ -48,10 +48,17 @@ if [ -d /etc/X11/xinit/xinitrc.d ] ; then
  unset f
 fi
 
+WM="dwm"
+
 xwallpaper --stretch ~/Pictures/defwall.jpg &
 xcompmgr &
 dunst &
 sxhkd &
-/usr/local/bin/statusbar.sh &
-exec /usr/bin/dwm
+
+case "$WM" in
+	cwm)	exec /usr/bin/cwm
+		;;
+	dwm)	/usr/local/bin/statusbar.sh &
+		exec /usr/local/bin/dwm
+esac
 
