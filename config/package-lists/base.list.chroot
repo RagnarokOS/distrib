@@ -1,5 +1,7 @@
 base-passwd
 adduser
+build-essential
+git
 ragnarok-files
 signify-openbsd
 oksh
