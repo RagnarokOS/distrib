@@ -1,0 +1,150 @@
+.Dd May 04, 2023
+.Dt RT 1
+.Os Ragnarok
+.Sh NAME
+.Nm rt
+.Nd a simple terminal
+.Sh SYNOPSIS
+.Nm rt
+.Op Fl aiv
+.Op Fl c Ar class
+.Op Fl f Ar font
+.OP Fl g Ar geometry
+.Op Fl n Ar name
+.Op Fl o Ar iofile
+.Op Fl T Ar title
+.Op Fl t Ar title
+.Op Fl l Ar line Op Ar stty_args
+.Op Fl w Ar windowid
+.Op Fl e Ar command Op Ar arguments
+.Sh DESCRIPTION
+.Nm
+is a simple terminal emulator. It is primarily designed to provide a
+minimal terminal for tmux(1) and therefore doesn't include many features.
+.Sh OPTIONS
+.Bl -tag -width Ds
+.It Fl a
+disable alternate screens in terminal.
+.It Fl c Ar class
+defines the window class (default $TERM).
+.It Fl f Ar font
+defines the font to use when rt is run.
+.It Fl g Ar geometry
+defines the X11 geometry string.
+The form is [=][<cols>{xX}<rows>][{+-}<xoffset>{+-}<yoffset>].
+see XParseGeometry(3) for further details.
+.It Fl i
+will fixate the position given with the -g option.
+.It Fl n Ar name
+defines the window instance name (default $TERM).
+.It Fl T Ar title
+defines the window title (default 'rt').
+.It Fl t Ar title
+defines the window title (default 'rt').
+.It Fl w Ar windowid
+embeds rt within the window identified by
+.Ar windowid .
+.It Fl l Ar line
+use a tty
+.Ar line
+instead of a pseudo terminal.
+.Ar line
+should be a (pseudo-)serial device (e.g. /dev/ttyS0 on Linux for serial port 0).
+When this flag is given, remaining arguments are used as flags for
+stty(1). If you want to set odd parity on 115200 baud use for example 'rt -l
+/dev/ttyS0 parenb parodd 115200'. Set the number of bits by using for example 'rt -l
+/dev/ttyS0 cs7 115200'. See stty(1) for more arguments and cases.
+.It Fl v
+prints version information to stderr, then exits.
+.It Fl e Ar command Op Ar arguments
+rt executes
+.Ar command
+instead of the shell. If this is used it must be the last option on the command line,
+as in xterm /rxvt. This option is only intended for compatibility, and all remaining
+arguments are used as a command even without it.
+.El
+.Sh SHORTCUTS
+.Bl -tag -width Ds
+.It Cm Break
+Send a break in the serial line. Break key is obtained in PC keyboards pressing at the
+same time control and pause.
+.It Cm Ctrl-Print Screen
+Toggle if rt should print to the
+.Ar iofile .
+.It Cm Shift-Print Screen
+Print the full screen to the
+.Ar iofile .
+.It Cm Print Screen
+Print the selection to the
+.Ar iofile .
+.It Cm Ctrl-Shift-Page Up
+Increase font size.
+.It Cm Ctrl-Shift-Page Down
+Decrease font size.
+.It Cm Ctrl-Shift-Home
+Reset to default font size.
+.It Cm Ctrl-Shift-y
+Paste from primary selection (middle mouse button).
+.It Cm Ctrl-Shift-c
+Copy the selected test to the clipboard selection.
+.It Cm Ctrl-Shift-v
+Paste from the clipboard selection.
+.El
+.Sh CUSTOMIZATION
+.Nm
+can be customized either by creating a custom config.h and (re)compiling the source
+code, or via the .Xresources file using the 'rt.option: value' format. e.g.
+.Pp
+.Dl rt.font: Monospace-12
+.Pp
+The following config options are available
+.Pp
+.Bl -tag -width Ds
+.It Cm alpha
+set the transparancy value.
+.It Cm font
+set rt's font.
+.It Cm background
+set rt's background color
+.It Cm foreground
+set rt's foreground color
+.It Cm cursorColor
+set color of cursor
+.It Cm rcColor
+set color of reverse cursor
+.It Cm colorN
+where N is a number from 0 to 15. e.g. 'rt.color0: #161616'
+.It Cm termname
+terminal name (default 'rt-256color')
+.It Cm shell
+default '/bin/sh'
+.It Cm minlatency
+set minimum latency
+.It Cm maxlatency
+set maximum latency
+.It Cm blinktimeout
+blinking timeout (set to 0 to disable blinking)
+.It Cm bellvolume
+must be a value between -100 and 100. Set to 0 to disable bell
+.It Cm tabspaces
+spaces per tab
+.It Cm borderpx
+border size in pixel
+.It Cm cwscale
+kerning/character bounding-box multipliers
+.It Cm chscale
+kerning/character bounding-box multipliers
+.Pp
+.El
+See the rt.xresources file for an example config.
+.Sh AUTHORS AND LICENSE
+See the LICENSE file for the authors and the terms of redistribution.
+.Sh SEE ALSO
+.Xr raven 1 ,
+.Xr rmenu 1 ,
+.Xr tabbed 1 ,
+.Xr utmp 1 ,
+.Xr stty 1 ,
+.Xr scroll 1
+.Sh BUGS
+See the TODO file in the distribution.

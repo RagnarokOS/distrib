@@ -4,7 +4,7 @@
 
 # terminal emulator
 alt + Return
-	/usr/bin/st
+	/usr/bin/rt
 
 # Xterm
 alt + shift + Return
@@ -34,11 +34,11 @@ XF86AudioMute
 #
 # Open Apps in Terminal
 #
-alt + shift + {r, t, c, f}
-	st -e {ranger, vim, calcurse, vifm} 
+alt + shift + {t, c, f}
+	rt -e {vim, calcurse, vifm} 
 
 alt + m
-	st -e mutt
+	rt -e mutt
 
 #
 # dmenu shortcuts
