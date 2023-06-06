@@ -6,6 +6,7 @@ ragnarok-files
 signify-openbsd
 oksh
 hardened-malloc
+doas
 policy-rcd-declarative-deny-all
 libncurses6
 libncursesw6

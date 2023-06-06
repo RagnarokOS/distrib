@@ -21,7 +21,7 @@ setup_wheel() {
 # Temporary until they're all properly packaged.
 build_src() {
 	cd /usr/src || exit
-	make && make clean install
+	make && make clean install && make clean
 }
 
 # Installing cwm and vifm here to avoid its recommended packages
