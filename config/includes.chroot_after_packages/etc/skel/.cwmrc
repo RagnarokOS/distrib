@@ -94,4 +94,5 @@ bind-key 4M-e menu-exec
 
 # Autogroup some apps
 autogroup 1	"st,st"
-autogroup 3	"Navigator,firefox-default"
+autogroup 3	"Navigator,Firefox-esr"
+autogroup 7	"mpv"
