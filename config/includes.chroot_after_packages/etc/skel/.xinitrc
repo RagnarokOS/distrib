@@ -56,7 +56,8 @@ dunst &
 sxhkd &
 
 case "$WM" in
-	cwm)	exec /usr/bin/cwm
+	cwm)	/usr/local/bin/cwmbar &
+		exec /usr/bin/cwm
 		;;
 	dwm)	/usr/local/bin/statusbar.sh &
 		exec /usr/local/bin/dwm
