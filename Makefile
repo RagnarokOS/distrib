@@ -28,7 +28,7 @@ live-config:
 	# Creating config
 	lb config \
 		-d ${FLAVOUR} --debian-installer none \
-		--iso-publisher ${PUBLISHER} --inisystem sysvinit \
+		--iso-publisher ${PUBLISHER} --initsystem sysvinit \
 		--checksums sha512 --image-name ${NAME}-live \
 		--hdd-label ${HDD_LABEL}_LIVE --iso-application ${PRETTY_NAME} \
 		--iso-volume ${NAME} --archive-areas \"${COMPONENTS}\" \
