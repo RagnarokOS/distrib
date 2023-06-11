@@ -18,9 +18,10 @@ elogind
 libpam-elogind
 procps
 nftables
+bsd-mailx
+dma
 rsyslog
 logrotate
-opensmtpd
 openntpd
 ifupdown
 wpasupplicant
