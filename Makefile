@@ -6,10 +6,10 @@ include config.mk
 NAME		= ${DISTRO}${VERSION}
 ISO_NAME	= ${NAME}-${ISO_MODE}
 
-release: minbase tarball iso sign
+release: miniroot tarball iso sign
 
 # Minbase is handled differently
-minbase:
+miniroot:
 
 tarball:
 	SOURCE_DATE_EPOCH=$(date +%s) /usr/bin/mmdebstrap --variant=${VARIANT} \
