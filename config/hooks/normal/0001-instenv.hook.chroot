@@ -39,6 +39,11 @@ permissions() {
 	chmod 755 /usr/local/bin/*
 }
 
+# Alias root to user for mail delivery
+mail_aliases() {
+	printf '%s\n' "root:	user" > /etc/aliases
+}
+
 hardened_malloc_init() {
 	/usr/sbin/update-rc.d hardened_malloc defaults
 }
@@ -49,6 +54,7 @@ main() {
 	inst_pkgs
 	upd_man
 #	mk_devuser
+	mail_aliases
 	permissions
 	hardened_malloc_init
 }

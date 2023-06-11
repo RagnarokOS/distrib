@@ -35,6 +35,7 @@ live-config:
 		--debootstrap-options \"variant=${VARIANT}\" \
 		--bootappend-live ${BOOTPARAMS}
 
+iso:
 	# generating bootsplash
 	sed -i	-e "s|@PRETTY@|${PRETTY_NAME}|g" \
 		-e "s|@MODE@|${ISO_MODE}|g" \
@@ -44,8 +45,12 @@ live-config:
 		-e "s|@CODENAME@|${CODENAME}|g" \
 		-e "s|@LINUX_VERSION@|$(shell uname -r)|g" \
 		config/bootloaders/syslinux_common/splash.svg
-
-iso:
+	# Feed /var/messages/welcome.txt with info
+	sed -i	-e "s|@VERSION@|${VERSION}|g" \
+		-e "s|@CODENAME@|${CODENAME}|g" \
+		-e "s|@PUBLISHER@|${PUBLISHER}|g" \
+		-e "s|@DATE@|$(shell date +"%Y%m%d")|g" \
+		/var/messages/welcome.txt
 	lb build
 
 sign:
