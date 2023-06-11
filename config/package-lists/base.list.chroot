@@ -25,7 +25,6 @@ logrotate
 openntpd
 ifupdown
 wpasupplicant
-crda
 kbd
 console-data
 tmux
