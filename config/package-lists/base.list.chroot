@@ -30,4 +30,5 @@ kbd
 console-data
 tmux
 vim
+mandoc
 eject
