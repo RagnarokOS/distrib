@@ -1,32 +1,36 @@
 # Makefile for creating Ragnarok iso/releases/chroots
 # Work in progress
 
-include config.mk
+include config.mk iso.mk
 
 NAME		= ${DISTRO}${VERSION}
 ISO_NAME	= ${NAME}-${ISO_MODE}
 
 release: miniroot tarball iso sign
 
-# Minbase is handled differently
 miniroot:
+	SOURCE_DATE_EPOCH=$(date +%s) /usr/bin/mmdebstrap --variant=${VARIANT} \
+			  --components=${COMPONENTS} \
+			  --include=${PACKAGES} \
+			  --hook-directory=${HOOK_DIR}/miniroot \
+			  ${PARENT} ${DESTDIR}/miniroot${VERSION}.tgz
 
 tarball:
 	SOURCE_DATE_EPOCH=$(date +%s) /usr/bin/mmdebstrap --variant=${VARIANT} \
 			  --components=${COMPONENTS} \
-			  --include=${PACKAGES} \
-			  --hook-directory=${HOOK_DIR} \
+			  --include=${PACKAGES} ${RELEASE_PKGS} \
+			  --hook-directory=${HOOK_DIR}/release \
 			  ${PARENT} ${DESTDIR}/${NAME}.tgz
 
 # Using live-build for now. Not tested yet.
 # see: https://ragnarokos.github.io/logs/devnotes-june-2023.html
-iso:
+live-config:
 	# Creating config
 	lb config \
 		-d ${FLAVOUR} --debian-installer none \
 		--iso-publisher ${PUBLISHER} --inisystem sysvinit \
-		--checksums sha512 --image-name ${ISO_NAME} \
-		--hdd-label ${HDD_LABEL} --iso-application ${PRETTY_NAME} \
+		--checksums sha512 --image-name ${NAME}-live \
+		--hdd-label ${HDD_LABEL}_LIVE --iso-application ${PRETTY_NAME} \
 		--iso-volume ${NAME} --archive-areas \"${COMPONENTS}\" \
 		--debootstrap-options \"variant=${VARIANT}\" \
 		--bootappend-live ${BOOTPARAMS}
@@ -37,11 +41,12 @@ iso:
 		-e "s|@PUBLISHER@|${PUBLISHER}|g" \
 		-e "s|@DATE@|$(shell date +"%Y%m%d")|g" \
 		-e "s|@VERSION@|${VERSION}|g" \
-		-e "s|@CODENAME@|$_codename|g" \
-		-e "s|@LINUX_VERSION@|$_kernel|g" \
+		-e "s|@CODENAME@|${CODENAME}|g" \
+		-e "s|@LINUX_VERSION@|$(shell uname -r)|g" \
 		config/bootloaders/syslinux_common/splash.svg
 
-
+iso:
+	lb build
 
 sign:
 	/usr/bin/mksig ${NAME}.tgz

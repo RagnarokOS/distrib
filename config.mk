@@ -1,4 +1,4 @@
-# Config file for iso - Work In Progress
+# General config file for releases - Work In Progress
 
 DISTRO		= ragnarok
 PRETTY_NAME	= Ragnarok
@@ -6,13 +6,19 @@ VERSION		= 01
 CODENAME	= dev
 PUBLISHER	= Ian LeCorbeau
 FLAVOUR		= bookworm
-ISO_MODE	= live
 VARIANT		= minbase
 COMPONENTS	= main non-free-firmware
-HOOK_DIR	= /usr/share/mkiso/hooks
+HOOK_DIR	= hooks
 SIGN_WITH	= signify
 SEC_KEY		= 
 
-BOOTPARAMS	= boot=live live-config.hooks=filesystem live-config.locales=en_CA.UTF-8 live-config.timezone=Canada/Eastern live-config.hostname=ragnarok live-config.noautologin live-config.sysv-rc=opensmtpd slab_nomerge init_on_alloc=1 init_on_free=1 page_alloc.shuffle=1 pti=on randomize_kstack_offset=on vsyscall=none debugfs=off lockdown=confidentiality
+# Packages included in everything.
+PACKAGES	= base-passwd adduser ragnarok-files signify-openbsd oksh \
+		  hardened-malloc policy-rcd-declarative-deny-all libncurses6 \
+		  libncursesw6
 
-PACKAGES	= base-passwd adduser ragnarok-files signify-openbsd oksh hardened-malloc policy-rcd-declarative-deny-all libncurses6 libncursesw6
+# Packages included in the release tarball for base, provided they don't require
+# special considerations. Otherwise, install them in hooks/release.
+RELEASE_PKGS	= sysvinit-core sysv-rc elogind libpam-elogind orphan-sysvinit-scripts \
+		  procps nftables bsd-mailx dma rsyslog logrotate openntpd ifupdown \
+		  wpasupplicant crda tmux vim cwm

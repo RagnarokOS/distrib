@@ -1,0 +1,141 @@
+.Dd June 07, 2023
+.Dt RAGNAROK-LIVE 8
+.Os Ragnarok
+.Sh NAME
+.Nm ragnarok-live
+.Nd information related to the Ragnarok live system
+.Sh DESCRIPTION
+This document attempts to give as much information as possible about Ragnarok's
+live environment. The idea is to give a quick rundown of the tools available by
+default so that users can get familiar with the system in the most straightforward
+fashion.
+.Sh X SESSION
+.Ss Starting an Xsession
+If not done already, you can start X11 by issuing the
+.Xr startx 1
+command.
+.Ss Window Manager
+Ragnarok includes two window managers: a fork of Suckless'
+.Xr dwm 1 ,
+which is the default when logging into X, and
+.Xr cwm 1 ,
+from the OpenBSD project. Using cwm is as simple as changing the WM variable in
+.Pa ~/.xinitrc
+from "dwm" to "cwm" and (re)starting X.
+.Ss dwm
+The version of
+.Xr dwm 1
+included has been patched to add the bottomstack, leftstack and deck layouts. It
+also includes gaps in all layouts (including monocle). Layouts can be set per tag
+and an option to increase/decrease the height of the bar is also available.
+.Pp
+This version of dwm does not support launching applications via keybindings set in
+its config file (see the
+.Sx Keyboard Shortcuts
+section for more details), only window and tag manipulations get handled by the window
+manager's internal keyboard shortcuts. For a list of keybindings supported by the window
+manager, see either the
+.Pa /usr/src/dwm/config.h
+file, or hit the alt+shift+? keyboard shortcut to display the list in vim.
+.Pp
+Basic system information (memory usage, cpu load, network connection status, volume level
+and date/time) is displayed to the right inside the status bar. This information is set by
+the
+.Pa /usr/local/bin/statusbar.sh
+script.
+.Ss cwm
+Calm Window Manager, from the OpenBSD project, is also available in the base system. The
+live environment includes a custom
+.Pa ~/.cwmrc
+config file, and a status bar is drawn at the top of the screen, using a custom script (
+.Pa /usr/local/bin/cwmbar
+) piped to
+.Xr lemonbar 1 .
+.Pp
+Much like dwm, cwm's config file does not set keyboard shortcuts to open applications, only
+for window and group manipulation. Available keybindings for cwm can be viewed in .cwmrc 
+or by hitting the alt+shift+? keyboard shortcut.
+.Ss Terminal Emulator
+The default terminal in Ragnarok is
+.Xr rt 1 ,
+a lightly patched fork of Suckless' st. Since it is meant to provide a minimal terminal for
+.Xr tmux 1 ,
+rt does not come with much features, since tmux already provides them. The two patches applied
+are for cosmetic purposes, allowing a transparent background and configuration through the
+.Pa ~/.Xresources
+file.
+.Pp
+.Xr xterm 1
+is also provided, with it's own theming in Xresources.
+.Ss Keyboard Shortcuts
+The
+.Xr sxhkd 1
+program is provided with a set of default keybindings to open programs in
+.Pa ~/.config/sxhkd/sxhkdrc .
+This means that all program-related shortcuts will work regardless of the window manager
+being used.
+.Ss Extra Software
+The live iso also provides all other programs included in Ragnarok's X11 package set:
+.Xr xcompmgr 1 ,
+.Xr xclip 1 ,
+.Xr xwallpaper 1 ,
+.Xr dunst 1 ,
+.Pp
+Many programs not available in a standard Ragnarok base system are also added for a more
+complete experience, among them:
+.Xr firefox-esr 1 ,
+.Xr vifm 1 ,
+.Xr mpv 1 ,
+.Xr nsxiv 1 ,
+.Xr scrot 1 .
+.Sh SYSTEM ADMINISTRATION
+Since this is a live system, there isn't much in the way of system administration. However,
+a few things may be of interest.
+.Ss Networking
+Wired network connections should be properly set at boot time, but wireless networks will
+have to be configured manually. The Ragnarok live iso includes a small script to quickly
+setup an interface file to use with
+.Xr wpasupplicant 1 ,
+called
+.Pa addwifi .
+With root privileges, simply run the command:
+.Pp
+.Dl doas addwifi.sh
+.Pp
+and answer the questions. After completion, the interface file will be located in
+.Pa /etc/network/interfaces.d/<interface-name> .
+For security reasons, the file can only be read with root privileges. Afterwards,
+you can connect to the network using the ifup command:
+.Pp
+.Dl doas ifup <interface-name> 
+.Ss security updates
+The live iso is rebuilt whenever the kernel receives a security update. However, other
+programs may have been updated since the iso's release and should still be updated even
+if running a live system (particularly web browsers). It is important to run apt update
+and apt upgrade as soon as an internet connection is established.
+.Ss hardened malloc
+Ragnarok uses GrapheneOS' hardened memory allocator for extra security and provides
+three different variants: strong, medium (Ragnarok's default) and light, each providing
+different levels of protection. By its nature, hardened-malloc may cause performance
+loss under certain conditions. The medium variant was specifically designed by the
+Ragnarok project to offer a midle-ground between the strong and light variants provided
+by upstream, to offer slightly more protection than the light variant, with less cpu
+usage than the strong variant on older (pre-2010) hardware. On newer hardware, you
+may wish to enable the strong variant, while on older hardware, you might need to enable
+the light variant if the performance drop is too significant.
+.Pp
+Switching variant is as simple as changing its symlink:
+.Pp
+.Dl # ln -sf /usr/lib/hardened_malloc/libhardened_malloc-<variant>.so /usr/lib/libhardened_malloc.so
+.Ss Firewall
+The base system comes with nftables installed and enabled by default, using a sane configuration
+file which blocks all incoming and forwarded connections by default. If one wishes to modify
+the default configuration, then simply edit the
+.Pa /etc/nftables.conf
+file and restart the service with the following command
+.Pp
+.Dl # service nftables restart
+.Sh Starting and Stoping Daemons
+Ragnarok uses sysvinit, which provides the
+.Xr service 8
+command to start/stop system daemons.
