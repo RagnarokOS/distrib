@@ -28,11 +28,11 @@ live-config:
 	# Creating config
 	lb config \
 		-d ${FLAVOUR} --debian-installer none \
-		--iso-publisher ${PUBLISHER} --initsystem sysvinit \
+		--iso-publisher "${PUBLISHER}" --initsystem sysvinit \
 		--checksums sha512 --image-name ${NAME}-live \
 		--hdd-label ${HDD_LABEL}_LIVE --iso-application ${PRETTY_NAME} \
-		--iso-volume ${NAME} --archive-areas \"${COMPONENTS}\" \
-		--debootstrap-options \"variant=${VARIANT}\" \
+		--iso-volume ${NAME} --archive-areas "${COMPONENTS}" \
+		--debootstrap-options "--variant=${VARIANT}" \
 		--bootappend-live ${BOOTPARAMS}
 
 iso:
@@ -46,10 +46,7 @@ iso:
 		-e "s|@LINUX_VERSION@|$(shell uname -r)|g" \
 		config/bootloaders/syslinux_common/splash.svg
 	# Feed /var/messages/welcome.txt with info
-	sed -i	-e "s|@VERSION@|${VERSION}|g" \
-		-e "s|@CODENAME@|${CODENAME}|g" \
-		-e "s|@PUBLISHER@|${PUBLISHER}|g" \
-		-e "s|@DATE@|$(shell date +"%Y%m%d")|g" \
+	sed -i	-e "s|@DATE@|$(shell date +"%Y%m%d")|g" \
 		/var/messages/welcome.txt
 	lb build
 
