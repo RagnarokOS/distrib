@@ -33,7 +33,7 @@ live-config:
 		--hdd-label ${HDD_LABEL}_LIVE --iso-application ${PRETTY_NAME} \
 		--iso-volume ${NAME} --archive-areas "${COMPONENTS}" \
 		--debootstrap-options "--variant=${VARIANT}" \
-		--bootappend-live ${BOOTPARAMS}
+		--bootappend-live "${BOOTPARAMS}"
 	# We don't keep the bootloaders' configs in the repo
 	mkdir -p config/bootloaders
 	cp -r /usr/share/live/build/bootloaders config/
