@@ -36,12 +36,11 @@ live-config:
 		--bootappend-live ${BOOTPARAMS}
 	# We don't keep the bootloaders' configs in the repo
 	mkdir -p config/bootloaders
-	cp -r /usr/share/live/build/bootloaders/{grub-pc,isolinux,syslinux_common} \
-		config/bootloaders/
+	cp -r /usr/share/live/build/bootloaders config/
 	cp splash/grub_splash.png config/bootloaders/grub-pc/splash.png
 	cp splash/splash.svg.in config/bootloaders/syslinux_common/splash.svg
 	# Generate the actual config for syslinux
-	sed -i	-e "s#@PRETTY@#${PRETTY}#g" \
+	sed -i	-e "s#@PRETTY@#${PRETTY_NAME}#g" \
 		-e "s#@MODE@#${ISO_MODE}#g" \
 		-e "s#@PUBLISHER@#${PUBLISHER}#g" \
 		-e "s#@DATE@#$(shell date +"%Y%m%d")#g" \
@@ -51,7 +50,7 @@ live-config:
 		config/bootloaders/syslinux_common/splash.svg
 
 iso:
-	@lb build
+	lb build
 
 sign:
 	/usr/bin/mksig ${NAME}.tgz
