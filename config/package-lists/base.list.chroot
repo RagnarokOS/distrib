@@ -2,10 +2,7 @@ base-passwd
 adduser
 build-essential
 git
-ragnarok-files
 signify-openbsd
-oksh
-hardened-malloc
 doas
 policy-rcd-declarative-deny-all
 libncurses6
