@@ -10,10 +10,10 @@ release: miniroot tarball iso sign
 
 miniroot:
 	SOURCE_DATE_EPOCH=$(date +%s) /usr/bin/mmdebstrap --variant=${VARIANT} \
-			  --components=${COMPONENTS} \
-			  --include=${PACKAGES} \
-			  --hook-directory=${HOOK_DIR}/miniroot \
-			  ${PARENT} ${DESTDIR}/miniroot${VERSION}.tgz
+			  --components="${COMPONENTS}" \
+			  --include="${PACKAGES}" \
+			  --hook-directory="${HOOK_DIR}/miniroot" \
+			  ${FLAVOUR} ${DESTDIR}/miniroot${VERSION}.tgz
 
 tarball:
 	SOURCE_DATE_EPOCH=$(date +%s) /usr/bin/mmdebstrap --variant=${VARIANT} \
