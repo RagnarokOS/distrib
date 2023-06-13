@@ -12,4 +12,7 @@ libfontconfig1-dev
 libfreetype6-dev
 libx11-dev
 libxft-dev
-libxinerama-dev 
+libxinerama-dev
+libxcb1-dev
+libxcb-util-dev
+libxcb-cursor-dev
