@@ -42,6 +42,7 @@ upd_man() {
 
 permissions() {
 	chmod 755 /usr/local/bin/*
+	chmod 755 /etc/init.d/hardened_malloc
 }
 
 # Alias root to user for mail delivery
