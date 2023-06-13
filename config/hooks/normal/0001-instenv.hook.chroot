@@ -18,16 +18,11 @@ set_sym() {
 	ln -sf /usr/bin/signify-openbsd /usr/bin/signify
 }
 
-# TO BE REMOVED: found another way to set the default shell.
-#mk_devuser() {
-#	useradd -m devel
-#	usermod -aG wheel,cdrom,audio,dip,video,plugdev,netdev devel
-#	usermod -s /bin/ksh devel
-#	echo "devel:live" | chpasswd
-#	# also setting a password for the root account
-#	# since it's useful.
-#	echo "root:root" | chpasswd
-#}
+set_rootpass() {
+	# setting a password for the root account
+	# since it's useful.
+	echo "root:root" | chpasswd
+}
 
 # Installing cwm and vifm here to avoid its recommended packages
 # without disabling apt recommends globally.
@@ -58,9 +53,9 @@ main() {
 	setup_wheel
 	set_shell
 	set_sym
+	set_rootpass
 	inst_pkgs
 	upd_man
-#	mk_devuser
 	mail_aliases
 	permissions
 	hardened_malloc_init
