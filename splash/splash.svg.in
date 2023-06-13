@@ -256,7 +256,7 @@
            style="font-style:normal;font-weight:bold;font-size:20px;line-height:1;-inkscape-font-specification:'DejaVu Sans Bold'"
            sodipodi:role="line"
            x="190.68135"
-           y="619.20685">Ragnarok Live</tspan><tspan
+           y="619.20685">@PRETTY@ @MODE@</tspan><tspan
            id="tspan3041-2"
            style="font-style:normal;font-weight:bold;font-size:20px;line-height:1;-inkscape-font-specification:'DejaVu Sans Bold'"
            sodipodi:role="line"
@@ -266,7 +266,7 @@
            style="font-style:normal;font-weight:bold;font-size:13.3333px;line-height:1.2;-inkscape-font-specification:'DejaVu Sans Bold'"
            sodipodi:role="line"
            x="190.68135"
-           y="655.47504">Built by @BUILDER@ on @DATE@</tspan><tspan
+           y="655.47504">Built by @PUBLISHER@ on @DATE@</tspan><tspan
            id="tspan3098-7"
            style="font-style:normal;font-weight:bold;font-size:13.3333px;line-height:1.2;-inkscape-font-specification:'DejaVu Sans Bold'"
            sodipodi:role="line"
@@ -281,7 +281,7 @@
            style="font-style:normal;font-weight:normal;font-size:13.3333px;line-height:1.2;-inkscape-font-specification:'DejaVu Sans'"
            sodipodi:role="line"
            x="190.68135"
-           y="703.47491">branch: branch</tspan><tspan
+           y="703.47491">codename: @CODENAME@</tspan><tspan
            id="tspan354"
            style="font-style:normal;font-weight:normal;font-size:13.3333px;line-height:1.2;-inkscape-font-specification:'DejaVu Sans'"
            sodipodi:role="line"
