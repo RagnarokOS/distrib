@@ -48,6 +48,8 @@ live-config:
 		-e "s#@CODENAME@#${CODENAME}#g" \
 		-e "s#@LINUX_VERSION@#$(shell uname -r)#g" \
 		config/bootloaders/syslinux_common/splash.svg
+	# Set date in /var/message/welcome.txt
+	sed -i	-e "s|@DATE@|$(shell date)|g" config/var/messages/welcome.txt
 
 iso:
 	lb build

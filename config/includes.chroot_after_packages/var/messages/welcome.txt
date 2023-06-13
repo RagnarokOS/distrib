@@ -1,8 +1,8 @@
 Welcome to the Ragnarok live system.
 
-Ragnarok version	@VERSION@
-Codename		@CODENAME@
-Built by		@PUBLISHER@
+Ragnarok version	01
+Codename		dev
+Built by		Ian LeCorbeau
 Build date		@DATE@
 
 If you have not done so already, it is highly recommended to read the
