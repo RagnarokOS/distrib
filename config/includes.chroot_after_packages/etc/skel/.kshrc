@@ -11,10 +11,16 @@ if [ -x /usr/bin/dircolors ]; then
     #alias egrep='egrep --color=auto'
 fi
 
+# export the aliases file if it exists
+if [ -f ~/.aliases ]; then
+    . ~/.aliases
+fi
+
 HISTFILE="$HOME/.ksh_history"
 HISTSIZE=1000
 HISTCONTROL=ingnoredups
 
+export PAGER="less"
 export VISUAL="vim"
 export EDITOR="$VISUAL"
 #set -o vi
