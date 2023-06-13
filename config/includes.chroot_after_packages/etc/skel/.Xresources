@@ -1,5 +1,5 @@
 !! rt term theming
-rt.font:		Monospace-12
+rt.font:		DejaVu Sans Mono:pixelsize=15
 rt.alpha:		0.8
 rt.background:		#000000
 rt.foreground:		#ebdbb2
@@ -45,7 +45,7 @@ XTerm*background:	#161616
 XTerm*foreground:	#eeeeee
 xterm*scrollBar:	false
 XTerm*toolBar:		false
-XTerm*faceName:		spleen
+XTerm*faceName:		DejaVu Sans Mono
 XTerm*faceSize:		12
 
 !! Black
@@ -87,7 +87,7 @@ XTerm*color15:		#ebdbb2
 st.alpha: 0.92
 
 !! Set a default font and font size as below:
-st.font: Monospace-12;
+st.font: DejaVu Sans Mono:pixelsize=12;
 
 ! st.termname: st-256color
 ! st.borderpx: 2
