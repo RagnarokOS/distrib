@@ -21,4 +21,4 @@ PACKAGES	= base-passwd adduser ragnarok-files signify-openbsd oksh \
 # special considerations. Otherwise, install them in hooks/release.
 RELEASE_PKGS	= sysvinit-core sysv-rc elogind libpam-elogind orphan-sysvinit-scripts \
 		  procps nftables bsd-mailx dma rsyslog logrotate openntpd ifupdown \
-		  wpasupplicant crda tmux vim cwm
+		  wpasupplicant doas mandoc tmux vim

@@ -46,7 +46,6 @@ hardened_malloc_init() {
 
 main() {
 	setup_wheel
-	build_src
 	inst_pkgs
 	upd_man
 #	mk_devuser
