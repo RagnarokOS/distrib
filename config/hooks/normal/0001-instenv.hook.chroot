@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 setup_wheel() {
 	sed -i '15 s/^# //' /etc/pam.d/su
 	addgroup --system wheel
