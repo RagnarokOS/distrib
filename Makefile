@@ -49,7 +49,8 @@ live-config:
 		-e "s#@LINUX_VERSION@#$(shell uname -r)#g" \
 		config/bootloaders/syslinux_common/splash.svg
 	# Set date in /var/message/welcome.txt
-	sed -i	-e "s|@DATE@|$(shell date)|g" config/var/messages/welcome.txt
+	sed -i	-e "s|@DATE@|$(shell date)|g" \
+		config/includes.chroot_after_packages/var/messages/welcome.txt
 
 iso:
 	lb build
