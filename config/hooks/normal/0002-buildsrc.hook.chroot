@@ -44,7 +44,7 @@ build_hmalloc() {
 
 # build wmutils
 build_wmu() {
-	cd core || exit
+	cd /usr/src/core || exit
 	make && make install && make clean
 }
 
