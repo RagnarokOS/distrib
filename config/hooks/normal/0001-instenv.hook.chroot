@@ -15,7 +15,7 @@ set_shell() {
 }
 
 set_sym() {
-	chroot ln -sf /usr/bin/signify-openbsd /usr/bin/signify
+	ln -sf /usr/bin/signify-openbsd /usr/bin/signify
 }
 
 # TO BE REMOVED: found another way to set the default shell.
