@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 # Build dwm, rt and dmenu from one Makefile
 build_src() {
 	cd /usr/src || exit
@@ -45,3 +47,8 @@ build_wmu() {
 	cd core || exit
 	make && make install && make clean
 }
+
+build_src
+build_oksh
+build_hmalloc
+build_wmu
