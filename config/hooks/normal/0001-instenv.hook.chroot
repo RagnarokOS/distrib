@@ -9,6 +9,15 @@ setup_wheel() {
 	echo "permit :wheel" > /etc/doas.conf
 }
 
+# Making sure roots interactive shell is ksh
+set_shell() {
+	sed -i 's/bash/ksh/g' /etc/passwd
+}
+
+set_sym() {
+	chroot ln -sf /usr/bin/signify-openbsd /usr/bin/signify
+}
+
 # TO BE REMOVED: found another way to set the default shell.
 #mk_devuser() {
 #	useradd -m devel
@@ -46,6 +55,8 @@ hardened_malloc_init() {
 
 main() {
 	setup_wheel
+	set_shell
+	set_sym
 	inst_pkgs
 	upd_man
 #	mk_devuser
