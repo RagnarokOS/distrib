@@ -12,7 +12,7 @@ alt + shift + Return
 
 # program launcher
 alt + p
-	dmenu_run -p Run
+	dmenu_run -p Run -h 24
 
 # make sxhkd reload its configuration files:
 super + Escape
