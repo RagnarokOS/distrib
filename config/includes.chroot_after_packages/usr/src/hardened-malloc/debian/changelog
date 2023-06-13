@@ -1,0 +1,5 @@
+hardened-malloc (11-1) dev; urgency=medium
+
+  * Initial release.
+
+ -- Ian LeCorbeau <I-LeCorbeau@protonmail.com>  Sat, 11 Mar 2023 11:38:08 -0500

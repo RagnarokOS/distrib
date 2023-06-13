@@ -1,0 +1,20 @@
+#!/usr/bin/make -f
+
+export DH_VERBOSE = 1
+
+# No need to set hardening flags, all relevant compile
+# flags are already set in the package's Makefile.
+#export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+
+%:
+	dh $@
+
+override_dh_auto_build:
+	dh_auto_build -- CONFIG_NATIVE=false
+	dh_auto_build -- VARIANT=medium CONFIG_NATIVE=false
+	dh_auto_build -- VARIANT=light CONFIG_NATIVE=false
+
+# Testing has to be disabled since it will fail inside
+# virtual machines and certain chroot types.
+override_dh_auto_test:
+	true

@@ -1,0 +1,3 @@
+out-strong/libhardened_malloc-strong.so		/usr/lib/hardened_malloc
+out-medium/libhardened_malloc-medium.so		/usr/lib/hardened_malloc
+out-light/libhardened_malloc-light.so		/usr/lib/hardened_malloc
