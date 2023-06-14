@@ -49,6 +49,6 @@ build_wmu() {
 }
 
 build_src
-build_oksh
-build_hmalloc
+#build_oksh
+#build_hmalloc
 build_wmu

@@ -27,7 +27,9 @@ set_rootpass() {
 # Installing cwm and vifm here to avoid its recommended packages
 # without disabling apt recommends globally.
 inst_pkgs() {
+	apt-get update && apt-get upgrade -y
 	apt-get install --no-install-recommends cwm vifm -y
+	apt-get install oksh hardened-malloc -y
 }
 
 # update man pages
