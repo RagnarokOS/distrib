@@ -1,4 +1,4 @@
-Package: sudo
+Package: sudo-ldap
 Pin: version *
 Pin-Priority: -1
 
