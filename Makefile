@@ -34,6 +34,8 @@ live-config:
 		--iso-volume ${NAME} --archive-areas "${COMPONENTS}" \
 		--debootstrap-options "--variant=${VARIANT}" \
 		--bootappend-live "${BOOTPARAMS}"
+
+iso:
 	# We don't keep the bootloaders' configs in the repo
 	mkdir -p config/bootloaders
 	cp -r /usr/share/live/build/bootloaders config/
@@ -51,8 +53,6 @@ live-config:
 	# Set date in /var/message/welcome.txt
 	sed -i	-e "s|@DATE@|$(shell date)|g" \
 		config/includes.chroot_after_packages/var/messages/welcome.txt
-
-iso:
 	lb build
 
 sign:
