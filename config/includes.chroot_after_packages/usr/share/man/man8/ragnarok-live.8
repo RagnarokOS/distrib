@@ -11,6 +11,7 @@ default so that users can get familiar with the system in the most straightforwa
 fashion.
 .Sh X SESSION
 .Ss Starting an Xsession
+.Pp
 If not done already, you can start X11 by issuing the
 .Xr startx 1
 command.
@@ -23,6 +24,7 @@ from the OpenBSD project. Using cwm is as simple as changing the WM variable in
 .Pa ~/.xinitrc
 from "dwm" to "cwm" and (re)starting X.
 .Ss dwm
+.Pp
 The version of
 .Xr dwm 1
 included has been patched to add the bottomstack, leftstack and deck layouts. It
@@ -44,6 +46,7 @@ the
 .Pa /usr/local/bin/statusbar.sh
 script.
 .Ss cwm
+.Pp
 Calm Window Manager, from the OpenBSD project, is also available in the base system. The
 live environment includes a custom
 .Pa ~/.cwmrc
@@ -56,6 +59,7 @@ Much like dwm, cwm's config file does not set keyboard shortcuts to open applica
 for window and group manipulation. Available keybindings for cwm can be viewed in .cwmrc 
 or by hitting the alt+shift+? keyboard shortcut.
 .Ss Terminal Emulator
+.Pp
 The default terminal in Ragnarok is
 .Xr rt 1 ,
 a lightly patched fork of Suckless' st. Since it is meant to provide a minimal terminal for
@@ -68,6 +72,7 @@ file.
 .Xr xterm 1
 is also provided, with it's own theming in Xresources.
 .Ss Keyboard Shortcuts
+.Pp
 The
 .Xr sxhkd 1
 program is provided with a set of default keybindings to open programs in
@@ -75,11 +80,12 @@ program is provided with a set of default keybindings to open programs in
 This means that all program-related shortcuts will work regardless of the window manager
 being used.
 .Ss Extra Software
+.Pp
 The live iso also provides all other programs included in Ragnarok's X11 package set:
 .Xr xcompmgr 1 ,
 .Xr xclip 1 ,
 .Xr xwallpaper 1 ,
-.Xr dunst 1 ,
+.Xr dunst 1 .
 .Pp
 Many programs not available in a standard Ragnarok base system are also added for a more
 complete experience, among them:
@@ -89,9 +95,11 @@ complete experience, among them:
 .Xr nsxiv 1 ,
 .Xr scrot 1 .
 .Sh SYSTEM ADMINISTRATION
+.Pp
 Since this is a live system, there isn't much in the way of system administration. However,
 a few things may be of interest.
 .Ss Networking
+.Pp
 Wired network connections should be properly set at boot time, but wireless networks will
 have to be configured manually. The Ragnarok live iso includes a small script to quickly
 setup an interface file to use with
@@ -109,11 +117,13 @@ you can connect to the network using the ifup command:
 .Pp
 .Dl doas ifup <interface-name> 
 .Ss security updates
+.Pp
 The live iso is rebuilt whenever the kernel receives a security update. However, other
 programs may have been updated since the iso's release and should still be updated even
 if running a live system (particularly web browsers). It is important to run apt update
 and apt upgrade as soon as an internet connection is established.
 .Ss hardened malloc
+.Pp
 Ragnarok uses GrapheneOS' hardened memory allocator for extra security and provides
 three different variants: strong, medium (Ragnarok's default) and light, each providing
 different levels of protection. By its nature, hardened-malloc may cause performance
@@ -128,6 +138,7 @@ Switching variant is as simple as changing its symlink:
 .Pp
 .Dl # ln -sf /usr/lib/hardened_malloc/libhardened_malloc-<variant>.so /usr/lib/libhardened_malloc.so
 .Ss Firewall
+.Pp
 The base system comes with nftables installed and enabled by default, using a sane configuration
 file which blocks all incoming and forwarded connections by default. If one wishes to modify
 the default configuration, then simply edit the
@@ -136,8 +147,10 @@ file and restart the service with the following command
 .Pp
 .Dl # service nftables restart
 .Ss System mail
+.Pp
 You can read system mail by entering the
 .Xr mail 1
 command.
 Selecting the mail to read is done by typing it's number then Return. Quit mail by typing q
 then Return. You can delete read messages by typing d then Return before quitting.
+.Pp
