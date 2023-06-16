@@ -32,6 +32,11 @@ inst_pkgs() {
 	apt-get install oksh hardened-malloc -y
 }
 
+# Set the default frontend to readline
+set_frontend() {
+	echo 'debconf debconf/frontend select Readline' | debconf-set-selections
+}
+
 # update man pages
 upd_man() {
 	makewhatis /usr/share/man
@@ -57,6 +62,7 @@ main() {
 	set_sym
 	set_rootpass
 	inst_pkgs
+	set_frontend
 	upd_man
 	mail_aliases
 	permissions
