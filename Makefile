@@ -22,7 +22,7 @@ tarball:
 			  --hook-directory=${HOOK_DIR}/release \
 			  ${PARENT} ${DESTDIR}/${NAME}.tgz
 
-# Using live-build for now. Not tested yet.
+# Using live-build for now.
 # see: https://ragnarokos.github.io/logs/devnotes-june-2023.html
 live-config:
 	# Creating config
