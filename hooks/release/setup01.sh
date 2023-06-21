@@ -13,5 +13,5 @@ mkdir -p "$1"/usr/share/
 cp -r /usr/share/ragnarok-keys "$1"/usr/share/
 
 # Creating /etc/mailname. bsd-mailx and dma are installed non-interactively and we need
-# this file to prevent dpkg from setting mailname to root when dma is installed.
+# this file to prevent dpkg from setting mailname to 'root' when dma is installed.
 touch "$1"/etc/mailname
