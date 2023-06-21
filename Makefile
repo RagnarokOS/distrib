@@ -17,8 +17,8 @@ miniroot:
 
 tarball:
 	SOURCE_DATE_EPOCH=$(date +%s) /usr/bin/mmdebstrap --variant=${VARIANT} \
-			  --components=${COMPONENTS} \
-			  --include=${PACKAGES} ${RELEASE_PKGS} \
+			  --components="${COMPONENTS}" \
+			  --include="${PACKAGES} ${RELEASE_PKGS}" \
 			  --hook-directory=${HOOK_DIR}/release \
 			  ${PARENT} ${DESTDIR}/${NAME}.tgz
 
@@ -55,6 +55,7 @@ iso:
 		config/includes.chroot_after_packages/var/messages/welcome.txt
 	lb build
 
+# Not ready. Sign manually for now
 sign:
 	/usr/bin/mksig ${NAME}.tgz
 	/usr/bin/mksig ${ISO_NAME}.iso

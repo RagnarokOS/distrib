@@ -12,6 +12,9 @@ sed -i 's/bash/ksh/g' "$1"/etc/passwd
 # Symlinking signify-openbsd to signify
 chroot "$1" ln -sf /usr/bin/signify-openbsd /usr/bin/signify
 
+# Set the default DEBIAN_FRONTEND to 'Readline'
+chroot "$1" echo 'debconf debconf/frontend select Readline' | debconf-set-selections
+
 # Needed to make the rootfs reproducible
 rm "$1"/etc/resolv.conf
 rm "$1"/etc/hostname
