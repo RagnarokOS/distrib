@@ -42,7 +42,6 @@ x11:
 
 iso:
 	# We don't keep the bootloaders' configs in the repo
-	mkdir -p config/bootloaders
 	cp -r /usr/share/live/build/bootloaders config/
 	cp splash/grub_splash.png config/bootloaders/grub-pc/splash.png
 	cp splash/splash.svg.in config/bootloaders/syslinux_common/splash.svg
