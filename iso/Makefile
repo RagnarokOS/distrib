@@ -18,6 +18,7 @@ all: cli x11
 # see: https://ragnarokos.github.io/logs/devnotes-june-2023.html
 cli:
 	# Creating cli config
+	cd live-cli; \
 	lb config \
 		-d ${FLAVOUR} --debian-installer none \
 		--iso-publisher "${PUBLISHER}" --initsystem sysvinit \
@@ -29,6 +30,7 @@ cli:
 
 x11:
 	# Creating X11 config
+	cd live-x11 \
 	lb config \
 		-d ${FLAVOUR} --debian-installer none \
 		--iso-publisher "${PUBLISHER}" --initsystem sysvinit \
