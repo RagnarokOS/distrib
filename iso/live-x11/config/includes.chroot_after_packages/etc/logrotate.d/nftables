@@ -1,0 +1,13 @@
+/var/log/nftables.log
+{
+	size +10M
+	maxage 30
+	missingok
+	notifempty
+	compress
+	sharedscripts
+	create 0600 root root
+	postrotate
+		/etc/init.d/rsyslog rotate /dev/null 2>&1 || true
+	endscript
+}

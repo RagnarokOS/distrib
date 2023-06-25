@@ -8,7 +8,7 @@
 # 'make release' will create miniroot.tgz, base.tgz and the ISOs. This is
 # equivalent to 'Make install', so it must be run as root.
 
-include config.mk live.mk
+include config.mk
 
 NAME		= ${DISTRO}${VERSION}
 ISO_NAME	= ${NAME}-${ISO_MODE}

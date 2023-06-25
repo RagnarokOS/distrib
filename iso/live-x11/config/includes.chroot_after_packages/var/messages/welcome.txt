@@ -1,0 +1,12 @@
+Welcome to the Ragnarok live system.
+
+Ragnarok version	01
+Codename		dev
+Built by		Ian LeCorbeau
+Build date		@DATE@
+
+If you have not done so already, it is highly recommended to read the
+ragnarok-live(8) manual page.
+
+If you encounter any bugs, please report them on the github issue tracker
+at https://github.com/RagnarokOS/iso/issues

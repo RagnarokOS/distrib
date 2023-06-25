@@ -1,0 +1,13 @@
+# Aliases for both ksh and bash
+
+# Debian renames all of mandoc's executables,
+# so we give them the proper names again.
+alias man='mman'
+alias mdoc='/usr/bin/mandoc_mdoc'
+alias roff='/usr/bin/mandoc_roff'
+alias eqn='/usr/bin/mandoc_eqn'
+alias tbl='/usr/bin/mandoc_tbl'
+alias apropos='/usr/bin/mapropos'
+alias soelim='/usr/bin/msoelim'
+alias whatis='/usr/bin/mwhatis'
+alias catman='/usr/bin/mcatman'
