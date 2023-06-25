@@ -19,26 +19,26 @@ all: cli x11
 cli:
 	# Creating cli config
 	cd live-cli; \
-	lb config \
-		-d ${FLAVOUR} --debian-installer none \
-		--iso-publisher "${PUBLISHER}" --initsystem sysvinit \
-		--checksums sha512 --image-name ${NAME}-live-cli \
-		--hdd-label ${HDD_LABEL}_LIVE --iso-application ${PRETTY_NAME} \
-		--iso-volume ${NAME} --archive-areas "${COMPONENTS}" \
-		--debootstrap-options "--variant=${VARIANT}" \
-		--bootappend-live "${CLI_BOOTPARAMS}"
+		lb config \
+			-d ${FLAVOUR} --debian-installer none \
+			--iso-publisher "${PUBLISHER}" --initsystem sysvinit \
+			--checksums sha512 --image-name ${NAME}-live-cli \
+			--hdd-label ${HDD_LABEL}_LIVE --iso-application ${PRETTY_NAME} \
+			--iso-volume ${NAME} --archive-areas "${COMPONENTS}" \
+			--debootstrap-options "--variant=${VARIANT}" \
+			--bootappend-live "${CLI_BOOTPARAMS}"
 
 x11:
 	# Creating X11 config
-	cd live-x11 \
-	lb config \
-		-d ${FLAVOUR} --debian-installer none \
-		--iso-publisher "${PUBLISHER}" --initsystem sysvinit \
-		--checksums sha512 --image-name ${NAME}-live-x11 \
-		--hdd-label ${HDD_LABEL}_LIVE --iso-application ${PRETTY_NAME} \
-		--iso-volume ${NAME} --archive-areas "${COMPONENTS}" \
-		--debootstrap-options "--variant=${VARIANT}" \
-		--bootappend-live "${X11_BOOTPARAMS}"
+	cd live-x11; \
+		lb config \
+			-d ${FLAVOUR} --debian-installer none \
+			--iso-publisher "${PUBLISHER}" --initsystem sysvinit \
+			--checksums sha512 --image-name ${NAME}-live-x11 \
+			--hdd-label ${HDD_LABEL}_LIVE --iso-application ${PRETTY_NAME} \
+			--iso-volume ${NAME} --archive-areas "${COMPONENTS}" \
+			--debootstrap-options "--variant=${VARIANT}" \
+			--bootappend-live "${X11_BOOTPARAMS}"
 
 iso:
 	# We don't keep the bootloaders' configs in the repo
@@ -61,10 +61,13 @@ iso:
 	rm splash.svg
 	# Set date in /var/message/welcome.txt
 	sed -i	-e "s|@DATE@|$(shell date)|g" \
-		config/includes.chroot_after_packages/var/messages/welcome.txt
-	lb build
+		messages/welcome.txt
+	cp messages/welcome.txt live-cli/config/includes.chroot_afer_packages/var/messages/
+	cp messages/welcome.txt live-x11/config/includes.chroot_afer_packages/var/messages/
+	cd live-cli; \
+		lb build
+	cd live-x11; \
+		lb build
 
 # Not ready. Sign manually for now
-sign:
-	/usr/bin/mksig ${NAME}.tgz
-	/usr/bin/mksig ${ISO_NAME}.iso
+#sign:
