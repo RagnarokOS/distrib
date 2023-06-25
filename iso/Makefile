@@ -42,9 +42,11 @@ x11:
 
 iso:
 	# We don't keep the bootloaders' configs in the repo
-	cp -r /usr/share/live/build/bootloaders config/
-	cp splash/grub_splash.png config/bootloaders/grub-pc/splash.png
-	cp splash/splash.svg.in config/bootloaders/syslinux_common/splash.svg
+	cp -r /usr/share/live/build/bootloaders live-cli/config/
+	cp -r /usr/share/live/build/bootloaders live-x11/config/
+	cp splash/grub_splash.png live-cli/config/bootloaders/grub-pc/splash.png
+	cp splash/grub_splash.png live-x11/config/bootloaders/grub-pc/splash.png
+	cp splash/splash.svg.in splash.svg
 	# Generate the actual config for syslinux
 	sed -i	-e "s#@PRETTY@#${PRETTY_NAME}#g" \
 		-e "s#@MODE@#${ISO_MODE}#g" \
@@ -53,7 +55,10 @@ iso:
 		-e "s#@VERSION@#${VERSION}#g" \
 		-e "s#@CODENAME@#${CODENAME}#g" \
 		-e "s#@LINUX_VERSION@#$(shell uname -r)#g" \
-		config/bootloaders/syslinux_common/splash.svg
+		splash.svg
+	cp splash.svg live-cli/config/bootloaders/syslinux_common/splash.svg
+	cp splash.svg live-x11/config/bootloaders/syslinux_common/splash.svg
+	rm splash.svg
 	# Set date in /var/message/welcome.txt
 	sed -i	-e "s|@DATE@|$(shell date)|g" \
 		config/includes.chroot_after_packages/var/messages/welcome.txt
