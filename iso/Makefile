@@ -8,7 +8,7 @@
 # 'make release' will create both ISOs. This is equivlanet to running
 # 'make install', so it must be run as root.
 
-include config.mk live.mk
+include ../config.mk live.mk
 
 NAME		= ${DISTRO}${VERSION}
 
@@ -47,7 +47,7 @@ cli-iso:
 	# We don't keep the bootloaders' configs in the repo
 	cp -r /usr/share/live/build/bootloaders live-cli/config/
 	cp splash/grub_splash.png live-cli/config/bootloaders/grub-pc/splash.png
-	cp spash/splash.svg.in live-cli/config/bootloaders/syslinux_common/splash.svg
+	cp splash/splash.svg.in live-cli/config/bootloaders/syslinux_common/splash.svg
 	# Generate the actual config for syslinux
 	sed -i	-e "s#@PRETTY@#${PRETTY_NAME}#g" \
 		-e "s#@MODE@#${ISO_MODE}#g" \
@@ -68,7 +68,7 @@ x11-iso:
 	# We don't keep the bootloaders' configs in the repo
 	cp -r /usr/share/live/build/bootloaders live-x11/config/
 	cp splash/grub_splash.png live-x11/config/bootloaders/grub-pc/splash.png
-	cp spash/splash.svg.in live-x11/config/bootloaders/syslinux_common/splash.svg
+	cp splash/splash.svg.in live-x11/config/bootloaders/syslinux_common/splash.svg
 	# Generate the actual config for syslinux
 	sed -i	-e "s#@PRETTY@#${PRETTY_NAME}#g" \
 		-e "s#@MODE@#${ISO_MODE}#g" \
