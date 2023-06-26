@@ -5,8 +5,8 @@
 # 'make' will create a live configuration + the boot.tgz and x11.tgz sets.
 # This should never be run as root.
 #
-# 'make release' will create miniroot.tgz, base.tgz and the ISOs. This is
-# equivalent to 'Make install', so it must be run as root.
+# 'make release' will create both ISOs. This is equivlanet to running
+# 'make install', so it must be run as root.
 
 include config.mk live.mk
 
@@ -39,6 +39,9 @@ x11-config:
 			--iso-volume ${NAME} --archive-areas "${COMPONENTS}" \
 			--debootstrap-options "--variant=${VARIANT}" \
 			--bootappend-live "${X11_BOOTPARAMS}"
+
+# Equivalent to 'make install'
+release: cli-iso x11-iso
 
 cli-iso:
 	# We don't keep the bootloaders' configs in the repo
@@ -81,7 +84,6 @@ x11-iso:
 		live-x11/config/includes.chroot_afer_packages/var/messages/welcome.txt
 	cd live-x11; \
 		lb build
-
 
 # Not ready. Sign manually for now
 #sign:
