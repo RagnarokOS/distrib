@@ -58,6 +58,7 @@ cli-iso:
 		-e "s#@LINUX_VERSION@#$(shell uname -r)#g" \
 		live-cli/config/bootloaders/syslinux_common/splash.svg
 	# Set date in /var/message/welcome.txt
+	mkdir -p live-cli/config/includes.chroot_afer_packages/var/messages/
 	cp messages/welcome.txt live-cli/config/includes.chroot_afer_packages/var/messages/
 	sed -i	-e "s|@DATE@|$(shell date)|g" \
 		live-cli/config/includes.chroot_afer_packages/var/messages/welcome.txt
@@ -79,6 +80,7 @@ x11-iso:
 		-e "s#@LINUX_VERSION@#$(shell uname -r)#g" \
 		live-x11/config/bootloaders/syslinux_common/splash.svg
 	# Set date in /var/message/welcome.txt
+	mkdir -p live-cli/config/includes.chroot_afer_packages/var/messages/
 	cp messages/welcome.txt live-x11/config/includes.chroot_afer_packages/var/messages/
 	sed -i	-e "s|@DATE@|$(shell date)|g" \
 		live-x11/config/includes.chroot_afer_packages/var/messages/welcome.txt
