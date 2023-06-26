@@ -12,11 +12,11 @@ include config.mk live.mk
 
 NAME		= ${DISTRO}${VERSION}
 
-all: cli x11
+all: cli-config x11-config
 
 # Using live-build for now.
 # see: https://ragnarokos.github.io/logs/devnotes-june-2023.html
-cli:
+cli-config:
 	# Creating cli config
 	cd live-cli; \
 		lb config \
@@ -28,7 +28,7 @@ cli:
 			--debootstrap-options "--variant=${VARIANT}" \
 			--bootappend-live "${CLI_BOOTPARAMS}"
 
-x11:
+x11-config:
 	# Creating X11 config
 	cd live-x11; \
 		lb config \
@@ -40,13 +40,11 @@ x11:
 			--debootstrap-options "--variant=${VARIANT}" \
 			--bootappend-live "${X11_BOOTPARAMS}"
 
-iso:
+cli-iso:
 	# We don't keep the bootloaders' configs in the repo
 	cp -r /usr/share/live/build/bootloaders live-cli/config/
-	cp -r /usr/share/live/build/bootloaders live-x11/config/
 	cp splash/grub_splash.png live-cli/config/bootloaders/grub-pc/splash.png
-	cp splash/grub_splash.png live-x11/config/bootloaders/grub-pc/splash.png
-	cp splash/splash.svg.in splash.svg
+	cp spash/splash.svg.in live-cli/config/bootloaders/syslinux_common/splash.svg
 	# Generate the actual config for syslinux
 	sed -i	-e "s#@PRETTY@#${PRETTY_NAME}#g" \
 		-e "s#@MODE@#${ISO_MODE}#g" \
@@ -55,19 +53,35 @@ iso:
 		-e "s#@VERSION@#${VERSION}#g" \
 		-e "s#@CODENAME@#${CODENAME}#g" \
 		-e "s#@LINUX_VERSION@#$(shell uname -r)#g" \
-		splash.svg
-	cp splash.svg live-cli/config/bootloaders/syslinux_common/splash.svg
-	cp splash.svg live-x11/config/bootloaders/syslinux_common/splash.svg
-	rm splash.svg
+		live-cli/config/bootloaders/syslinux_common/splash.svg
 	# Set date in /var/message/welcome.txt
-	sed -i	-e "s|@DATE@|$(shell date)|g" \
-		messages/welcome.txt
 	cp messages/welcome.txt live-cli/config/includes.chroot_afer_packages/var/messages/
-	cp messages/welcome.txt live-x11/config/includes.chroot_afer_packages/var/messages/
+	sed -i	-e "s|@DATE@|$(shell date)|g" \
+		live-cli/config/includes.chroot_afer_packages/var/messages/welcome.txt
 	cd live-cli; \
 		lb build
+
+x11-iso:
+	# We don't keep the bootloaders' configs in the repo
+	cp -r /usr/share/live/build/bootloaders live-x11/config/
+	cp splash/grub_splash.png live-x11/config/bootloaders/grub-pc/splash.png
+	cp spash/splash.svg.in live-x11/config/bootloaders/syslinux_common/splash.svg
+	# Generate the actual config for syslinux
+	sed -i	-e "s#@PRETTY@#${PRETTY_NAME}#g" \
+		-e "s#@MODE@#${ISO_MODE}#g" \
+		-e "s#@PUBLISHER@#${PUBLISHER}#g" \
+		-e "s#@DATE@#$(shell date +"%Y%m%d")#g" \
+		-e "s#@VERSION@#${VERSION}#g" \
+		-e "s#@CODENAME@#${CODENAME}#g" \
+		-e "s#@LINUX_VERSION@#$(shell uname -r)#g" \
+		live-x11/config/bootloaders/syslinux_common/splash.svg
+	# Set date in /var/message/welcome.txt
+	cp messages/welcome.txt live-x11/config/includes.chroot_afer_packages/var/messages/
+	sed -i	-e "s|@DATE@|$(shell date)|g" \
+		live-x11/config/includes.chroot_afer_packages/var/messages/welcome.txt
 	cd live-x11; \
 		lb build
+
 
 # Not ready. Sign manually for now
 #sign:
