@@ -1,7 +1,0 @@
-Package: sudo-ldap
-Pin: version *
-Pin-Priority: -1
-
-Package: xscreensaver
-Pin: version *
-Pin-Priority: -1
