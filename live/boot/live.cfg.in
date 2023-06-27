@@ -1,0 +1,18 @@
+label live (x11)
+	menu label ^Live system (@FLAVOUR@)
+	menu default
+	linux @LINUX@
+	initrd @INITRD@
+	append boot=live @APPEND_LIVE@
+
+label live (console)
+	menu label ^Live system in console (@FLAVOUR@)
+	linux @LINUX@
+	initrd @INITRD@
+	append boot=live console=tty0 console=ttyS0,115200 @APPEND_LIVE@
+
+label live-failsafe
+	menu label Live system (@FLAVOUR@ fail-safe mode)
+	linux @LINUX@
+	initrd @INITRD@
+	append @APPEND_LIVE_FAILSAFE@
