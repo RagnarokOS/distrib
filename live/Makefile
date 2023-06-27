@@ -47,7 +47,7 @@ live:
 		config/bootloaders/syslinux_common/splash.svg
 	# Set date in /var/message/welcome.txt
 	sed -i	-e "s|@DATE@|$(shell date)|g" \
-		config/includes.chroot_afer_packages/var/messages/welcome.txt
+		config/includes.chroot_after_packages/var/messages/welcome.txt
 	lb build
 
 # Not ready. Sign manually for now
