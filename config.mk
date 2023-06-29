@@ -15,10 +15,10 @@ SEC_KEY		=
 # Packages included in everything.
 PACKAGES	= base-passwd adduser ragnarok-files signify-openbsd oksh \
 		  hardened-malloc policy-rcd-declarative-deny-all libncurses6 \
-		  libncursesw6
+		  libncursesw6 libbsd-dev
 
 # Packages included in the release tarball for base, provided they don't require
 # special considerations. Otherwise, install them in hooks/release.
 RELEASE_PKGS	= sysvinit-core sysv-rc elogind libpam-elogind orphan-sysvinit-scripts \
 		  procps nftables bsd-mailx dma rsyslog logrotate openntpd ifupdown \
-		  wpasupplicant doas mandoc tmux vim
+		  isc-dhcp-client wpasupplicant doas mandoc tmux vim
