@@ -33,10 +33,8 @@ live:
 	# We don't keep the bootloaders' configs in the repo
 	cp -r /usr/share/live/build/bootloaders config/
 	cp boot/grub.cfg config/bootloaders/grub-pc/
-	#cp boot/live.cfg.in config/bootloaders/syslinux_common/live.cfg.in
-	#cp boot/grub_splash.png config/bootloaders/grub-pc/splash.png
-	#cp boot/splash.svg.in config/bootloaders/syslinux_common/splash.svg
-	cp boot/syslinux.cfg config/bootloaders/syslinux_common/syslinux.cfg
+	cp boot/grub_splash.png config/bootloaders/grub-pc/splash.png
+	cp boot/isolinux.cfg config/bootloaders/isolinux/
 	# Generate the actual config for syslinux
 	sed -i	-e "s#@PRETTY@#${PRETTY_NAME}#g" \
 		-e "s#@MODE@#${ISO_MODE}#g" \
