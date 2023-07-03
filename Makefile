@@ -21,14 +21,14 @@ live-config:
 release: miniroot base iso
 
 miniroot:
-	SOURCE_DATE_EPOCH=$(date +%s) /usr/bin/mmdebstrap --variant=${VARIANT} \
+	SOURCE_DATE_EPOCH=$(shell date +%s) /usr/bin/mmdebstrap --variant=${VARIANT} \
 			  --components="${COMPONENTS}" \
 			  --include="${PACKAGES}" \
 			  --hook-directory="${HOOK_DIR}/miniroot" \
 			  ${FLAVOUR} ${DESTDIR}/miniroot${VERSION}.tgz
 
 base:
-	SOURCE_DATE_EPOCH=$(date +%s) /usr/bin/mmdebstrap --variant=${VARIANT} \
+	SOURCE_DATE_EPOCH=$(shell date +%s) /usr/bin/mmdebstrap --variant=${VARIANT} \
 			  --components="${COMPONENTS}" \
 			  --include="${PACKAGES} ${RELEASE_PKGS}" \
 			  --hook-directory=${HOOK_DIR}/release \
