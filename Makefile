@@ -32,7 +32,7 @@ base:
 			  --components="${COMPONENTS}" \
 			  --include="${PACKAGES} ${RELEASE_PKGS}" \
 			  --hook-directory=${HOOK_DIR}/release \
-			  ${PARENT} ${DESTDIR}/${NAME}.tgz
+			  ${FLAVOUR} ${DESTDIR}/${NAME}.tgz
 
 iso:
 
