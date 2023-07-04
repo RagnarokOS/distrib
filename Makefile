@@ -23,6 +23,7 @@ release: miniroot base iso
 miniroot:
 	SOURCE_DATE_EPOCH=$(shell date +%s) /usr/bin/mmdebstrap --variant=${VARIANT} \
 			  --components="${COMPONENTS}" \
+			  --aptopt='Apt::Install-Recommends "true"' \
 			  --include="${PACKAGES}" \
 			  --hook-directory="${HOOK_DIR}/miniroot" \
 			  ${FLAVOUR} ${DESTDIR}/miniroot${VERSION}.tgz
@@ -30,6 +31,7 @@ miniroot:
 base:
 	SOURCE_DATE_EPOCH=$(shell date +%s) /usr/bin/mmdebstrap --variant=${VARIANT} \
 			  --components="${COMPONENTS}" \
+			  --aptopt='Apt::Install-Recommends "true"' \
 			  --include="${PACKAGES} ${RELEASE_PKGS}" \
 			  --hook-directory=${HOOK_DIR}/release \
 			  ${FLAVOUR} ${DESTDIR}/${NAME}.tgz
