@@ -13,9 +13,8 @@ SIGN_WITH	= signify
 SEC_KEY		= 
 
 # Packages included in everything.
-PACKAGES	= base-passwd adduser ragnarok-files signify-openbsd oksh \
-		  hardened-malloc policy-rcd-declarative-deny-all libncurses6 \
-		  libncursesw6 libbsd-dev
+PACKAGES	= base-passwd adduser signify-openbsd oksh hardened-malloc \
+		  policy-rcd-declarative-deny-all libncurses6 libncurses-dev
 
 # Packages included in the release tarball for base, provided they don't require
 # special considerations. Otherwise, install them in hooks/release.
