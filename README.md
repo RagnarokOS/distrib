@@ -14,20 +14,25 @@ Building everything:
     $ make
     # make release
 
-This will build miniroot.tgz, base.tgz, boot.tgz, x11.tgz and the live iso.
+This will build miniroot.tgz, base.tgz (testing only) and the live iso.
+
+Building the iso only:
+
+    $ cd live
+    $ make live-config
+    # make live
+
 
 Tarballs
 ========
 
 * miniroot.tgz: a minimal chroot suitable for development.  
 
-* base.tgz: Ragnarok's base rootfs, minus x11/kernel/bootloader.  
+* base.tgz: Ragnarok's base rootfs, minus x11/kernel/bootloader. *This is not ready yet*.
 
-* boot.tgz: repository containing the kernel, grub, and their dependencies.  
+Deprecated tools
+================
 
-* x11.tgz: repository containing xserver-xorg core and all other base system
-packages which rely on x11.
-
-The base, boot and x11 tarballs exist to allow full offline installation for
-air gapped systems.
+The following scripts and files are deprecated: build.sh, mkiso and iso.conf.  
+They will be removed when the Makefiles are complete.
 
