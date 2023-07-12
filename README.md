@@ -24,14 +24,14 @@ Building the iso only:
 
 
 Tarballs
-========
+--------
 
 * miniroot.tgz: a minimal chroot suitable for development.  
 
 * base.tgz: Ragnarok's base rootfs, minus x11/kernel/bootloader. *This is not ready yet*.
 
 Deprecated tools
-================
+----------------
 
 The following scripts and files are deprecated: build.sh, mkiso and iso.conf.  
 They will be removed when the Makefiles are complete.
