@@ -1,0 +1,38 @@
+.Dd May 10, 2023
+.Dt RC 8
+.Os Ragnarok
+.Sh NAME
+.Nm rc.default ,
+.Nm rc.poweroff ,
+.Nm rc.reboot ,
+.Nm rc.single ,
+.Nm rc.sysinit
+.Nd command scripts for the init process
+.Sh DESCRIPTION
+The
+.Nm rc.*
+scripts are are invoked by init when the system boots or halts. Whether
+an init script should run during these phases is determined by their state
+in
+.Xr rc.conf 8 .
+Scripts with YES will be started/stopped, while those with NO will be ignored.
+.Sh FILES
+.Bl -tag -width Ds
+.It Pa /etc/rc.d/rc.sysinit
+The first command script that is run by init. This file initializes everything
+required on all systems, such as mounting file systems, setting the hostname and
+system clock, etc.
+.It Pa /etc/rc.d/rc.single
+This command script is executed when the system boots in single user mode.
+.It Pa /etc/rc.d/rc.default
+This file takes care of executing the scripts when entering runlevel 2 (ragnarok's
+default).
+.It Pa /etc/rc.d/rc.poweroff
+Commands executed during the poweroff (halt) process.
+.It Pa /etc/rc.d/rc.reboot
+Commands executed during the reboot process.
+.El
+.Sh SEE ALSO
+.Xr rc.d 8 ,
+.Xr rc.conf 8 ,
+.Xr rcctl 8

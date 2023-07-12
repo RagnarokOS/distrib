@@ -1,0 +1,49 @@
+.Dd May 09, 2023
+.Dt RCCTL 8
+.Os Ragnarok
+.Sh NAME
+.Nm rcctl
+.Nd configure and control system init scripts and services
+.Sh SYNOPSIS
+.Nm rcctl
+.Cm enable Ns | Ns Cm disable Ns | Ns Cm start Ns | Ns Cm stop Ns | Ns Cm restart Ar service
+.Pp
+.Nm rcctl
+.Cm status Op Ar service
+.Sh DESCRIPTION
+The
+.Nm
+utility gives control over system services/init scripts. It can enable
+or disable services in
+.Xr rc.conf 8 ,
+start/stop/restart services immediately and display their status.
+.Sh OPTIONS
+.Bl -tag -width Ds
+.It Cm enable Ar service
+enables service.
+.It Cm disable Ar service
+disables service.
+.It Cm start Ar service
+start service immediately.
+.It Cm stop Ar service
+stop service immediately.
+.It Cm restart Ar service
+restart service.
+.It Cm status Op Ar service
+show service status. When no service name is provided, displays the status
+of all scripts in
+.Cm /etc/init.d .
+.El
+.Sh EXAMPLES
+Enable and start service immediately
+.Dl # rcctl enable openntpd && rcctl start openntpd
+.Pp
+Disable and stop service immediately
+.Dl # rcctl disable openntpd && rcctl stop openntpd
+.Pp
+View service status
+.Dl # rcctl status openntpd
+.Sh SEE ALSO
+.Xr rc.conf 8 ,
+.Xr rc 8 ,
+.Xr rc.d 8 ,

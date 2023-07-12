@@ -1,0 +1,22 @@
+#!/bin/sh
+
+EXEC_PREFIX="/etc/init.d"
+
+${EXEC_PREFIX}/hardened_malloc stop
+
+${EXEC_PREFIX}/alsa-utils stop
+
+${EXEC_PREFIX}/elogind stop
+
+${EXEC_PREFIX}/nftables stop
+
+${EXEC_PREFIX}/uuid stop
+
+${EXEC_PREFIX}/rsyslog stop
+
+# Giving some scripts the start signal
+${EXEC_PREFIX}/killprocs start
+
+${EXEC_PREFIX}/bootlogs start
+
+${EXEC_PREFIX}/single start

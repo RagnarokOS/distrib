@@ -1,0 +1,27 @@
+#!/bin/ksh
+
+. /etc/rc.d/rc.subr
+
+EXEC_PREFIX="/etc/init.d"
+
+# Base system services
+start_srv bootlogs rsyslog rmnologin uuid \
+cron dbus elogind hardened_malloc
+
+# Init scripts installed by packages
+if [[ -n $(get_val "pkg_scripts" "/etc/rc.conf") ]]; then
+	printf '%s\n' "Starting package services..."
+		for _srv in $(get_val "pkg_scripts" "/etc/rc.conf"); do
+			if [[ -x ${EXEC_PREFIX}/$_srv ]]; then
+				"${EXEC_PREFIX}"/"$_srv" start
+			else
+				printf '%s\n' "$_srv script not executable"
+			fi
+		done
+fi
+
+# Local init scripts
+if [[ -x /etc/rc.local ]]; then
+	printf '%s\n' "Starting local services..."
+	/etc/rc.local start
+fi

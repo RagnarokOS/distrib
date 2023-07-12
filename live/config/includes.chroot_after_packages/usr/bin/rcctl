@@ -1,0 +1,237 @@
+#!/bin/ksh
+
+. /etc/rc.d/rc.subr
+
+EXEC_PREFIX="/etc/init.d"
+CONF="/etc/rc.conf"
+
+_action="$1"
+_srv="$2"
+
+usage() {
+	printf '%s\n' "
+Usage:
+
+rcctl <action> <service-name>
+
+Valid actions:
+	enable, disable, start, restart, stop, status
+
+See rcctl.8 for extra details and examples.
+"
+	exit 1
+}
+
+# This isn't as straightforward as a simple case statement in each functions,
+# but should better cover all the possible error scenarios.
+handle_err() {
+	# if _srv and _action are missing, print usage() then abort.
+	[[ -z $_srv ]] && [[ -z $_action ]] && usage
+
+	# Check if <script> exists, and if it doesn't, check if <script>.sh exists
+	# and output the name if it does. Some of Debian's init scripts have the
+	# .sh extension, so we need to handle those.
+	if [[ ! -f ${EXEC_PREFIX}/${_srv} ]]; then
+		if [[ -f ${EXEC_PREFIX}/${_srv}.sh ]]; then
+			printf '%s\n' "${_srv} does not exist, did you mean ${_srv}.sh?"
+			exit 1
+		else
+			printf '%s\n' "${_srv} does not exist"
+			usage
+		fi
+	fi
+
+	# if this isn't a valid action, print usage() then abort.
+	! { [[ $_action = "enable" ]] || [[ $_action = "disable" ]] || [[ $_action = "start" ]] || \
+	[[ $_action = "restart" ]] || [[ $_action = "stop" ]] || [[ $_action = "status" ]]; } && usage
+
+	# If _srv has the name of an action, then either _srv is missing, or the two args
+	# were swapped, in which case print usage() then abort.
+	{ [[ $_srv = "enable" ]] || [[ $_srv = "disable" ]] || [[ $_srv = "start" ]] || \
+	[[ $_srv = "restart" ]] || [[ $_srv = "stop" ]] || [[ $_srv = "status" ]]; } && usage
+}
+
+# Enable a service in the default runlevel (a.k.a runlevel 2)
+do_enable() {
+	local _state
+	
+	_state=$(get_val "$_srv" "$CONF")
+
+	case "$_state" in
+		YES)	printf '%s\n' "$_srv already enabled"
+			;;
+		NO)	sed -i "s/.*$_srv.*/${_srv}=YES/" "$CONF"
+			;;
+		*)	sed -i "/^pkg_scripts=/ s/$/ ${_srv}/" "$CONF"
+			;;
+	esac
+}
+
+# Disable a service that is in the default runlevel.
+do_disable() {
+	local _state
+	
+	_state=$(get_val "$_srv" "$CONF")
+
+	case "$_state" in
+		YES)	sed -i "s/.*$_srv.*/${_srv}=NO/" "$CONF"
+			;;
+		NO)	printf '%s\n' "$_srv already disabled"
+			;;
+		*)	sed -i "s/${_srv} //" "$CONF"
+			;;
+	esac
+}
+
+######################################
+### handling of 'rcctl status ...' ###
+######################################
+
+# There are init scripts that are only meant to run once, during boot/shutdown
+# and aren't running afterwards. These should be ignore by the 'status all'
+# command to keep the output cleaner.
+ignored() {
+	case "$1" in
+		skeleton | README | *.dpkg-dist | *.dpkg-old | halt | rc | rcS | single | reboot | \
+			bootclean.sh | bootmisc.sh | brightness | checkfs.sh | checkroot-bootclean.sh | \
+			checkroot.sh | hostname.sh | hwclock.sh | keyboard-setup.sh | killprocs | \
+			kmod | console-setup.sh | mount-configfs | mountall.sh | mountall-bootclean.sh | \
+			mountdevsubfs.sh | mountkernfs.sh | mountnfs-bootclean.sh | mountnfs.sh | procps | \
+			networking | rmnologin | sendsigs | umountfs | umountnfs.sh | umountroot | urandom | \
+			rc.local | bootlogs)
+			return 0
+			;;
+	esac
+	return 1
+}
+
+status_all() {
+	cd "${EXEC_PREFIX}"/ || exit
+	for _s in *; do
+		if ! ignored "$_s"; then
+			# This is the default rather than /etc/init.d/<script> status because
+			# 1) some scripts provided by Debian packages have faulty exit codes
+			# in their status check function (e.g. exit 0 even when not actually
+			# running), and
+			# 2) this eliminates the need to actually have a status checking func
+			# within init scripts, unless it's for daemons that don't normally
+			# have a .pid file in /var/run.
+			#
+			# NOTE: rewriting all init scripts from Debian is being strongly
+			# considered. If that happens, using 'find' will not be necassary,
+			# so '/etc/init.d/<script> status' will be used across the board.
+			find /var/run/ -type f -name "*.pid" | grep "$_s" >/dev/null
+			#pgrep "$_s" >/dev/null
+			_ret=$?
+			if [[ $_ret -eq 0 ]]; then
+				printf '%s\n' "[+]	$_s"
+			else
+				# Some daemons, such as apparmor and nftables, don't have
+				# pid files, so we handle them with '/path/to/script status'.
+				"${EXEC_PREFIX}"/"$_s" status >/dev/null
+				_ret=$?
+				if [[ $_ret -eq 0 ]]; then
+					printf '%s\n' "[+]	$_s"
+				else
+					printf '%s\n' "[-]	$_s"
+				fi
+			fi
+		fi
+	
+	done
+}
+
+# if this is a package script, handle it
+is_pkgscript() {
+	# Just grep into grep, bro.
+	grep "pkg_scripts" "$CONF" | grep "$_srv" >/dev/null
+	_ret=$?
+	if [[ $_ret -eq 0 ]]; then
+		printf "enabled"
+	else
+		printf "disabled"
+	fi
+}
+
+# Check if _srv is enable or disabled in rc.conf
+enabled_status() {
+	local _state
+	
+	_state="$(get_val "$_srv" "$CONF")"
+
+	# First, let's make sure srv is present in rc.conf
+	if ! grep -q "$_srv" "$CONF"; then
+		printf '%s' "not in $CONF"
+		exit 1
+	fi
+
+	case "$_state" in
+		YES) printf "enabled" ;;
+		NO) printf "disabled" ;;
+		*) is_pkgscript ;;
+	esac
+}
+
+# Check is _srv is running
+running_status() {
+	find /var/run/ -type f -name "*.pid" | grep "$_srv" >/dev/null
+	#pgrep "$_s" >/dev/null
+	_ret=$?
+	if [[ $_ret -eq 0 ]]; then
+		printf "running"
+	else
+		"${EXEC_PREFIX}"/"$_srv" status >/dev/null
+		_ret=$?
+		if [[ $_ret -eq 0 ]]; then
+			printf "running"
+		else
+			printf "not running"
+		fi
+	fi
+	
+}
+
+srv_status() {
+	printf '%s\n' "$_srv is $(enabled_status "$_srv") and $(running_status "$_srv")"
+}
+
+get_status() {
+	case "$1" in
+		all)	status_all
+			;;
+		*)	srv_status
+			;;
+	esac
+}
+
+##############################
+### End of status handling ###
+##############################
+
+# Meat and potatoes
+ctrl_srv() {
+	handle_err
+	case "$_action" in
+		enable)		do_enable
+				;;
+		disable)	do_disable
+				;;
+		start)		start_srv "$_srv"
+				;;
+		restart)	"${EXEC_PREFIX}"/"$_srv" restart
+				;;
+		stop)		stop_srv "$_srv"
+				;;
+		status)		get_status "$_srv"
+				;;
+		*)		usage
+				;;
+	esac
+}
+
+case "$_action" in
+	status)	get_status "$_srv"
+		;;
+	*)	ctrl_srv
+		;;
+esac

@@ -1,0 +1,29 @@
+#!/bin/ksh
+
+# shellcheck source=/etc/rc.d/rc.subr
+. /etc/rc.d/rc.subr
+
+EXEC_PREFIX="/etc/init.d"
+
+# Stopping basic services
+stop_srv hardened_malloc brightness alsa-utils elogind nftables udev urandom uuid \
+	sendsigs rsyslog networking umountfs umountroot live-tools
+
+# Stopping package init scripts in reverse order.
+# Thanks to OpenBSD for the logic.
+
+# shellcheck disable=SC2046	# we DO want word splitting
+set -A _s -- $(get_val "pkg_scripts" "/etc/rc.conf")
+
+# shellcheck disable=SC2154	# false positive
+_i=${#_s[*]}
+if ((_i)); then
+	printf '%s\n' "Stopping package services"
+	while ((--_i >= 0)); do
+		[[ -x $EXEC_PREFIX/${_s[_i]} ]] &&
+			"$EXEC_PREFIX"/"${_s[_i]}" stop
+	done
+fi
+
+# Running the halt script
+${EXEC_PREFIX}/halt stop

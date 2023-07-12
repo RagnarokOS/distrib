@@ -1,0 +1,26 @@
+# small library containing functions used by Ragnarok's init.
+
+get_val() {
+	_val="$1"
+	_file="$2"
+
+	grep "$_val" "$_file" | cut -d '=' -f2 | cut -f1
+}
+
+start_srv() {
+	local _srv
+
+	for _srv; do
+		_shouldstart=$(get_val "$_srv" "/etc/rc.conf")
+		[[ $_shouldstart != NO ]] && /etc/init.d/"$_srv" start
+	done
+}
+
+stop_srv() {
+	local _srv
+
+	for _srv; do
+		_shouldstop=$(get_val "$_srv" "/etc/rc.conf")
+		[[ $_shouldstop != NO ]] && /etc/init.d/"$_srv" stop
+	done
+}

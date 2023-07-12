@@ -1,0 +1,29 @@
+.Dd May 10, 2023
+.Dt RC.CONF 8
+.Os Ragnarok
+.Sh NAME
+.Nm rc.conf
+.Nd configuration file for Ragnarok's rc init scripts
+.Sh DESCRIPTION
+The
+.Nm
+file is read by the
+.Xr rc 8
+scripts to determine whether a service should be started at boot time.
+Base system init scripts follow the name=value format (e.g. cron=YES),
+where
+.Cm name
+is the name of the script, and
+.Cm value
+is either YES or NO.
+.Pp
+When enabled, scripts provided by packages will be present in the
+.Cm pkg_scripts=
+variable (e.g. pkg_scripts=programscript1 programscript2).
+.Pp
+It is not recommended to edit this file manually.
+.Xr rcctl 8
+should be used to enable and disable services instead.
+.Sh SEE ALSO
+.Xr rcctl 8 ,
+.Xr rc 8 
