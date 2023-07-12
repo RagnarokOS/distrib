@@ -12,11 +12,12 @@ include config.mk
 
 NAME		= ${DISTRO}${VERSION}
 
-all: live-config boot x11
+all: live-config
 
 # Using live-build for now.
 # see: https://ragnarokos.github.io/logs/devnotes-june-2023.html
 live-config:
+	make -C live live-config
 
 release: miniroot base iso
 
@@ -37,6 +38,7 @@ base:
 			  ${FLAVOUR} ${DESTDIR}/${NAME}.tgz
 
 iso:
+	make -C live iso
 
 # Not ready. Sign manually for now
 sign:
