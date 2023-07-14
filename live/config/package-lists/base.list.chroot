@@ -5,8 +5,7 @@ git
 signify-openbsd
 doas
 policy-rcd-declarative-deny-all
-libncurses6
-libncursesw6
+libncurses-dev
 apt-utils
 sysvinit-core
 sysv-rc
