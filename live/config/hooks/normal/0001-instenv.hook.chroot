@@ -24,6 +24,11 @@ set_rootpass() {
 	echo "root:root" | chpasswd
 }
 
+# Create the sysupdate user
+set_user() {
+	useradd --system --no-create-home --home /nonexistent --shell=/usr/sbin/nologin _sysupdate
+}
+
 # Installing cwm and vifm here to avoid its recommended packages
 # without disabling apt recommends globally.
 inst_pkgs() {
@@ -61,6 +66,7 @@ main() {
 	set_shell
 	set_sym
 	set_rootpass
+	set_user
 	inst_pkgs
 	set_frontend
 	upd_man
