@@ -12,6 +12,9 @@
 
 do_start() {
 	/usr/bin/printf '%s\n' "enabling the hardened memory allocator..."
+	# Use the light variant by default as it has a smaller performance hit
+	# on old hardware
+	ln -sf /usr/lib/hardened_malloc/libhardened_malloc-light.so /usr/lib/libhardened_malloc.so
 	/usr/bin/echo "/usr/lib/libhardened_malloc.so" > /etc/ld.so.preload
 }
 
