@@ -1,5 +1,0 @@
-#!/bin/sh
-
-set -e
-
-add-shell /bin/ksh

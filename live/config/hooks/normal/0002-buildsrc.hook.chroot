@@ -8,40 +8,6 @@ build_src() {
 	make && make clean install && make clean
 }
 
-# Needs configuring first
-build_oksh() {
-	cd /usr/src/oksh || exit
-	LDFLAGS="-Wl,-z,relro,-z,now -Wl,-pie" ./configure \
-		--bindir=/bin --mandir=/usr/share/man --enable-ksh \
-		--cflags="-D_FORTIFY_SOURCE=2 -fPIE -Wformat-security -fstack-protector-strong -fstack-clash-protection --param=ssp-buffer-size=4 -fcf-protection"
-	make
-	make install
-	make distclean
-}
-
-# Special handling of hardened_malloc installation
-build_hmalloc() {
-	cd /usr/src/hardened-malloc || exit
-
-	make CONFIG_NATIVE=false -j"$(nproc)" && \
-		make VARIANT=medium CONFIG_NATIVE=false -j"$(nproc)" && \
-		make VARIANT=light CONFIG_NATIVE=false -j"$(nproc)"
-
-	# Make directory and copy the libs to it.
-	mkdir -p /usr/lib/hardened_malloc
-	cp out-strong/libhardened_malloc-strong.so /usr/lib/hardened_malloc/
-	cp out-medium/libhardened_malloc-medium.so /usr/lib/hardened_malloc/
-	cp out-light/libhardened_malloc-light.so /usr/lib/hardened_malloc/
-
-	# For now we'll use the light version (less strict, yet still more secure
-	# than glibc's malloc). The ld.so.preload trict is used to load hardened_malloc
-	# before glibc's. A symlink between the desired variant and /lib/hardened_malloc.so
-	# is created so that it can easily be switched using ln -sf.
-	ln -sf /usr/lib/hardened_malloc/libhardened_malloc-light.so /usr/lib/libhardened_malloc.so
-
-	make clean
-}
-
 # build wmutils
 build_wmu() {
 	cd /usr/src/core || exit
@@ -49,6 +15,4 @@ build_wmu() {
 }
 
 build_src
-#build_oksh
-#build_hmalloc
 build_wmu
