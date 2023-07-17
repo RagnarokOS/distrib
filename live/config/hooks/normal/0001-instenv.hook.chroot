@@ -24,9 +24,11 @@ set_rootpass() {
 	echo "root:root" | chpasswd
 }
 
-# Create the sysupdate user
+# Create the sysupdate user and setup sysupdate dir
 set_user() {
 	useradd --system --no-create-home --home /nonexistent --shell=/usr/sbin/nologin _sysupdate
+	chown _sysupdate /var/db/updates
+	chown _sysupdate /var/db/updates/sysupdate.list
 }
 
 # Installing cwm and vifm here to avoid its recommended packages
