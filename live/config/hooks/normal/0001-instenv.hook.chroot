@@ -24,8 +24,10 @@ set_rootpass() {
 	echo "root:root" | chpasswd
 }
 
-# Create the sysupdate user and setup sysupdate dir
-set_user() {
+# Set up sysupdate properly
+set_sysupdate() {
+	chmod 755 /usr/bin/sysupdate
+	chmod 644 /etc/sysupdate.conf
 	useradd --system --no-create-home --home /nonexistent --shell=/usr/sbin/nologin _sysupdate
 	chown _sysupdate:_sysupdate /var/db/updates
 	chown _sysupdate:_sysupdate /var/db/updates/sysupdate.list
@@ -68,7 +70,7 @@ main() {
 	set_shell
 	set_sym
 	set_rootpass
-	set_user
+	set_sysupdate
 	inst_pkgs
 	set_frontend
 	upd_man

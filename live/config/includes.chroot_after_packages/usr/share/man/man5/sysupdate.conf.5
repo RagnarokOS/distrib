@@ -1,0 +1,34 @@
+.Dd July 17, 2023
+.Dt SYSUPDATE.CONF 5
+.Os Ragnarok
+.Sh NAME
+.Nm sysupdate.conf
+.Nd sysupdate configuration file
+.Sh DESCRIPTION
+The
+.Pa /etc/sysupdate.conf
+file contains the configuration options for the
+.Xr sysupdate 8
+command.
+.Pp
+It follows the OPTION="value" format. Any line that doesn't follow this
+format is ignored.
+.Sh OPTIONS
+The following options are supported
+.Bl -tag -width "VERSION"
+.It Cm MIRROR
+The mirror used to fetch updates from.
+.It Cm VERSION
+The current version of the installed system.
+.It Cm PUBKEY
+Path to Ragnarok's public signify key.
+.El
+.Sh FILES
+.Bl -tag -width "/usr/share/ragnarok-keys/*"
+.It Pa /etc/sysupdate.conf
+.It Pa /usr/share/ragnarok-keys/*
+.El
+.Sh SEE ALSO
+.Xr sysupdate 8 ,
+.Xr signify 1 ,
+

@@ -1,0 +1,199 @@
+#!/bin/ksh
+
+. /lib/ragnarok-shlib
+
+set -e
+umask 0022
+export PATH=/usr/bin:/bin:/usr/sbin:/sbin
+
+CONF="/etc/sysupdate.conf"
+TMP=$(mktemp -d -p /tmp syspatch.XXXXXXXXXX)
+MIRROR=$(getvar MIRROR "$CONF")
+PUBKEY=$(getvar PUBKEY "$CONF")
+VERSION=$(getvar VERSION "$CONF")
+URL="${MIRROR}/${VERSION}"
+
+# Never download stuff from the internet as the root user
+# I take no credit for this function. All credit goes to
+# Antoine Jacoutot, who wrote OpenBSD's syspatch(1).
+unpriv() {
+	local _file=$2 _user=_sysupdate
+
+	if [[ $1 == -f && -n ${_file} ]]; then
+		# shellcheck disable=SC2188
+		>${_file}
+		chown "${_user}" "${_file}"
+		chmod 0711 "${TMP}"
+		shift 2
+	fi
+	(($# >= 1))
+
+	su -s /bin/sh ${_user} -c "$@"
+
+	[[ -n ${_file} ]] && chown root "${_file}"
+}
+
+# Get the patches file and sig
+get_file() {
+	printf '%s\n' "Fetching sysupdate list..."
+	cd "${TMP}" || cd
+	unpriv -f "${TMP}/sysupdate.list" "wget -q --show-progress -O sysupdate.list ${URL}/sysupdate.list"
+	unpriv -f "${TMP}/sysupdate.list.sig" "wget -q --show-progress -O sysupdate.list.sig ${URL}/sysupdate.list.sig"
+}
+
+# Fetching the updates
+get_upd() {
+	local _file="$1"
+
+	cd "${TMP}" || cd
+	unpriv -f "${TMP}/${_file}" "wget -q --show-progress -O ${_file} ${URL}/${_file}"
+}
+
+# Verify patch file sig. If signify returns a non-zero
+# exit status, abort.
+check_sig() {
+	local _file="$1"
+
+	if ! /usr/bin/signify -V -p "$PUBKEY" -x "${_file}".sig -m "$_file"; then
+		echo "Signature verification failed. Exiting..."
+		exit 1
+	fi
+}
+
+# Check if there are any updates
+check_update() {
+	local _updates
+
+	# Fetch update file and verify its signature
+	get_file
+	check_sig "${TMP}/sysupdate.list"
+
+	_updates=$(comm -1 -3 --output-delimiter="" "/var/db/updates/sysupdate.list" "${TMP}/sysupdate.list")
+
+	# If there are no updates, exit and return 2
+	# comm is faster than diff and grep -Fxvf
+	if [[ -z $_updates ]]; then
+		printf '%s\n' "No updates found"
+		exit 2
+	else
+		return 0
+	fi
+}
+
+# extract patch tarball then install it
+install_pkg() {
+	local _pkg=$1
+
+	dpkg -i "$TMP"/"$_pkg"
+}
+
+do_update() {
+	local _patches
+
+	# If sysupdate.list doesn't exist yet, create it
+	[[ ! -f /var/db/updates/sysupdate.list ]] && unpriv "touch /var/db/updates/sysupdate.list"
+
+	check_update
+
+	# shellcheck disable=SC2046	# We DO want word splitting.
+	set -A _patches -- $(comm -1 -3 --output-delimiter="" /var/db/updates/sysupdate.list "${TMP}/sysupdate.list")
+	printf '%s\n' "Downloading updates..." &&
+	for patch in "${_patches[@]}"; do
+		get_upd "${patch}"
+		get_upd "${patch}.sig"
+	done
+
+	for patch in "${_patches[@]}"; do
+		printf '%s\n' "Verifying $patch signature"
+		check_sig "${patch}"
+		printf '%s\n' "Installing ${patch}..."
+		install_pkg "${patch}"
+	done
+
+	# Copy the new sysupdate list to /var/db
+	printf '%s\n' "Updating /var/db/updates/sysupdate.list..."
+	unpriv "cat /var/db/updates/sysupdate.list > /var/db/updates/sysupdate.list.old"
+	cp "${TMP}"/sysupdate.list /var/db/updates/
+	# Make sure the new list is owned by the _sysupdate user
+	chown _sysupdate /var/db/updates/sysupdate.list
+
+	exit 0
+}
+
+# Download update but don't install it.
+do_download() {
+	local _pkg
+
+	get_file
+
+	_pkg=$(grep "$1" "${TMP}/sysupdate.list")
+
+	get_upd "${_pkg}"
+	get_upd "${_pkg}.sig"
+
+	# move package to /var/db/updates
+	unpriv "cp ${TMP}/${_pkg} /var/db/updates/"
+	unpriv "cp ${TMP}/${_pkg}.sig /var/db/updates/"
+}
+
+# List installed update
+do_list() {
+	printf '%s\n' "The following updates are installed"
+	cat /var/db/updates/sysupdate.list
+}
+
+# Check if updates are available.
+do_query() {
+	check_update
+	_ret=$?
+
+	case "$_ret" in
+		0)	printf '%s\n' "
+The following updates are available:
+$(comm -1 -3 --output-delimiter="" "/var/db/updates/sysupdate.list" "${TMP}/sysupdate.list")
+"
+			;;
+	esac
+}
+
+# Downgrade if an update caused an issue. Untested yet.
+# Not tested yet
+do_revert() {
+	local _update _pkg=$1
+
+	_update=$(grep "$_pkg" "/var/db/updates/sysupdate.list.old")
+
+	printf '%s\n' "Downloading update and signature..."
+	get_upd "${_update}"
+	get_upd "${_update}.sig"
+	
+	printf '%s\n' "Verifying $_update signature..."
+	check_sig "${_update}"
+
+	printf '%s\n' "Installing update..."
+	install_pkg "${_update}"
+}
+
+# Cleanup after finish
+cleanup() {
+	set +e
+	rm -rf "${TMP}"
+}
+
+trap 'cleanup' EXIT
+trap exit HUP INT TERM
+
+case "$1" in
+	-d)	do_download "$2"
+		;;
+	-h)	usage
+		;;
+	-l)	do_list
+		;;
+	-q)	do_query
+		;;
+	-r)	do_revert "$2"
+		;;
+	*)	do_update
+		;;
+	esac
