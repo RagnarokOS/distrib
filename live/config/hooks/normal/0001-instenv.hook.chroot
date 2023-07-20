@@ -38,7 +38,6 @@ set_sysupdate() {
 inst_pkgs() {
 	apt-get update && apt-get upgrade -y
 	apt-get install --no-install-recommends cwm vifm -y
-	apt-get install oksh hardened-malloc -y
 }
 
 # Set the default frontend to readline
