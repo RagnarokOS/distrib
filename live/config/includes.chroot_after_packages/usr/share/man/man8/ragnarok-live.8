@@ -120,8 +120,10 @@ you can connect to the network using the ifup command:
 .Pp
 The live iso is rebuilt whenever the kernel receives a security update. However, other
 programs may have been updated since the iso's release and should still be updated even
-if running a live system (particularly web browsers). It is important to run apt update
-and apt upgrade as soon as an internet connection is established.
+if running a live system (particularly web browsers). It is important to run the
+.Xr sysupdate 8
+command to update the base system, as well as apt-update && apt-updrade as soon as an
+internet connection is established.
 .Ss hardened malloc
 .Pp
 Ragnarok uses GrapheneOS' hardened memory allocator for extra security and provides
@@ -154,3 +156,5 @@ command.
 Selecting the mail to read is done by typing it's number then Return. Quit mail by typing q
 then Return. You can delete read messages by typing d then Return before quitting.
 .Pp
+.Sh SEE ALSO
+.Xr sysupdate 8
