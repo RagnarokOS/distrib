@@ -6,7 +6,7 @@
 EXEC_PREFIX="/etc/init.d"
 
 # Stopping basic services
-stop_srv hardened_malloc brightness alsa-utils elogind nftables udev urandom uuid \
+stop_srv hardened_malloc brightness alsa-utils elogind nftables udev urandom uuidd \
 	sendsigs rsyslog networking umountfs umountroot live-tools
 
 # Stopping package init scripts in reverse order.

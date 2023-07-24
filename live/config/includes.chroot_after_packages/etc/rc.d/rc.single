@@ -10,7 +10,7 @@ ${EXEC_PREFIX}/elogind stop
 
 ${EXEC_PREFIX}/nftables stop
 
-${EXEC_PREFIX}/uuid stop
+${EXEC_PREFIX}/uuidd stop
 
 ${EXEC_PREFIX}/rsyslog stop
 

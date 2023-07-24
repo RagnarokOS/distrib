@@ -5,7 +5,7 @@
 EXEC_PREFIX="/etc/init.d"
 
 # Base system services
-start_srv bootlogs rsyslog rmnologin uuid \
+start_srv bootlogs rsyslog rmnologin uuidd \
 cron dbus elogind hardened_malloc
 
 # Init scripts installed by packages
