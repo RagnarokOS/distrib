@@ -53,6 +53,11 @@ upd_man() {
 permissions() {
 	chmod 755 /usr/local/bin/*
 	chmod 755 /etc/init.d/hardened_malloc
+	chmod 755 /etc/rc.d/rc.sysinit
+	chmod 755 /etc/rc.d/rc.default
+	chmod 755 /etc/rc.d/rc.poweroff
+	chmod 755 /etc/rc.d/rc.reboot
+	chmod 755 /etc/rc.d/rc.single
 }
 
 # Alias root to user for mail delivery
