@@ -9,7 +9,7 @@ label live (console)
 	menu label ^Live system in console (@FLAVOUR@)
 	linux @LINUX@
 	initrd @INITRD@
-	append boot=live console=tty0 console=ttyS0,115200 @APPEND_LIVE@
+	append boot=live console=tty0 console=ttyS0,9600 @APPEND_LIVE@
 
 label live-failsafe
 	menu label Live system (@FLAVOUR@ fail-safe mode)
