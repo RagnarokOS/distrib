@@ -58,6 +58,7 @@ permissions() {
 	chmod 755 /etc/rc.d/rc.poweroff
 	chmod 755 /etc/rc.d/rc.reboot
 	chmod 755 /etc/rc.d/rc.single
+	chmod 755 /usr/bin/rcctl
 }
 
 # Alias root to user for mail delivery
