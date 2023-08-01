@@ -6,6 +6,7 @@ signify-openbsd
 doas
 policy-rcd-declarative-deny-all
 libncurses-dev
+libbsd-dev
 apt-utils
 sysvinit-core
 sysv-rc
