@@ -12,6 +12,7 @@ sysvinit-core
 sysv-rc
 orphan-sysvinit-scripts
 elogind
+libarchive-tools
 libpam-elogind
 procps
 nftables
