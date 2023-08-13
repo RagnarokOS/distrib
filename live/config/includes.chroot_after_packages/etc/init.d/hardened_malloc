@@ -25,7 +25,7 @@ do_build() {
 	mv "$DIR"/out-light/libhardened_malloc-light.so /usr/lib/hardened_malloc/
 
 	# Send the build log to user via mail.
-	/usr/bin/cat /var/messages/hardened_malloc.log | mail -r LeCorbeau -s "hardened_malloc.log" user
+	/usr/bin/cat /var/messages/hardened_malloc.log | mail -s "hardened_malloc.log" user
 }
 
 do_start() {
