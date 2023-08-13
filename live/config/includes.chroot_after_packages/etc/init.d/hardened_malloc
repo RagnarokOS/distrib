@@ -6,9 +6,24 @@
 # Required-Stop:	
 # Default-Start:	2 3 4 5
 # Default-Stop:		0 1 6
-# Short-Description:	enable hardenec_malloc() at boot time
-# Description:		fixes the long boot/poweroff times in the list iso.
+# Short-Description:	enable hardened_malloc() at boot time
+# Description:		fixes the long boot/poweroff times in the live iso.
 ### END INIT INFO
+
+DIR="/usr/src/hardened_malloc"
+
+do_build() {
+	printf '%s\n' "Building hardened_malloc..."
+
+	make -C "$DIR" -j"$(nproc)"
+	make -C "$DIR" VARIANT=medium -j"$(nproc)"
+	make -C "$DIR" VARIANT=light -j"$(nproc)"
+
+	mkdir -p /usr/lib/hardened_malloc
+	mv "$DIR"/out-strong/libhardened_malloc-strong.so /usr/lib/hardened_malloc/
+	mv "$DIR"/out-medium/libhardened_malloc-medium.so /usr/lib/hardened_malloc/
+	mv "$DIR"/out-light/libhardened_malloc-light.so /usr/lib/hardened_malloc/
+}
 
 do_start() {
 	/usr/bin/printf '%s\n' "enabling the hardened memory allocator..."
@@ -32,7 +47,11 @@ do_check_status() {
 }
 
 case "$1" in
-	start) do_start ;;
-	stop) do_stop ;;
-	status) do_check_status ;;
+	start)	do_build
+		do_start
+		;;
+	stop)	do_stop
+		;;
+	status) do_check_status
+		;;
 esac
