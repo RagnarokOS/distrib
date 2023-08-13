@@ -15,14 +15,17 @@ DIR="/usr/src/hardened_malloc"
 do_build() {
 	printf '%s\n' "Building hardened_malloc..."
 
-	make -C "$DIR" -j"$(nproc)"
-	make -C "$DIR" VARIANT=medium -j"$(nproc)"
-	make -C "$DIR" VARIANT=light -j"$(nproc)"
+	make -C "$DIR" -j"$(nproc)" >> /var/messages/hardened_malloc.log
+	make -C "$DIR" VARIANT=medium -j"$(nproc)" >> /var/messages/hardened_malloc.log
+	make -C "$DIR" VARIANT=light -j"$(nproc)" >> /var/messages/hardened_malloc.log
 
 	mkdir -p /usr/lib/hardened_malloc
 	mv "$DIR"/out-strong/libhardened_malloc-strong.so /usr/lib/hardened_malloc/
 	mv "$DIR"/out-medium/libhardened_malloc-medium.so /usr/lib/hardened_malloc/
 	mv "$DIR"/out-light/libhardened_malloc-light.so /usr/lib/hardened_malloc/
+
+	# Send the build log to user via mail.
+	/usr/bin/cat /var/messages/hardened_malloc.log | mail -r LeCorbeau -s "hardened_malloc.log" user
 }
 
 do_start() {
