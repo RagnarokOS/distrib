@@ -10,7 +10,10 @@
 # Description:		fixes the long boot/poweroff times in the live iso.
 ### END INIT INFO
 
-DIR="/usr/src/hardened_malloc"
+. /etc/rc.d/rc.subr
+
+DIR="/usr/lib/hardened_malloc"
+CONFIG=$(get_val VARIANT /etc/default/hardened_malloc)
 
 do_build() {
 	printf '%s\n' "Building hardened_malloc..."
@@ -18,11 +21,6 @@ do_build() {
 	make -C "$DIR" -j"$(nproc)" >> /var/messages/hardened_malloc.log
 	make -C "$DIR" VARIANT=medium -j"$(nproc)" >> /var/messages/hardened_malloc.log
 	make -C "$DIR" VARIANT=light -j"$(nproc)" >> /var/messages/hardened_malloc.log
-
-	mkdir -p /usr/lib/hardened_malloc
-	mv "$DIR"/out-strong/libhardened_malloc-strong.so /usr/lib/hardened_malloc/
-	mv "$DIR"/out-medium/libhardened_malloc-medium.so /usr/lib/hardened_malloc/
-	mv "$DIR"/out-light/libhardened_malloc-light.so /usr/lib/hardened_malloc/
 
 	# Send the build log to user via mail.
 	/usr/bin/cat /var/messages/hardened_malloc.log | mail -s "hardened_malloc.log" user
@@ -32,7 +30,7 @@ do_start() {
 	/usr/bin/printf '%s\n' "enabling the hardened memory allocator..."
 	# Use the light variant by default as it has a smaller performance hit
 	# on old hardware
-	ln -sf /usr/lib/hardened_malloc/libhardened_malloc-light.so /usr/lib/libhardened_malloc.so
+	ln -sf /usr/lib/hardened_malloc/out-"${CONFIG}"/libhardened_malloc-"${CONFIG}".so /usr/lib/libhardened_malloc.so
 	/usr/bin/echo "/usr/lib/libhardened_malloc.so" > /etc/ld.so.preload
 }
 
