@@ -26,7 +26,6 @@ miniroot:
 			  --components="${COMPONENTS}" \
 			  --aptopt='Apt::Install-Recommends "true"' \
 			  --include="${PACKAGES}" \
-			  --copy-in ../packages /usr/src/ \
 			  --hook-directory="${HOOK_DIR}/miniroot" \
 			  ${FLAVOUR} ${DESTDIR}/miniroot${VERSION}.tgz
 
