@@ -14,13 +14,12 @@ Building everything:
     $ make
     # make release
 
-This will build miniroot.tgz, base.tgz (testing only) and the live iso.
+This will build miniroot.tgz, base.tgz and the live iso.
 
 Building the iso only:
 
-    $ cd live
     $ make live-config
-    # make live
+    # make iso
 
 
 Tarballs
