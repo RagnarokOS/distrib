@@ -27,9 +27,9 @@ live-config:
 		--bootappend-live "${LIVE_BOOTPARAMS}"
 
 # Equivalent to 'make install'
-release: live
+release: iso
 
-live:
+iso:
 	# We don't keep the bootloaders' configs in the repo
 	cp -r /usr/share/live/build/bootloaders config/
 	cp boot/grub.cfg config/bootloaders/grub-pc/

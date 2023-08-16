@@ -19,13 +19,14 @@ all: live-config
 live-config:
 	make -C live live-config
 
-release: miniroot base iso
+release: miniroot iso
 
 miniroot:
 	SOURCE_DATE_EPOCH=$(shell date +%s) /usr/bin/mmdebstrap --variant=${VARIANT} \
 			  --components="${COMPONENTS}" \
 			  --aptopt='Apt::Install-Recommends "true"' \
 			  --include="${PACKAGES}" \
+			  --copy-in ../packages /usr/src/ \
 			  --hook-directory="${HOOK_DIR}/miniroot" \
 			  ${FLAVOUR} ${DESTDIR}/miniroot${VERSION}.tgz
 
