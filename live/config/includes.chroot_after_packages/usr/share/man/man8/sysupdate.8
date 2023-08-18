@@ -1,4 +1,4 @@
-.Dd July 17, 2023
+.Dd August 18, 2023
 .Dt SYSUPDATE 8
 .Os Ragnarok
 .Sh NAME
@@ -17,17 +17,13 @@ When run without any options,
 will fetch the latest available updates for a base system program, then
 verify their signature with
 .Xr signify 1
-before installing with the
-.Xr dpkg 1
-command.
+before extracting then installing the updated files.
 .Pp
-All operations, minus the 
-.Xr dpkg 1
-command, are performed as an unprivileged system user with no login shell
-access.
+All operations prior to the extraction and installation of files are performed
+as an unprivileged system user with no login shell access.
 .Sh OPTIONS
 The options are as follow:
-.Bl -tag -width Ds
+.Bl -tag -width "-q"
 .It Fl d
 Download update without installing.
 .It Fl h
@@ -56,7 +52,6 @@ In particular, 1 indicates that the utility encountered and error, while 2 indic
 that no installable updates were found.
 .Sh SEE ALSO
 .Xr signify 1 ,
-.Xr dpkg 1 ,
 .Xr sysupdate.conf 5
 .Sh AUTHORS
 .Nm
