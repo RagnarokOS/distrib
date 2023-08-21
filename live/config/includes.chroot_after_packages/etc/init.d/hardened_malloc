@@ -18,8 +18,6 @@ CONFIG=$(get_val VARIANT /etc/default/hardened_malloc)
 do_build() {
 	printf '%s\n' "Building hardened_malloc..."
 
-	make -C "$DIR" -j"$(nproc)" >> /var/messages/hardened_malloc.log
-	make -C "$DIR" VARIANT=medium -j"$(nproc)" >> /var/messages/hardened_malloc.log
 	make -C "$DIR" VARIANT=light -j"$(nproc)" >> /var/messages/hardened_malloc.log
 
 	# Send the build log to user via mail.

@@ -1,0 +1,35 @@
+#!/bin/sh
+
+### BEGIN INIT INFO
+# Provides:		hardened_malloc
+# Required-Start:	$all
+# Required-Stop:	
+# Default-Start:	2 3 4 5
+# Default-Stop:		0 1 6
+# Short-Description:	enable hardenec_malloc() at boot time
+# Description:		fixes the long boot/poweroff times in the live iso.
+### END INIT INFO
+
+do_start() {
+	/usr/bin/printf '%s\n' "enabling the hardened memory allocator..."
+	/usr/bin/echo "/usr/lib/libhardened_malloc.so" > /etc/ld.so.preload
+}
+
+do_stop() {
+	/usr/bin/printf '%s\n' "disabling the hardened memory allocator..."
+	/usr/bin/echo "" > /etc/ld.so.preload
+}
+
+do_check_status() {
+	ldd /usr/bin/ls | grep "hardened" >/dev/null
+	_ret=$?
+	if [ $_ret -eq 0 ]; then
+	       exit 0
+	fi
+}
+
+case "$1" in
+	start) do_start ;;
+	stop) do_stop ;;
+	status) do_check_status ;;
+esac
