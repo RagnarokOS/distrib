@@ -56,6 +56,9 @@ alt + shift + l
 alt + shift + w
 	/usr/local/bin/chwall-dmenu
 
+# Bro.sh with -bm option
+alt + s
+	~/.local/bin/bro.sh -bm
 #
 # Misc
 #
