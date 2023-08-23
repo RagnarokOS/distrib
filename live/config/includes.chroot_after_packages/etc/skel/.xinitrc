@@ -60,6 +60,6 @@ case "$WM" in
 		exec /usr/bin/cwm
 		;;
 	dwm)	/usr/local/bin/statusbar.sh &
-		exec /usr/local/bin/dwm
+		exec /usr/bin/dwm
 esac
 
