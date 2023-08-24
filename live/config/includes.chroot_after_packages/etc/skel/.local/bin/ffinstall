@@ -44,8 +44,6 @@ upd_path() {
 	dmenu_path
 }
 
-printf '%s\n' "Installing dependencies..."
-/usr/bin/doas apt-get install --no-install-recommends libdbus-glib-1-2 libevent-2.1-7 libnss3
 mkdir -p /home/user/{.firefox,Downloads}
 printf '%s\n' "Downloading ${NAME}..."
 wget -q --show-progress -O Downloads/"${NAME}" "${URL}"
