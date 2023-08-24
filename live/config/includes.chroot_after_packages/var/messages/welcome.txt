@@ -1,7 +1,7 @@
 Welcome to the Ragnarok live system.
 
 Ragnarok version	01
-Codename		dev
+Codename		current
 Built by		Ian LeCorbeau
 Build date		@DATE@
 
