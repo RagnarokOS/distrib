@@ -30,7 +30,12 @@ create_profile() {
 
 	printf '%s\n' "Will launch firefox in 5 seconds. This will set the default profile."
 	sleep 5
-	/home/user/.local/bin/ff-release -P "${_profile}" &
+	# hardened_malloc may make the first firefox launch fail, so
+	# relaunch if that happens.
+	if ! /home/user/.local/bin/ff-release -P "${_profile}"; then
+		/home/user/.local/bin/ff-release -P "${_profile}"
+	fi
+
 }
 
 upd_path() {
@@ -39,6 +44,8 @@ upd_path() {
 	dmenu_path
 }
 
+printf '%s\n' "Installing dependencies..."
+/usr/bin/doas apt-get install --no-install-recommends libdbus-glib-1-2 libevent-2.1-7 libnss3
 mkdir -p /home/user/{.firefox,Downloads}
 printf '%s\n' "Downloading ${NAME}..."
 wget -q --show-progress -O Downloads/"${NAME}" "${URL}"
@@ -48,5 +55,5 @@ printf '%s\n' "Creating symlink..."
 mkdir -p /home/user/.local/bin
 ln -sf /home/user/.firefox/firefox /home/user/.local/bin/ff-release
 upd_path
-[[ $USERSETUP == yes ]] && create_profile
+[[ $USERSETUP == yes ]] && create_profile &
 printf '%s\n' "Done"
