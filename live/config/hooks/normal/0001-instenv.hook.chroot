@@ -59,7 +59,6 @@ permissions() {
 	chmod 755 /etc/rc.d/rc.reboot
 	chmod 755 /etc/rc.d/rc.single
 	chmod 755 /usr/bin/rcctl
-	chmod 755 /etc/skel/.local/bin/ffinstall
 	chmod 755 /etc/skel/.local/bin/bro.sh
 }
 

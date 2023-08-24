@@ -168,20 +168,5 @@ For details on bro.sh usage, simply enter the following command:
 Surf is only recommended as a web page viewer rather than as a full fledged web browser. Any browser
 available in Debian can also be installed via
 .Xr apt-get 1 .
-.Pp
-Alternatively, the latest Firefox can be installed by using the
-.Pa ffinstall
-script. This will fetch the latest Firefox tarball from Mozilla, extract it in
-.Pa ~/.firefox ,
-then set up a custom profile which uses Arkenfox's user.js and includes uBlock Origin and NoScript
-by default. When the script finishes, Firefox will open, ensuring the custom profile is set as the
-default, and uBlock/NoScript installation can be completed by clicking on their respective icon.
-.Pp
-Setting up this custom profile can be skipped at install time by running ffinstall as such:
-.Pp
-.Dl $ export USERSETUP=no && ffinstall
-.Pp
-Don't forget to click on help -> about Firefox to make sure the browser is up to date. Also take
-note that ffinstall will refuse to run if executed as root.
 .Sh SEE ALSO
 .Xr sysupdate 8
