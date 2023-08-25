@@ -2,7 +2,7 @@
 
 # sysupdate: update Ragnarok base system.
 #
-# $Id: sysupdate,v 1.2 2023/08/18 18:12:56 lecorbeau Exp $
+# $Id: sysupdate,v 1.3 2023/08/18 18:46:45 lecorbeau Exp $
 #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 #											#
@@ -78,9 +78,15 @@ unpriv() {
 
 # Get the patches file and sig
 get_file() {
+	local _ret
+
 	printf '%s\n' "Fetching sysupdate list..."
 	cd "${TMP}" || cd
-	unpriv -f "${TMP}/sysupdate.list" "wget -q --show-progress -O sysupdate.list ${URL}/sysupdate.list"
+	unpriv -f "${TMP}/sysupdate.list" "wget -q --show-progress -O sysupdate.list ${URL}/sysupdate.list" || _ret=$?
+	if ((_ret != 0)); then
+		printf '%s\n' "No Updates Available"
+		exit 2
+	fi
 	unpriv -f "${TMP}/sysupdate.list.sig" "wget -q --show-progress -O sysupdate.list.sig ${URL}/sysupdate.list.sig"
 }
 
@@ -127,16 +133,16 @@ check_update() {
 # Don't overcomplicate things. Any directory in rollback is a backup
 # so just archive them.
 create_backup() {
-	local _bdir _dir=$1 _rc=0
+	local _bdir _dir=$1 _ret=0
 
 	_bdir="/var/db/updates"
 
 	cd "$_bdir" && \
-		handle_tar -c "${_dir}.old.tgz" "${_dir}" || rc=$? && \
+		handle_tar -c "${_dir}.old.tgz" "${_dir}" || _ret=$? && \
 		rm -r "${_dir}"
 	cd ..
 
-	if ((_rc != 0)); then
+	if ((_ret != 0)); then
 		printf '%s\n' "Failed to create rollback for ${_dir}."
 	fi
 }
