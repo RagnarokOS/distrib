@@ -74,6 +74,8 @@ case "$1" in
 		;;
 	!g)	surf_cmd "https://google.com/search?1=$(echo "$@" | tr " " "+")"
 		;;
+	-h)	usage
+		;;
 	-bm)	bm
 		;;
 	*)	surf_cmd "$@"
