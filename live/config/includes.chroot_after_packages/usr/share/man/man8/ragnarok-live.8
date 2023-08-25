@@ -127,18 +127,24 @@ internet connection is established.
 .Ss hardened malloc
 .Pp
 Ragnarok uses GrapheneOS' hardened memory allocator for extra security and provides
-three different variants: strong, medium (Ragnarok's default) and light, each providing
-different levels of protection. By its nature, hardened-malloc may cause performance
-loss under certain conditions. The medium variant was specifically designed by the
-Ragnarok project to offer a midle-ground between the strong and light variants provided
-by upstream, to offer slightly more protection than the light variant, with less cpu
-usage than the strong variant on older (pre-2010) hardware. On newer hardware, you
-may wish to enable the strong variant, while on older hardware, you might need to enable
-the light variant if the performance drop is too significant.
+three different variants: strong, medium and light, each providing different levels of
+protection. By its nature, hardened-malloc may cause performance loss under certain conditions,
+which is why it is compiled at boot time using the -march=native flag, which helps reducing
+its impact.
 .Pp
-Switching variant is as simple as changing its symlink:
+The live system uses the light variant by default, but can be switched easily by first changing
+the variant in
+.Pa /etc/default/hardened_malloc
+and then running
 .Pp
-.Dl # ln -sf /usr/lib/hardened_malloc/libhardened_malloc-<variant>.so /usr/lib/libhardened_malloc.so
+.Dl # rcctl stop hardened_malloc
+.Dl # rcctl start hardened_malloc
+.Pp
+Note that compiling hardened_malloc at boot time only concerns the live system. On installed
+systems, it would be compiled at system install time, and whenever an update is available.
+.Pp
+hardened_malloc's source code is available on the system at
+.Pa /usr/lib/hardened_malloc .
 .Ss Firewall
 .Pp
 The base system comes with nftables installed and enabled by default, using a sane configuration
