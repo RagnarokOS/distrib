@@ -10,9 +10,6 @@ build_src() {
 	make -C bin
 	make -C lib install
 	make -C bin install
-
-	# Cleanup.
-	rm -r "${TOPDIR}"
 }
 
 # Build dwm, rt and dmenu from one Makefile
@@ -30,3 +27,6 @@ build_wmu() {
 build_src
 build_x11
 build_wmu
+
+# Cleanup
+rm -r /usr/src/ragnarok
