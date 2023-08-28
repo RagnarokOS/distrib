@@ -25,6 +25,7 @@ live-config:
 		--iso-volume ${NAME} --archive-areas "${COMPONENTS}" \
 		--debootstrap-options "--variant=${VARIANT}" \
 		--bootappend-live "${LIVE_BOOTPARAMS}"
+	cp -r ../../src config/includes.chroot_after_packages/usr/src/ragnarok/
 
 # Equivalent to 'make install'
 release: iso
