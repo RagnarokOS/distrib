@@ -30,3 +30,6 @@ build_wmu
 
 # Cleanup
 rm -r /usr/src/ragnarok
+
+# Update manual pages
+/usr/sbin/makewhatis /usr/share/man

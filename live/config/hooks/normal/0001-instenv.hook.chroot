@@ -45,11 +45,6 @@ set_frontend() {
 	echo 'debconf debconf/frontend select Readline' | debconf-set-selections
 }
 
-# update man pages
-upd_man() {
-	makewhatis /usr/share/man
-}
-
 permissions() {
 	chmod 755 /usr/local/bin/*
 	chmod 755 /etc/init.d/hardened_malloc
@@ -79,7 +74,6 @@ main() {
 	set_sysupdate
 	inst_pkgs
 	set_frontend
-	upd_man
 	mail_aliases
 	permissions
 	hardened_malloc_init
