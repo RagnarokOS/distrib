@@ -39,23 +39,6 @@ bm() {
 		< "$HOME"/.surf/bookmarks.txt | dmenu -p open: -l 15 | cut -f2 -d ' ')"
 }
 
-wsearch() {
-	local _engine=$1 _search=$2 _url
-
-	case "${_engine}" in
-		!b)	_url="https://search.brave.com/search?q=${_search}&source=web"
-			;;
-		!ddg)	_url="https://duckduckgo.com/?q=${_search}"
-			;;
-		!g)	_url="https://www.google.com/search?q=${_search}"
-			;;
-		*)	_url="https://search.brave.com/search?q=${_search}&source=web"
-			;;
-	esac
-
-	surf_cmd "${_url}"
-}
-
 surf_cmd() {
 	local _urls
 
