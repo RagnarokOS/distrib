@@ -30,3 +30,5 @@ vim
 mandoc
 bsdextrautils
 rcs
+bison
+libpam0g-dev
