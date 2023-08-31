@@ -2,6 +2,25 @@
 
 set -e
 
+VERSION="15"
+
+# Install the packages, without recommends. There's more to install,
+# but it's not needed yet.
+apt-get install --no-install-recommends -y llvm-"${VERSION}" \
+	clang-"${VERSION}" lld-"${VERSION}"
+
+# Set alternatives. This *has* to be done in order to ensure that
+# it works as expected.
+update-alternatives --install /usr/bin/cc cc /usr/bin/clang-"${VERSION}" 100
+update-alternatives --install /usr/bin/ld ld /usr/bin/ld.lld-"${VERSION}" 100
+update-alternatives --install /usr/bin/ar ar /usr/bin/llvm-ar-"${VERSION}" 100
+update-alternatives --install /usr/bin/ranlib ranlib /usr/bin/llvm-ranlib-"${VERSION}" 100
+
+# The rest should only be symlinked.
+ln -sf /usr/bin/llvm-ar-"${VERSION}" /usr/bin/llvm-ar
+ln -sf /usr/bin/llvm-ranlib-"${VERSION}" /usr/bin/llvm-ranlib
+ln -sf /usr/bin/clang-"${VERSION}" /usr/bin/clang
+
 # Build from source
 build_src() {
 	export TOPDIR=/usr/src/ragnarok/src
