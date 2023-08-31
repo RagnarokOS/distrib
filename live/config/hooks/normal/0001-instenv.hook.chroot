@@ -55,6 +55,7 @@ permissions() {
 	chmod 755 /etc/rc.d/rc.single
 	chmod 755 /usr/bin/rcctl
 	chmod 755 /etc/skel/.local/bin/bro.sh
+	chmod 755 /usr/bin/hostsupdate
 }
 
 # Alias root to user for mail delivery

@@ -1,0 +1,19 @@
+#!/bin/ksh
+
+if [ "$(id -u)" = 0 ]; then
+	printf '%s\n' "Do not run this script as root."
+	exit 1
+fi
+
+wget -q --show-progress -O hosts https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts
+sed -i -e 's|localhost\.localdomain|ragnarok|g' hosts
+if [ -z "$(diff -u /etc/hosts hosts)" ]; then
+	printf '%s\n' "/etc/hosts is up-to-date."
+	exit 0
+else
+	/usr/bin/doas mv hosts /etc/
+	_date=$(sed -n 's/.*Date: //p' /etc/hosts)
+	printf '%s\n' "Hosts file updated to $_date version."
+	exit 0
+fi
+
