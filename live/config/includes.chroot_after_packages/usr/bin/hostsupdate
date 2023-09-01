@@ -11,9 +11,11 @@ if [ -z "$(diff -u /etc/hosts hosts)" ]; then
 	printf '%s\n' "/etc/hosts is up-to-date."
 	exit 0
 else
-	/usr/bin/doas mv hosts /etc/
+	printf '%s\n' "Enter password to update the hosts file."
+	/usr/bin/doas tee /etc/hosts <hosts >/dev/null
 	_date=$(sed -n 's/.*Date: //p' /etc/hosts)
 	printf '%s\n' "Hosts file updated to $_date version."
+	rm hosts
 	exit 0
 fi
 
