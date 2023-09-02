@@ -1,4 +1,5 @@
 VARIANT := strong
+CC	= clang
 
 ifneq ($(VARIANT),)
     CONFIG_FILE := config/$(VARIANT).mk
