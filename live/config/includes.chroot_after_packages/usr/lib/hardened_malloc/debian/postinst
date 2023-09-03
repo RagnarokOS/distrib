@@ -1,3 +1,0 @@
-#!/bin/sh
-
-ln -sf /usr/lib/hardened_malloc/libhardened_malloc-light.so /usr/lib/libhardened_malloc.so
