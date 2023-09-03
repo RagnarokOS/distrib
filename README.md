@@ -8,6 +8,7 @@ Extra Info
 
 Building the iso (gist):
 
+    # apt install --no-install-recommends -y live-build
     $ mkdir -p .local/build
     $ cd .local/build
     $ git clone https://github.com/RagnarokOS/iso.git
