@@ -3,31 +3,21 @@ iso
 
 Release building infrastructure
 
-It may be worthwhile to read the development notes for 2023-05-22 here:
-https://ragnarokos.github.io/logs/devnotes-may-2023.html
-
 Extra Info
 ==========
 
-Building everything:
+Building the iso (gist):
 
-    $ make
-    # make release
-
-This will build miniroot.tgz, base.tgz and the live iso.
-
-Building the iso only:
-
+    $ mkdir -p .local/build
+    $ cd .local/build
+    $ git clone https://github.com/RagnarokOS/iso.git
+    $ git clone https://github.com/RagnarokOS/src.git
+    $ cd iso
     $ make live-config
     # make iso
 
-
-Tarballs
---------
-
-* miniroot.tgz: a minimal chroot suitable for development.  
-
-* base.tgz: Ragnarok's base rootfs, minus x11/kernel/bootloader. *This is not ready yet*.
+Note: answer 'Y' when asked to overwrite the motd file. This annoyance will
+be fixed in due time.
 
 Deprecated tools
 ----------------
