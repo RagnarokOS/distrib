@@ -2,8 +2,6 @@ base-passwd
 adduser
 build-essential
 git
-signify-openbsd
-doas
 policy-rcd-declarative-deny-all
 libncurses-dev
 libbsd-dev
@@ -27,7 +25,6 @@ kbd
 console-data
 tmux
 vim
-mandoc
 bsdextrautils
 rcs
 bison
