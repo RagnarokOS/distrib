@@ -30,6 +30,7 @@ build_src() {
 	make -C usr/bin
 	make -C lib install
 	make -C bin install
+	make -C usr/share install
 	make -C usr/lib install
 	make -C usr/bin install
 }
