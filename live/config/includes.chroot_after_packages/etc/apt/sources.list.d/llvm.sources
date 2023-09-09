@@ -1,0 +1,5 @@
+Types: deb deb-src
+URIs: http://apt.llvm.org/bookworm/
+Suites: llvm-toolchain-bookworm-16
+Components: main
+Signed-by: /etc/apt/trusted.gpg.d/apt.llvm.org.asc
