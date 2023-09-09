@@ -49,7 +49,7 @@ update-alternatives --install /usr/bin/clang clang /usr/bin/clang-"${VERSION}" 1
 	--slave /usr/bin/lld-link lld-link /usr/bin/lld-link-"${VERSION}" \
 	--slave /usr/bin/clang-format clang-format /usr/bin/clang-format-"${VERSION}" \
 	--slave /usr/bin/clang-format-diff clang-format-diff /usr/bin/clang-format-diff-"${VERSION}" \
-	--slave /usr/bin/clang-include-fixer /usr/bin/clang-include-fixer /usr/bin/clang-include-fixer-"${VERSION}" \
+	--slave /usr/bin/clang-include-fixer clang-include-fixer /usr/bin/clang-include-fixer-"${VERSION}" \
 	--slave /usr/bin/clang-offload-bundler clang-offload-bundler /usr/bin/clang-offload-bundler-"${VERSION}" \
         --slave /usr/bin/clang-query clang-query /usr/bin/clang-query-"${VERSION}" \
         --slave /usr/bin/clang-rename clang-rename /usr/bin/clang-rename-"${VERSION}" \
