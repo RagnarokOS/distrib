@@ -22,10 +22,7 @@ set_rootpass() {
 
 # Set up sysupdate properly
 set_sysupdate() {
-	chmod 755 /usr/bin/sysupdate
-	chmod 644 /etc/sysupdate.conf
 	useradd --system --no-create-home --home /nonexistent --shell=/usr/sbin/nologin _sysupdate
-	chown _sysupdate:_sysupdate /var/db/updates
 	chown _sysupdate:_sysupdate /var/db/updates/sysupdate.list
 }
 
