@@ -46,6 +46,9 @@ iso:
 		-e "s#@CODENAME@#${CODENAME}#g" \
 		-e "s#@LINUX_VERSION@#$(shell uname -r)#g" \
 		config/bootloaders/syslinux_common/splash.svg
+	# Set kernel version in the bootloaders' config files
+	sed -i -e "s#@KERNEL@#${KERNEL}#g" config/bootloaders/isolinux/isolinux.cfg
+	sed -i -e "s#@KERNEL@#${KERNEL}#g" config/bootloaders/grub-pc/grug.cfg
 	# Set date in /var/message/welcome.txt
 	sed -i	-e "s|@DATE@|$(shell date)|g" \
 		config/includes.chroot_after_packages/var/messages/welcome.txt
