@@ -9,3 +9,4 @@ LIVE_BOOTPARAMS	= live-config.hooks=filesystem live-config.locales=en_CA.UTF-8 \
 		  init_on_alloc=1 init_on_free=1 page_alloc.shuffle=1 pti=on \
 		  randomize_kstack_offset=on vsyscall=none debugfs=off \
 		  lockdown=confidentiality
+KERNEL		= 6.1.52

@@ -26,6 +26,7 @@ live-config:
 		--debootstrap-options "--variant=${VARIANT}" \
 		--bootappend-live "${LIVE_BOOTPARAMS}"
 	cp -r ../../src config/includes.chroot_after_packages/usr/src/ragnarok/
+	cp ../../linux-image-${KERNEL}-ragnarok_${KERNEL}-ragnarok-1_amd64.deb config/packages.chroot/
 
 # Equivalent to 'make install'
 release: iso
