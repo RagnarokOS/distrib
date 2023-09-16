@@ -48,7 +48,7 @@ iso:
 		config/bootloaders/syslinux_common/splash.svg
 	# Set kernel version in the bootloaders' config files
 	sed -i -e "s#@KERNEL@#${KERNEL}#g" config/bootloaders/isolinux/isolinux.cfg
-	sed -i -e "s#@KERNEL@#${KERNEL}#g" config/bootloaders/grub-pc/grug.cfg
+	sed -i -e "s#@KERNEL@#${KERNEL}#g" config/bootloaders/grub-pc/grub.cfg
 	# Set kernel version in 9050-update_initramfs.hook.chroot
 	sed -i -e "s#@KERNEL@#${KERNEL}#g" config/hooks/normal/9050-update_initramfs.hook.chroot
 	# Set date in /var/message/welcome.txt
