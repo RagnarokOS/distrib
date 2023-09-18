@@ -10,3 +10,4 @@ LIVE_BOOTPARAMS	= live-config.hooks=filesystem live-config.locales=en_CA.UTF-8 \
 		  randomize_kstack_offset=on vsyscall=none debugfs=off \
 		  lockdown=confidentiality
 KERNEL		= 6.1.52
+DEBKERNEL	= 6.1.0-12

@@ -49,8 +49,8 @@ iso:
 	# Set kernel version in the bootloaders' config files
 	sed -i -e "s#@KERNEL@#${KERNEL}#g" config/bootloaders/isolinux/isolinux.cfg
 	sed -i -e "s#@KERNEL@#${KERNEL}#g" config/bootloaders/grub-pc/grub.cfg
-	# Set kernel version in 9050-update_initramfs.hook.chroot
-	sed -i -e "s#@KERNEL@#${KERNEL}#g" config/hooks/normal/9050-update_initramfs.hook.chroot
+	sed -i -e "s#@DEBKERNEL@#${DEBKERNEL}#g" config/bootloaders/isolinux/isolinux.cfg
+	sed -i -e "s#@DEBKERNEL@#${DEBKERNEL}#g" config/bootloaders/grub-pc/grub.cfg
 	# Set date in /var/message/welcome.txt
 	sed -i	-e "s|@DATE@|$(shell date)|g" \
 		config/includes.chroot_after_packages/var/messages/welcome.txt
