@@ -2,4 +2,4 @@
 
 set -e
 
-update-initramfs -c -k @KERNEL@-ragnarok
+update-initramfs -c -k all
