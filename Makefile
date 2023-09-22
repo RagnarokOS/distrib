@@ -1,4 +1,6 @@
 # Makefile for creating Ragnarok iso/releases/miniroot/sets.
+# $Id: Makefile,v 1.1 2023/09/22 16:44:13 lecorbeau Exp $
+#
 # Work in progress
 
 # Usage:
