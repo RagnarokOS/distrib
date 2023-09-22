@@ -1,3 +1,4 @@
-# Source for Ragnarok's custom build of suckless tools
+# /usr/src/ragnarok
 
-This is here temporarily until they're all properly packaged.
+The source for programs compiled by Ragnarok gets dumped here at ISO-build time,
+then it gets removed when the build is done.

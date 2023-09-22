@@ -82,19 +82,12 @@ build_src() {
 
 # Build dwm, rt and dmenu from one Makefile
 build_x11() {
-	cd /usr/src/ragnarok || exit
-	make && make clean install && make clean
-}
-
-# build wmutils
-build_wmu() {
-	cd /usr/src/ragnarok/core || exit
+	cd /usr/src/ragnarok/x11 || exit
 	make && make install && make clean
 }
 
 build_src
 build_x11
-build_wmu
 
 # Cleanup
 rm -r /usr/src/ragnarok
