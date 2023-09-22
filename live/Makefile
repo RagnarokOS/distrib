@@ -1,12 +1,13 @@
 # Makefile for creating Ragnarok iso/releases/miniroot/sets.
+# $Id: Makefile,v 1.1 2023/09/22 16:51:02 lecorbeau Exp $
+#
 # Work in progress
 
 # Usage:
-# 'make' will create a live configuration.
+# 'make live-config' will create a live configuration.
 # This should never be run as root.
 #
-# 'make release' will create both ISOs. This is equivlanet to running
-# 'make install', so it must be run as root.
+# 'make iso' will build the iso.
 
 include ../config.mk live.mk
 

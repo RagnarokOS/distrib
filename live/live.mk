@@ -1,3 +1,5 @@
+# $Id: live.mk,v 1.1 2023/09/22 16:51:22 lecorbeau Exp $
+
 # iso-specific config file
 
 PUBLISHER	= Ian LeCorbeau
