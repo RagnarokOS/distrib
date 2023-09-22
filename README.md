@@ -13,6 +13,7 @@ Building the iso (gist):
     $ cd .local/build
     $ git clone https://github.com/RagnarokOS/iso.git
     $ git clone https://github.com/RagnarokOS/src.git
+    $ git clone https://github.com/RagnarokOS/x11.git
     $ cd iso
     $ make live-config
     # make iso
