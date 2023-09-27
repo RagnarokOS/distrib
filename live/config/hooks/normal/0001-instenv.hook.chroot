@@ -1,5 +1,7 @@
 #!/bin/sh
 
+# $Ragnarok: 0001-instenv.hook.chroot,v 1.1 2023/09/27 17:02:15 lecorbeau Exp $
+
 set -e
 
 setup_wheel() {
@@ -24,6 +26,15 @@ set_rootpass() {
 set_sysupdate() {
 	useradd --system --no-create-home --home /nonexistent --shell=/usr/sbin/nologin _sysupdate
 	chown _sysupdate:_sysupdate /var/db/updates/sysupdate.list
+}
+
+# Install the dummy base-files package. First, some stuff need to be
+# removed to avoid messing up the system.
+handle_basefiles() {
+	for _file in base-files.conffiles base-files.list base-files.md5sums base-files.postinst; do
+		rm /var/lib/dpkg/info/"$_file"
+	done
+	dpkg -i /usr/src/base-files_99+ragnarok01_amd64.deb
 }
 
 # Installing cwm and vifm here to avoid its recommended packages
@@ -65,6 +76,7 @@ main() {
 	set_shell
 	set_rootpass
 	set_sysupdate
+	handle_basefiles
 	inst_pkgs
 	set_frontend
 	mail_aliases

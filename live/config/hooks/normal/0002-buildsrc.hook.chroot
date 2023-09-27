@@ -1,5 +1,7 @@
 #!/bin/sh
 
+# $Ragnarok: 0002-buildsrc.hook.chroot,v 1.1 2023/09/27 17:03:12 lecorbeau Exp $
+
 set -e
 
 VERSION="16"
