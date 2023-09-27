@@ -1,0 +1,5 @@
+#!/bin/sh
+
+set -e
+
+update-initramfs -c -k all
