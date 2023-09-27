@@ -1,5 +1,5 @@
 # Makefile for creating Ragnarok iso/releases/miniroot/sets.
-# $Id: Makefile,v 1.1 2023/09/22 16:51:02 lecorbeau Exp $
+# $Ragnarok: Makefile,v 1.2 2023/09/27 15:27:20 lecorbeau Exp $
 #
 # Work in progress
 
@@ -27,7 +27,7 @@ live-config:
 		--debootstrap-options "--variant=${VARIANT}" \
 		--bootappend-live "${LIVE_BOOTPARAMS}"
 	cp -r ../../{src,x11} config/includes.chroot_after_packages/usr/src/ragnarok/
-	cp ../../linux-image-${KERNEL}-ragnarok_${KERNEL}-ragnarok-1_amd64.deb config/packages.chroot/
+	#cp ../../linux-image-${KERNEL}-ragnarok_${KERNEL}-ragnarok-1_amd64.deb config/packages.chroot/
 
 # Equivalent to 'make install'
 release: iso
