@@ -1,0 +1,10 @@
+PRETTY_NAME="Ragnarok 01 (-current)"
+NAME="Ragnarok"
+VERSION_ID="01"
+VERSION="01 (-current)"
+VERSION_CODENAME=-current
+ID=ragnarok
+ID_LIKE=debian
+HOME_URL="https://RagnarokOS.github.io/"
+SUPPORT_URL="https://RagnarokOS.github.io/contact.html"
+BUG_REPORT_URL="https://github.com/RagnarokOS/src/issues"
