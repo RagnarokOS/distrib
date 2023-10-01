@@ -19,9 +19,6 @@ Building the iso (gist):
     $ make live-config
     # make iso
 
-Note: answer 'Y' when asked to overwrite the motd file. This annoyance will
-be fixed in due time.
-
 Deprecated tools
 ----------------
 
