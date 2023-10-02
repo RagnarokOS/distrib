@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# $Ragnarok: 0001-instenv.hook.chroot,v 1.3 2023/09/30 17:29:02 lecorbeau Exp $
+# $Ragnarok: 0001-instenv.hook.chroot,v 1.4 2023/10/02 15:39:32 lecorbeau Exp $
 
 set -e
 
@@ -35,7 +35,8 @@ handle_basefiles() {
 		rm /var/lib/dpkg/info/"$_file"
 	done
 	dpkg -i /usr/src/ragnarok/base-files_99+ragnarok01_amd64.deb
-	rm /usr/src/ragnarok/base-files_99+ragnarok01_amd64.deb
+	dpkg -i /usr/src/ragnarok/ed_99+ragnarok01_amd64.deb
+	dpkg -i /usr/src/ragnarok/man-db_99+ragnarok01_amd64.deb
 }
 
 # Installing cwm and vifm here to avoid its recommended packages
