@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# $Ragnarok: 0002-buildsrc.hook.chroot,v 1.1 2023/09/27 17:03:12 lecorbeau Exp $
+# $Ragnarok: 0002-buildsrc.hook.chroot,v 1.2 2023/10/03 18:50:35 lecorbeau Exp $
 
 set -e
 
@@ -84,7 +84,8 @@ build_src() {
 
 # Build dwm, rt and dmenu from one Makefile
 build_x11() {
-	cd /usr/src/ragnarok/x11 || exit
+	export TOPDIR=/usr/src/ragnarok/x11
+	cd /usr/src/ragnarok/x11/progs || exit
 	make && make install && make clean
 }
 
