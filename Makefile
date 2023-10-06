@@ -1,14 +1,7 @@
 # Makefile for creating Ragnarok iso/releases/miniroot/sets.
-# $Id: Makefile,v 1.1 2023/09/22 16:44:13 lecorbeau Exp $
+# $Ragnarok: Makefile,v 1.2 2023/10/06 23:17:14 lecorbeau Exp $
 #
 # Work in progress
-
-# Usage:
-# 'make' will create a live configuration + the boot.tgz and x11.tgz sets.
-# This should never be run as root.
-#
-# 'make release' will create miniroot.tgz, base.tgz and the ISOs. This is
-# equivalent to 'Make install', so it must be run as root.
 
 include config.mk
 
@@ -24,12 +17,13 @@ live-config:
 release: miniroot iso
 
 miniroot:
-	SOURCE_DATE_EPOCH=$(shell date +%s) /usr/bin/mmdebstrap --variant=${VARIANT} \
-			  --components="${COMPONENTS}" \
-			  --aptopt='Apt::Install-Recommends "true"' \
-			  --include="${PACKAGES}" \
-			  --hook-directory="${HOOK_DIR}/miniroot" \
-			  ${FLAVOUR} ${DESTDIR}/miniroot${VERSION}.tgz
+	/usr/sbin/debootstrap --variant=${VARIANT} \
+		# We're using a local apt repo and the packages' sig was
+		# already checked, so no need to re-check again.
+		--no-check-gpg \
+		--include="${PACKAGES}" \
+		${FLAVOUR} ${DESTDIR}/miniroot${VERSION} \
+		file:///usr/src/repo
 
 base:
 	SOURCE_DATE_EPOCH=$(shell date +%s) /usr/bin/mmdebstrap --variant=${VARIANT} \
