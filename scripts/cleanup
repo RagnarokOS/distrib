@@ -1,0 +1,19 @@
+#!/bin/ksh
+
+# $Ragnarok: cleanup,v 1.1 2023/10/06 17:37:35 lecorbeau Exp $
+#
+# Clean up the chroot before running tar.
+
+set -e
+
+_TARGET=$1
+
+chroot "$_TARGET" apt clean
+#rm "$_TARGET"/proc/*
+rm -rf "${_TARGET}/var/lib/apt/lists/*"
+rm -rf "${_TARGET}/var/log/apt/{eipp.log.xz,history.log,term.log}"
+rm -rf "${_TARGET}/var/log/{alternatives.log,dpkg.log}"
+rm -rf "${_TARGET}/var/lib/dbus/machine-id}"
+# Will /etc/machine-id actually exist already? Let's find out!
+rm -rf "${_TARGET}/etc/{hostname,machine-id,resolv.conf}"
+rm -rf "${_TARGET}/tmp/*"
