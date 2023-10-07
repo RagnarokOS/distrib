@@ -1,5 +1,5 @@
 # General config file for releases - Work In Progress
-# $Ragnarok: config.mk,v 1.1 2023/10/06 17:47:14 lecorbeau Exp $
+# $Ragnarok: config.mk,v 1.2 2023/10/07 17:14:11 lecorbeau Exp $
 
 DISTRO		= ragnarok
 PRETTY_NAME	= Ragnarok
@@ -14,7 +14,7 @@ SIGN_WITH	= signify
 SEC_KEY		= 
 
 # Packages included in everything.
-PACKAGES	= base-passwd adduser policy-rcd-declarative-deny-all libncurses-dev
+PACKAGES	= base-passwd adduser policy-rcd-declarative-deny-all libbsd0 libncurses-dev
 
 # Packages included in the release tarball for base, provided they don't require
 # special considerations. Otherwise, install them in hooks/release.
