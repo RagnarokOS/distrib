@@ -1,5 +1,5 @@
 # Makefile for creating Ragnarok iso/releases/miniroot/sets.
-# $Ragnarok: Makefile,v 1.2 2023/10/06 23:17:14 lecorbeau Exp $
+# $Ragnarok: Makefile,v 1.3 2023/10/07 18:58:41 lecorbeau Exp $
 #
 # Work in progress
 
@@ -16,14 +16,14 @@ live-config:
 
 release: miniroot iso
 
+# We're using a local apt repo and the packages' sig was
+# already checked, so no need to re-check again.
 miniroot:
 	/usr/sbin/debootstrap --variant=${VARIANT} \
-		# We're using a local apt repo and the packages' sig was
-		# already checked, so no need to re-check again.
 		--no-check-gpg \
 		--include="${PACKAGES}" \
 		${FLAVOUR} ${DESTDIR}/miniroot${VERSION} \
-		file:///usr/src/repo
+		file:///usr/src/ragnarok/repo
 
 base:
 	SOURCE_DATE_EPOCH=$(shell date +%s) /usr/bin/mmdebstrap --variant=${VARIANT} \
