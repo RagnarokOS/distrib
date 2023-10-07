@@ -1,6 +1,6 @@
 #!/bin/ksh
 
-# $Ragnarok: mkrepo,v 1.1 2023/10/06 17:37:18 lecorbeau Exp $
+# $Ragnarok: mkrepo,v 1.2 2023/10/07 16:48:52 lecorbeau Exp $
 #
 # Use reprepro to create a local apt repository containing all the minbase
 # packages needed for debootstrap. This not only saves lots of time when
@@ -13,11 +13,11 @@ CODENAME="bookworm"
 
 # Download the packages
 get_pkgs() {
-	mkdir -p pkgs
-	cp dummies/* pkgs
-	cd pkgs || exit
+	mkdir -p ../pkgs
+	cp dummies/* ../pkgs
+	cd ../pkgs || exit
 	apt-get update
-	xargs apt-get downloads <../pkgs.list
+	xargs apt-get download <../iso/pkgs.list
 }
 
 # Create the repository
@@ -26,14 +26,17 @@ create_repo() {
 
 	_repo="/usr/src/ragnarok/repo"
 	mkdir -p "${_repo}/conf"
-	touch /usr/src/"$_repo"/conf/distributions
+	touch "${_repo}/conf/distributions"
 	printf '%s\n' "Label: local apt repo
 Codename: $CODENAME
 Architectures: amd64
 Components: main
-Description: Build-time repo for Ragnarok sets" > /usr/src/"$_repo"/conf/distributions
+Description: Build-time repo for Ragnarok sets" > "${_repo}/conf/distributions"
 
 	for _deb in /usr/src/ragnarok/pkgs/*.deb; do
-		reprepro -Vb /usr/src/"$_repo" includedeb "$CODENAME" "$_deb"
+		reprepro -Vb "$_repo" includedeb "$CODENAME" "$_deb"
 	done
 }
+
+get_pkgs
+create_repo
