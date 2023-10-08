@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# $Ragnarok: customize01.sh,v 1.3 2023/10/08 18:41:40 lecorbeau Exp $
+# $Ragnarok: customize01.sh,v 1.4 2023/10/08 19:05:01 lecorbeau Exp $
 
 set -e
 
@@ -8,6 +8,7 @@ set -e
 chroot "$1" useradd --system --no-create-home --home /nonexistent --shell=/usr/sbin/nologin _sysupdate
 
 # Build src
+make -C ../src
 make -C ../src DESTDIR="$1" miniroot
 
 # Copy then install dummy packages
