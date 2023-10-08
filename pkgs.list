@@ -1,5 +1,6 @@
 adduser
 apt
+base-files=12.4+deb12u2
 base-passwd
 bash
 bsdutils
