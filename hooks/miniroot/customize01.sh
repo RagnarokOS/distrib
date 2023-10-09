@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# $Ragnarok: customize01.sh,v 1.6 2023/10/09 17:54:37 lecorbeau Exp $
+# $Ragnarok: customize01.sh,v 1.7 2023/10/09 18:03:22 lecorbeau Exp $
 
 set -e
 
@@ -48,8 +48,6 @@ rm "$1"/var/log/dpkg.log
 rm "$1"/etc/hostname
 rm "$1"/etc/resolv.conf
 rm "$1"/tmp/*
-rm "$1"/etc/resolv.conf
-rm "$1"/etc/hostname
 for _file in /etc/machine-id /var/lib/dbus/machine-id; do
 	if [ -f "${1}/${_file}" ]; then
 		rm "${1}/${_file}"
