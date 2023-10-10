@@ -16,7 +16,7 @@ Building ISO and/or miniroot
 Download the latest version of [Ragnarok's Linux kernel](https://github.com/RagnarokOS/kernel-build/releases)
 into /usr/src/ragnarok.
 
-* Building the iso:
+Building the iso:
 
     # apt-get install --no-install-recommends -y live-build
     $ cd iso
@@ -25,7 +25,7 @@ into /usr/src/ragnarok.
 
 The resulting live image will be saved in iso/live.
 
-* Building miniroot.tgz:
+Building miniroot.tgz:
 
     # apt-get install --no-install-recommends mmdebstrap
     $ cd iso
