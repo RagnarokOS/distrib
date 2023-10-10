@@ -28,3 +28,6 @@ vim
 bsdextrautils
 libpam0g-dev
 m4
+flex
+libssl-dev
+liblockfile-dev

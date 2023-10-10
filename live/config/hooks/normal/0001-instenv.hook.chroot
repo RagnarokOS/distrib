@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# $Ragnarok: 0001-instenv.hook.chroot,v 1.4 2023/10/02 15:39:32 lecorbeau Exp $
+# $Ragnarok: 0001-instenv.hook.chroot,v 1.5 2023/10/10 18:37:05 lecorbeau Exp $
 
 set -e
 
@@ -39,11 +39,11 @@ handle_basefiles() {
 	dpkg -i /usr/src/ragnarok/man-db_99+ragnarok01_amd64.deb
 }
 
-# Installing cwm and vifm here to avoid its recommended packages
+# Installing some packages here to avoid their recommends
 # without disabling apt recommends globally.
 inst_pkgs() {
 	apt-get update && apt-get upgrade -y
-	apt-get install --no-install-recommends cwm vifm surf -y
+	apt-get install --no-install-recommends cwm vifm surf groff -y
 }
 
 # Set the default frontend to readline
