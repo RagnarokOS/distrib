@@ -6,7 +6,7 @@ Release building infrastructure
 Building ISO and/or miniroot
 ==========
 
-* Set up env:
+Set up env:
 
     # mkdir -p /usr/src/ragnarok
     # chown <username> /usr/src/ragnarok
