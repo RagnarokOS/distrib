@@ -32,4 +32,4 @@ Building miniroot.tgz:
     # export TOPDIR=/usr/src/ragnarok/src
     # make miniroot
 
-The resulting tarball will be saved in /usr/src/ragnarok.
+The resulting tarball will be saved in the current working directory (/usr/src/ragnarok/iso).
