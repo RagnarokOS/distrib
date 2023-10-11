@@ -1,3 +1,5 @@
 base-files
+bsd-mailx
+dma
 ed
 man-db
