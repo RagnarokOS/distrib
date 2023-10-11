@@ -1,0 +1,31 @@
+#!/bin/ksh
+
+TEMPLATE="template.equivs"
+
+create_all() {
+	local _pkgs
+
+	# shellcheck disable=SC2046 # We need word splitting brah.
+	set -A _pkgs -- $(while IFS= read -r line; do printf '%s\n' "$line"; done < dummies.list)
+
+	for _pkg in "${_pkgs[@]}"; do
+		cp "$TEMPLATE" "${_pkg}.equivs"
+		sed -i -e "s|@NAME@|$_pkg|g" "${_pkg}.equivs"
+		equivs-build "${_pkg}.equivs"
+	done
+}
+
+create_one() {
+	local _pkg=$1
+
+	cp "$TEMPLATE" "${_pkg}.equivs"
+	sed -i -e "s|@NAME@|$_pkg|g" "${_pkg}.equivs"
+	equivs-build "${_pkg}.equivs"
+}
+
+case "$1" in
+	-p)	create_one "$2"
+		;;
+	*)	create_all
+		;;
+esac

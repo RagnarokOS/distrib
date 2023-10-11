@@ -1,0 +1,8 @@
+Package: @NAME@
+Version: 999+ragnarok01
+Maintainer: Ian LeCorbeau <I-LeCorbeau (at) protonmail (dot) com>
+Architecture: amd64
+Description: dummy package for @NAME@
+ Dummy package to either let apt know the program is installed,
+ or to trick it into thinking it's installed (more commonly the
+ former).
