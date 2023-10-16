@@ -1,7 +1,7 @@
 #!/bin/sh
 
-# Install LLVM/Clang toolchain
-# $Ragnarok: customize02.sh,v 1.1 2023/10/16 15:55:28 lecorbeau Exp $
+# Install LLVM/Clang toolchain + other base packages not built from source.
+# $Ragnarok: customize02.sh,v 1.2 2023/10/16 16:59:50 lecorbeau Exp $
 
 set -e
 
@@ -68,3 +68,9 @@ update-alternatives --install /usr/bin/ar ar /usr/bin/llvm-ar-"${VERSION}" 100
 update-alternatives --install /usr/bin/ranlib ranlib /usr/bin/llvm-ranlib-"${VERSION}" 100
 update-alternatives --install /usr/bin/objcopy objcopy /usr/bin/llvm-objcopy-"${VERSION}" 100
 update-alternatives --install /usr/bin/strip strip /usr/bin/llvm-strip-"${VERSION}" 100
+
+# Install other base packages not built from source
+apt-get install -y build-essential git sysvinit-core sysv-rc orphan-sysvinit-scripts \
+	elogind libpam-elogind procps libarchive-tools nftables rsyslog logrotate ifupdown \
+	wpasupplicant console-data kbd tmux vim bsdextrautils libpam0g-dev m4 flex libssl-dev \
+	liblockfile-dev
