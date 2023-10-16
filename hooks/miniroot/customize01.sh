@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# $Ragnarok: customize01.sh,v 1.7 2023/10/09 18:03:22 lecorbeau Exp $
+# $Ragnarok: customize01.sh,v 1.8 2023/10/16 17:04:28 lecorbeau Exp $
 
 set -e
 
@@ -35,21 +35,3 @@ chroot "$1" echo 'debconf debconf/frontend select Readline' | debconf-set-select
 # Fix the symlinks
 chroot "$1" ln -sf /etc/dpkg/origins/ragnarok /etc/dpkg/origins/default
 chroot "$1" ln -sf /usr/lib/os-release /etc/os-release
-
-# Clean up the chroot
-chroot "$1" apt clean
-rm -rf "$1"/usr/src/ragnarok
-rm -rf "$1"/var/lib/apt/lists/*
-rm "$1"/var/log/apt/eipp.log.xz
-rm "$1"/var/log/apt/history.log
-rm "$1"/var/log/apt/term.log
-rm "$1"/var/log/alternatives.log
-rm "$1"/var/log/dpkg.log
-rm "$1"/etc/hostname
-rm "$1"/etc/resolv.conf
-rm "$1"/tmp/*
-for _file in /etc/machine-id /var/lib/dbus/machine-id; do
-	if [ -f "${1}/${_file}" ]; then
-		rm "${1}/${_file}"
-	fi
-done
