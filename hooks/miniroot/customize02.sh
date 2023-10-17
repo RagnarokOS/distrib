@@ -1,14 +1,14 @@
 #!/bin/sh
 
 # Install LLVM/Clang toolchain
-# $Ragnarok: customize02.sh,v 1.4 2023/10/17 17:07:05 lecorbeau Exp $
+# $Ragnarok: customize02.sh,v 1.5 2023/10/17 18:25:16 lecorbeau Exp $
 
 set -e
 
 VERSION="16"
 
 # Install the LLVM/Clang packages.
-apt-get install -y libllvm"${VERSION}" llvm-"${VERSION}" llvm-"${VERSION}"-dev \
+chroot "$1" apt-get install -y libllvm"${VERSION}" llvm-"${VERSION}" llvm-"${VERSION}"-dev \
 	llvm-"${VERSION}"-runtime clang-"${VERSION}" clang-tools-"${VERSION}" \
 	libclang-common-"${VERSION}"-dev libclang-"${VERSION}"-dev libclang1-"${VERSION}" \
 	clang-format-"${VERSION}" python3-clang-"${VERSION}" clang-tidy-"${VERSION}" \
@@ -19,7 +19,7 @@ apt-get install -y libllvm"${VERSION}" llvm-"${VERSION}" llvm-"${VERSION}"-dev \
 
 # Use update-alternatives to set as default toolchain.
 # This *has* to be done in order to ensure that it works as expected.
-update-alternatives --install /usr/bin/llvm-config llvm-config /usr/bin/llvm-config-"${VERSION}" 100 \
+chroot "$1" update-alternatives --install /usr/bin/llvm-config llvm-config /usr/bin/llvm-config-"${VERSION}" 100 \
 	--slave /usr/bin/llvm-ar llvm-ar /usr/bin/llvm-ar-"${VERSION}" \
 	--slave /usr/bin/llvm-as llvm-as /usr/bin/llvm-as-"${VERSION}" \
 	--slave /usr/bin/llvm-bcanalyzer llvm-bcanalyzer /usr/bin/llvm-bcanalyzer-"${VERSION}" \
@@ -42,7 +42,7 @@ update-alternatives --install /usr/bin/llvm-config llvm-config /usr/bin/llvm-con
 	--slave /usr/bin/llvm-objcopy llvm-objcopy /usr/bin/llvm-objcopy-"${VERSION}" \
 	--slave /usr/bin/llvm-strip llvm-strip /usr/bin/llvm-strip-"${VERSION}"
 
-update-alternatives --install /usr/bin/clang clang /usr/bin/clang-"${VERSION}" 100 \
+chroot "$1" update-alternatives --install /usr/bin/clang clang /usr/bin/clang-"${VERSION}" 100 \
 	--slave /usr/bin/clang++ clang++ /usr/bin/clang++-"${VERSION}" \
 	--slave /usr/bin/asan_symbolize asan_symbolize /usr/bin/asan_symbolize-"${VERSION}" \
 	--slave /usr/bin/clang-cpp clang-cpp /usr/bin/clang-cpp-"${VERSION}" \
@@ -62,12 +62,12 @@ update-alternatives --install /usr/bin/clang clang /usr/bin/clang-"${VERSION}" 1
         --slave /usr/bin/lldb-server lldb-server /usr/bin/lldb-server-"${VERSION}"
 
 # Icing on the cake
-update-alternatives --install /usr/bin/cc cc /usr/bin/clang-"${VERSION}" 100
-update-alternatives --install /usr/bin/ld ld /usr/bin/ld.lld-"${VERSION}" 100
-update-alternatives --install /usr/bin/ar ar /usr/bin/llvm-ar-"${VERSION}" 100
-update-alternatives --install /usr/bin/ranlib ranlib /usr/bin/llvm-ranlib-"${VERSION}" 100
-update-alternatives --install /usr/bin/objcopy objcopy /usr/bin/llvm-objcopy-"${VERSION}" 100
-update-alternatives --install /usr/bin/strip strip /usr/bin/llvm-strip-"${VERSION}" 100
+chroot "$1" update-alternatives --install /usr/bin/cc cc /usr/bin/clang-"${VERSION}" 100
+chroot "$1" update-alternatives --install /usr/bin/ld ld /usr/bin/ld.lld-"${VERSION}" 100
+chroot "$1" update-alternatives --install /usr/bin/ar ar /usr/bin/llvm-ar-"${VERSION}" 100
+chroot "$1" update-alternatives --install /usr/bin/ranlib ranlib /usr/bin/llvm-ranlib-"${VERSION}" 100
+chroot "$1" update-alternatives --install /usr/bin/objcopy objcopy /usr/bin/llvm-objcopy-"${VERSION}" 100
+chroot "$1" update-alternatives --install /usr/bin/strip strip /usr/bin/llvm-strip-"${VERSION}" 100
 
 # Build src
 make -C ../src -j"$(nproc)"
