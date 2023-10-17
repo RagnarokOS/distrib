@@ -1,5 +1,5 @@
 # General config file for releases - Work In Progress
-# $Ragnarok: config.mk,v 1.3 2023/10/08 18:44:09 lecorbeau Exp $
+# $Ragnarok: config.mk,v 1.4 2023/10/17 15:14:32 lecorbeau Exp $
 
 DISTRO		= ragnarok
 PRETTY_NAME	= Ragnarok
@@ -15,9 +15,3 @@ SEC_KEY		=
 
 # Packages included in everything.
 PACKAGES	= base-passwd adduser usrmerge policy-rcd-declarative-deny-all libbsd0 libncurses-dev
-
-# Packages included in the release tarball for base, provided they don't require
-# special considerations. Otherwise, install them in hooks/release.
-RELEASE_PKGS	= sysvinit-core sysv-rc elogind libpam-elogind orphan-sysvinit-scripts \
-		  procps nftables bsd-mailx dma rsyslog logrotate openntpd ifupdown \
-		  isc-dhcp-client wpasupplicant tmux vim linux-image-amd64

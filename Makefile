@@ -1,5 +1,5 @@
 # Makefile for creating Ragnarok iso/releases/miniroot/sets.
-# $Ragnarok: Makefile,v 1.6 2023/10/09 18:12:01 lecorbeau Exp $
+# $Ragnarok: Makefile,v 1.7 2023/10/17 15:16:00 lecorbeau Exp $
 #
 # Work in progress
 
@@ -31,8 +31,7 @@ miniroot: build
 base:
 	SOURCE_DATE_EPOCH=$(shell date +%s) /usr/bin/mmdebstrap --variant=${VARIANT} \
 			  --components="${COMPONENTS}" \
-			  --aptopt='Apt::Install-Recommends "true"' \
-			  --include="${PACKAGES} ${RELEASE_PKGS}" \
+			  --include="${PACKAGES}" \
 			  --hook-directory=${HOOK_DIR}/release \
 			  ${FLAVOUR} ${DESTDIR}/${NAME}.tgz
 
