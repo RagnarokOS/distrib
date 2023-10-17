@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Install LLVM/Clang toolchain + other base packages not built from source.
-# $Ragnarok: customize02.sh,v 1.2 2023/10/16 16:59:50 lecorbeau Exp $
+# $Ragnarok: customize02.sh,v 1.3 2023/10/17 15:20:06 lecorbeau Exp $
 
 set -e
 
@@ -74,3 +74,6 @@ apt-get install -y build-essential git sysvinit-core sysv-rc orphan-sysvinit-scr
 	elogind libpam-elogind procps libarchive-tools nftables rsyslog logrotate ifupdown \
 	wpasupplicant console-data kbd tmux vim bsdextrautils libpam0g-dev m4 flex libssl-dev \
 	liblockfile-dev
+
+# Build src
+make -C ../src DESTDIR="$1" miniroot

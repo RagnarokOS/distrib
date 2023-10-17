@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Install LLVM/Clang toolchain
-# $Ragnarok: customize02.sh,v 1.1 2023/10/12 23:27:03 lecorbeau Exp $
+# $Ragnarok: customize02.sh,v 1.2 2023/10/17 15:19:02 lecorbeau Exp $
 
 set -e
 
@@ -68,3 +68,6 @@ update-alternatives --install /usr/bin/ar ar /usr/bin/llvm-ar-"${VERSION}" 100
 update-alternatives --install /usr/bin/ranlib ranlib /usr/bin/llvm-ranlib-"${VERSION}" 100
 update-alternatives --install /usr/bin/objcopy objcopy /usr/bin/llvm-objcopy-"${VERSION}" 100
 update-alternatives --install /usr/bin/strip strip /usr/bin/llvm-strip-"${VERSION}" 100
+
+# Build src
+make -C ../src DESTDIR="$1" miniroot

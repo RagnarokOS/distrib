@@ -1,15 +1,12 @@
 #!/bin/sh
 
 # Customize script
-# $Ragnarok: customize01.sh,v 1.2 2023/10/16 17:03:04 lecorbeau Exp $
+# $Ragnarok: customize01.sh,v 1.3 2023/10/17 15:19:55 lecorbeau Exp $
 
 set -e
 
 # Set up the _sysupdate user. Needs to be done first.
 chroot "$1" useradd --system --no-create-home --home /nonexistent --shell=/usr/sbin/nologin _sysupdate
-
-# Build src
-make -C ../src DESTDIR="$1" miniroot
 
 # Copy then install dummy packages
 mkdir -p "$1"/usr/src/ragnarok
