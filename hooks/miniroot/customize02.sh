@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Install LLVM/Clang toolchain
-# $Ragnarok: customize02.sh,v 1.3 2023/10/17 16:56:31 lecorbeau Exp $
+# $Ragnarok: customize02.sh,v 1.4 2023/10/17 17:07:05 lecorbeau Exp $
 
 set -e
 
@@ -70,5 +70,5 @@ update-alternatives --install /usr/bin/objcopy objcopy /usr/bin/llvm-objcopy-"${
 update-alternatives --install /usr/bin/strip strip /usr/bin/llvm-strip-"${VERSION}" 100
 
 # Build src
-make -C ../src
+make -C ../src -j"$(nproc)"
 make -C ../src DESTDIR="$1" miniroot

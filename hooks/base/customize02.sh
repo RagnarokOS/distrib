@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Install LLVM/Clang toolchain + other base packages not built from source.
-# $Ragnarok: customize02.sh,v 1.4 2023/10/17 17:00:42 lecorbeau Exp $
+# $Ragnarok: customize02.sh,v 1.5 2023/10/17 17:07:56 lecorbeau Exp $
 
 set -e
 
@@ -78,6 +78,6 @@ apt-get install -y build-essential git sysvinit-core sysv-rc orphan-sysvinit-scr
 # Build src
 # Check if make was already run (if miniroot was built right before) and only run if it wasn't
 if [ ! -f "../src/bin/oksh/alloc.o" ]; then
-	make -C ../src
+	make -C ../src -j"$(nproc)"
 fi
 make -C ../src DESTDIR="$1" miniroot
