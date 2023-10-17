@@ -1,7 +1,7 @@
 #!/bin/sh
 
-# Install LLVM/Clang toolchain
-# $Ragnarok: customize02.sh,v 1.5 2023/10/17 18:25:16 lecorbeau Exp $
+# Install LLVM/Clang toolchain and build src
+# $Ragnarok: customize02.sh,v 1.6 2023/10/17 18:35:52 lecorbeau Exp $
 
 set -e
 
