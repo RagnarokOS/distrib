@@ -44,7 +44,7 @@ surf_cmd() {
 
 	set -A _urls -- "$@"
 	for _url in "${_urls[@]}"; do
-		/usr/bin/surf -s -a "a@A" "$_url" &
+		WEBKIT_DISABLE_COMPOSITING_MODE=1 /usr/bin/surf -s -a "a@A" "$_url" &
 	done
 }
 
