@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# $Ragnarok: 0001-instenv.hook.chroot,v 1.6 2023/10/24 16:47:51 lecorbeau Exp $
+# $Ragnarok: 0001-instenv.hook.chroot,v 1.7 2023/11/06 17:34:02 lecorbeau Exp $
 
 set -e
 
@@ -30,13 +30,24 @@ set_sysupdate() {
 
 # Install the dummy base-files package. First, some stuff need to be
 # removed to avoid messing up the system.
-handle_basefiles() {
+handle_dummies() {
+	# rm base-files stuff
 	for _file in base-files.conffiles base-files.list base-files.md5sums base-files.postinst; do
 		rm /var/lib/dpkg/info/"$_file"
 	done
-	dpkg -i /usr/src/ragnarok/base-files_99+ragnarok01_amd64.deb
-	dpkg -i /usr/src/ragnarok/ed_99+ragnarok01_amd64.deb
-	dpkg -i /usr/src/ragnarok/man-db_99+ragnarok01_amd64.deb
+	# rm bsd-mailx stuff
+	for _file in bsd-mailx.conffiles bsd-mailx.list bsd-mailx.md5sums bsd-mailx.postinst bsd-mailx.postrm; do
+		rm /var/lib/dpkg/info/"$_file"
+	done
+	# rm dma stuff
+	for _file in dma.conffiles dma.config dma.list dma.md5sums dma.postinst dma.postrm dma.preinst dma.prerm dma.templates; do
+		rm /var/lib/dpkg/info/"$_file"
+	done
+	dpkg -i /usr/src/ragnarok/base-files_999+ragnarok01_amd64.deb
+	dpkg -i /usr/src/ragnarok/bsd-mailx_999+ragnarok01_amd64.deb
+	dpkg -i /usr/src/ragnarok/dma_999+ragnarok01_amd64.deb
+	dpkg -i /usr/src/ragnarok/ed_999+ragnarok01_amd64.deb
+	dpkg -i /usr/src/ragnarok/man-db_999+ragnarok01_amd64.deb
 }
 
 # Installing some packages here to avoid their recommends
@@ -80,7 +91,7 @@ main() {
 	set_shell
 	set_rootpass
 	set_sysupdate
-	handle_basefiles
+	handle_dummies
 	inst_pkgs
 	set_frontend
 	mail_aliases
