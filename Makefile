@@ -1,5 +1,5 @@
 # Makefile for creating Ragnarok iso/releases/miniroot/sets.
-# $Ragnarok: Makefile,v 1.9 2023/10/17 17:45:38 lecorbeau Exp $
+# $Ragnarok: Makefile,v 1.10 2023/11/06 17:43:09 lecorbeau Exp $
 #
 # Work in progress
 
@@ -19,6 +19,7 @@ release: miniroot iso
 # We're using a local apt repo and the packages' sig was
 # already checked, so no need to re-check again.
 miniroot:
+	chmod +x hooks/miniroot/customize02.sh
 	/usr/bin/mmdebstrap --variant=${VARIANT} \
 		--components="main non-free-firmware" \
 		--include="${PACKAGES}" \
