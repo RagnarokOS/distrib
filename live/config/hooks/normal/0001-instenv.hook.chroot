@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# $Ragnarok: 0001-instenv.hook.chroot,v 1.8 2023/11/06 17:55:05 lecorbeau Exp $
+# $Ragnarok: 0001-instenv.hook.chroot,v 1.9 2023/11/06 18:15:59 lecorbeau Exp $
 
 set -e
 
@@ -36,7 +36,7 @@ handle_dummies() {
 		rm /var/lib/dpkg/info/"$_file"
 	done
 	# rm bsd-mailx stuff
-	for _file in bsd-mailx.conffiles bsd-mailx.list bsd-mailx.md5sums bsd-mailx.postinst bsd-mailx.postrm; do
+	for _file in bsd-mailx.conffiles bsd-mailx.list bsd-mailx.md5sums bsd-mailx.postinst bsd-mailx.prerm; do
 		rm /var/lib/dpkg/info/"$_file"
 	done
 	# rm dma stuff
