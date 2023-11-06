@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# $Ragnarok: customize01.sh,v 1.9 2023/10/17 15:18:47 lecorbeau Exp $
+# $Ragnarok: customize01.sh,v 1.10 2023/11/06 17:59:42 lecorbeau Exp $
 
 set -e
 
@@ -13,8 +13,8 @@ cp dummies/* "$1"/usr/src/ragnarok/
 for _file in base-files.conffiles base-files.list base-files.md5sums base-files.postinst; do
 	rm "$1"/var/lib/dpkg/info/"$_file"
 done
-chroot "$1" dpkg -i /usr/src/ragnarok/base-files_99+ragnarok01_amd64.deb
-chroot "$1" dpkg -i /usr/src/ragnarok/ed_99+ragnarok01_amd64.deb
+chroot "$1" dpkg -i /usr/src/ragnarok/base-files_999+ragnarok01_amd64.deb
+chroot "$1" dpkg -i /usr/src/ragnarok/ed_999+ragnarok01_amd64.deb
 
 # Enable the wheel group
 sed -i '15 s/^# //' "$1"/etc/pam.d/su
