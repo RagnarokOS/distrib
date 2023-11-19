@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# $Ragnarok: 0002-buildsrc.hook.chroot,v 1.2 2023/10/03 18:50:35 lecorbeau Exp $
+# $Ragnarok: 0002-buildsrc.hook.chroot,v 1.4 2023/11/19 18:14:13 lecorbeau Exp $
 
 set -e
 
@@ -89,8 +89,13 @@ build_x11() {
 	make && make install && make clean
 }
 
+extract_x11() {
+	tar xzphf /usr/src/ragnarok/xprogs01.tgz --xattrs --xattrs-include='*' -C /
+}
+
 build_src
-build_x11
+extract_x11
+#build_x11
 
 # Cleanup
 rm -r /usr/src/ragnarok
