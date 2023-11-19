@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# $Ragnarok: 0001-instenv.hook.chroot,v 1.10 2023/11/19 17:45:02 lecorbeau Exp $
+# $Ragnarok: 0001-instenv.hook.chroot,v 1.11 2023/11/19 19:00:56 lecorbeau Exp $
 
 set -e
 
@@ -43,11 +43,28 @@ handle_dummies() {
 	for _file in dma.conffiles dma.config dma.list dma.md5sums dma.postinst dma.postrm dma.preinst dma.prerm dma.templates; do
 		rm /var/lib/dpkg/info/"$_file"
 	done
+
+	# rm sed stuff
+	for _file in sed.list sed.md5sums; do
+		rm /var/lib/dpkg/info/"$_file"
+	done
+
+	# Remove the gz man pages for coreutils tools that are not going
+	# to be installed (we're using the OpenBSD version instead).
+	# This is temporary until coreutils is built without these programs.
+	for _mp in cat mv rm rmdir who cut sed ls cp date echo; do
+		rm /usr/share/man/man1/"$_mp".1.gz
+	done
+
 	dpkg -i /usr/src/ragnarok/base-files_999+ragnarok01_amd64.deb
 	dpkg -i /usr/src/ragnarok/bsd-mailx_999+ragnarok01_amd64.deb
 	dpkg -i /usr/src/ragnarok/dma_999+ragnarok01_amd64.deb
 	dpkg -i /usr/src/ragnarok/ed_999+ragnarok01_amd64.deb
 	dpkg -i /usr/src/ragnarok/man-db_999+ragnarok01_amd64.deb
+	dpkg -i /usr/src/ragnarok/m4_999+ragnarok01_amd64.deb
+	dpkg -i /usr/src/ragnarok/flex_999+ragnarok01_amd64.deb
+	dpkg -i /usr/src/ragnarok/yacc_999+ragnarok01_amd64.deb
+	dpkg -i /usr/src/ragnarok/sed_999+ragnarok01_amd64.deb
 }
 
 # Installing some packages here to avoid their recommends
