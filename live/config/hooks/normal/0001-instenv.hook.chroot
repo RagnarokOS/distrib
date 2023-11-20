@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# $Ragnarok: 0001-instenv.hook.chroot,v 1.11 2023/11/19 19:00:56 lecorbeau Exp $
+# $Ragnarok: 0001-instenv.hook.chroot,v 1.12 2023/11/20 18:16:51 lecorbeau Exp $
 
 set -e
 
@@ -52,7 +52,7 @@ handle_dummies() {
 	# Remove the gz man pages for coreutils tools that are not going
 	# to be installed (we're using the OpenBSD version instead).
 	# This is temporary until coreutils is built without these programs.
-	for _mp in cat mv rm rmdir who cut sed ls cp date echo; do
+	for _mp in cat mv rm rmdir who cut sed ls date echo; do
 		rm /usr/share/man/man1/"$_mp".1.gz
 	done
 
