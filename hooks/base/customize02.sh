@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # build src
-# $Ragnarok: customize02.sh,v 1.7 2023/10/18 18:28:01 lecorbeau Exp $
+# $Ragnarok: customize02.sh,v 1.8 2023/11/21 16:44:21 lecorbeau Exp $
 
 set -e
 
@@ -10,4 +10,4 @@ set -e
 if [ ! -f "../src/bin/oksh/alloc.o" ]; then
 	make -C ../src -j"$(nproc)"
 fi
-make -C ../src DESTDIR="$1" miniroot
+make -C ../src DESTDIR="$1" install
