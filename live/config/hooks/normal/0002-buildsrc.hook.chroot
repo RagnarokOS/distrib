@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# $Ragnarok: 0002-buildsrc.hook.chroot,v 1.4 2023/11/19 18:14:13 lecorbeau Exp $
+# $Ragnarok: 0002-buildsrc.hook.chroot,v 1.5 2023/12/04 15:39:05 lecorbeau Exp $
 
 set -e
 
@@ -91,6 +91,7 @@ build_x11() {
 
 extract_x11() {
 	tar xzphf /usr/src/ragnarok/xprogs01.tgz --xattrs --xattrs-include='*' -C /
+	tic -sx /usr/share/doc/rt-term/rt.info
 }
 
 build_src
