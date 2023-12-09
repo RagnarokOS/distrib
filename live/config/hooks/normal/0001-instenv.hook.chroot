@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# $Ragnarok: 0001-instenv.hook.chroot,v 1.14 2023/11/30 19:07:49 lecorbeau Exp $
+# $Ragnarok: 0001-instenv.hook.chroot,v 1.15 2023/12/09 20:20:52 lecorbeau Exp $
 
 set -e
 
@@ -95,7 +95,7 @@ main() {
 	setup_wheel
 	set_shell
 	set_rootpass
-	set_sysupdate
+	#set_sysupdate
 	handle_dummies
 	inst_pkgs
 	set_frontend
