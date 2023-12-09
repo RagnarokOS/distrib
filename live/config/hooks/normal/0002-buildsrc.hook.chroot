@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# $Ragnarok: 0002-buildsrc.hook.chroot,v 1.5 2023/12/04 15:39:05 lecorbeau Exp $
+# $Ragnarok: 0002-buildsrc.hook.chroot,v 1.6 2023/12/09 19:47:28 lecorbeau Exp $
 
 set -e
 
@@ -61,12 +61,12 @@ update-alternatives --install /usr/bin/clang clang /usr/bin/clang-"${VERSION}" 1
         --slave /usr/bin/lldb-server lldb-server /usr/bin/lldb-server-"${VERSION}"
 
 # Icing on the cake
-update-alternatives --install /usr/bin/cc cc /usr/bin/clang-"${VERSION}" 100
-update-alternatives --install /usr/bin/ld ld /usr/bin/ld.lld-"${VERSION}" 100
-update-alternatives --install /usr/bin/ar ar /usr/bin/llvm-ar-"${VERSION}" 100
-update-alternatives --install /usr/bin/ranlib ranlib /usr/bin/llvm-ranlib-"${VERSION}" 100
-update-alternatives --install /usr/bin/objcopy objcopy /usr/bin/llvm-objcopy-"${VERSION}" 100
-update-alternatives --install /usr/bin/strip strip /usr/bin/llvm-strip-"${VERSION}" 100
+#update-alternatives --install /usr/bin/cc cc /usr/bin/clang-"${VERSION}" 100
+#update-alternatives --install /usr/bin/ld ld /usr/bin/ld.lld-"${VERSION}" 100
+#update-alternatives --install /usr/bin/ar ar /usr/bin/llvm-ar-"${VERSION}" 100
+#update-alternatives --install /usr/bin/ranlib ranlib /usr/bin/llvm-ranlib-"${VERSION}" 100
+#update-alternatives --install /usr/bin/objcopy objcopy /usr/bin/llvm-objcopy-"${VERSION}" 100
+#update-alternatives --install /usr/bin/strip strip /usr/bin/llvm-strip-"${VERSION}" 100
 
 # Build from source
 build_src() {
