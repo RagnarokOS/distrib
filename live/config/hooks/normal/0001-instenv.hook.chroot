@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# $Ragnarok: 0001-instenv.hook.chroot,v 1.15 2023/12/09 20:20:52 lecorbeau Exp $
+# $Ragnarok: 0001-instenv.hook.chroot,v 1.16 2023/12/09 20:32:36 lecorbeau Exp $
 
 set -e
 
@@ -49,7 +49,6 @@ handle_dummies() {
 	dpkg -i /usr/src/ragnarok/dma_999+ragnarok01_amd64.deb
 	dpkg -i /usr/src/ragnarok/ed_999+ragnarok01_amd64.deb
 	dpkg -i /usr/src/ragnarok/man-db_999+ragnarok01_amd64.deb
-	dpkg -i /usr/src/ragnarok/m4_999+ragnarok01_amd64.deb
 	dpkg -i /usr/src/ragnarok/flex_999+ragnarok01_amd64.deb
 	dpkg -i /usr/src/ragnarok/yacc_999+ragnarok01_amd64.deb
 }
