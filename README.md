@@ -13,7 +13,8 @@ Set up env:
     $ cd /usr/src/ragnarok
     $ for _repo in iso src x11; do git clone https://github.com/RagnarokOS/"$_repo".git; done
 
-Download the latest version of [Ragnarok's Linux kernel](https://github.com/RagnarokOS/kernel-build/releases)
+Download the base01.tgz and devel01.tgz sets from [https://github.com/RagnarokOS/minbase/releases/tag/01](https://github.com/RagnarokOS/minbase/releases/tag/01)
+as well as the latest version of [Ragnarok's Linux kernel](https://github.com/RagnarokOS/kernel-build/releases)
 into /usr/src/ragnarok.
 
 Building the iso:
