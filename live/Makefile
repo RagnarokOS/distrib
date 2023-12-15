@@ -1,5 +1,5 @@
 # Makefile for creating Ragnarok iso/releases/miniroot/sets.
-# $Ragnarok: Makefile,v 1.14 2023/12/15 17:52:20 lecorbeau Exp $
+# $Ragnarok: Makefile,v 1.15 2023/12/15 18:00:49 lecorbeau Exp $
 #
 # Work in progress
 
@@ -51,7 +51,7 @@ iso:
 		-e "s#@DATE@#$(shell date +"%Y%m%d")#g" \
 		-e "s#@VERSION@#${VERSION}#g" \
 		-e "s#@CODENAME@#${CODENAME}#g" \
-		-e "s#@LINUX_VERSION@#$(shell uname -r)#g" \
+		-e "s#@LINUX_VERSION@#${KERNEL}-amd64#g" \
 		config/bootloaders/syslinux_common/splash.svg
 	# Set kernel version in the bootloaders' config files
 	sed -i -e "s#@KERNEL@#${KERNEL}#g" config/bootloaders/isolinux/isolinux.cfg
