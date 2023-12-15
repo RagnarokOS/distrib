@@ -1,5 +1,5 @@
 # Makefile for creating Ragnarok iso/releases/miniroot/sets.
-# $Ragnarok: Makefile,v 1.13 2023/12/14 19:43:34 lecorbeau Exp $
+# $Ragnarok: Makefile,v 1.14 2023/12/15 17:52:20 lecorbeau Exp $
 #
 # Work in progress
 
@@ -30,6 +30,8 @@ live-config:
 	cp ../dummies/* config/includes.chroot_after_packages/usr/src/ragnarok/
 	cp ../../xprogs${VERSION}.tgz config/includes.chroot_after_packages/usr/src/ragnarok/
 	cp ../../linux-image-${KERNEL}-ragnarok-amd64_${KERNEL}-ragnarok-amd64-1_amd64.deb config/packages.chroot/
+	cp ../../linux-headers-${KERNEL}-ragnarok-amd64_${KERNEL}-ragnarok-amd64-1_amd64.deb config/packages.chroot/
+	cp ../../linux-libc-dev_${KERNEL}-ragnarok-amd64-1_amd64.deb config/packages.chroot/
 	tar xzf ../../base${VERSION}.tgz --strip-components=1 -C config/packages.chroot/
 	tar xzf ../../devel${VERSION}.tgz --strip-components=1 -C config/packages.chroot/
 
