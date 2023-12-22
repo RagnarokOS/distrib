@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# $Ragnarok: 0001-instenv.hook.chroot,v 1.16 2023/12/09 20:32:36 lecorbeau Exp $
+# $Ragnarok: 0001-instenv.hook.chroot,v 1.16 2023/12/09 20:32:36 lecorbeau Exp i $
 
 set -e
 
@@ -31,10 +31,6 @@ set_sysupdate() {
 # Install the dummy base-files package. First, some stuff need to be
 # removed to avoid messing up the system.
 handle_dummies() {
-	# rm base-files stuff
-	for _file in base-files.conffiles base-files.list base-files.md5sums base-files.postinst; do
-		rm /var/lib/dpkg/info/"$_file"
-	done
 	# rm bsd-mailx stuff
 	for _file in bsd-mailx.conffiles bsd-mailx.list bsd-mailx.md5sums bsd-mailx.postinst bsd-mailx.prerm; do
 		rm /var/lib/dpkg/info/"$_file"
@@ -44,7 +40,6 @@ handle_dummies() {
 		rm /var/lib/dpkg/info/"$_file"
 	done
 
-	dpkg -i /usr/src/ragnarok/base-files_999+ragnarok01_amd64.deb
 	dpkg -i /usr/src/ragnarok/bsd-mailx_999+ragnarok01_amd64.deb
 	dpkg -i /usr/src/ragnarok/dma_999+ragnarok01_amd64.deb
 	dpkg -i /usr/src/ragnarok/ed_999+ragnarok01_amd64.deb
