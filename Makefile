@@ -1,5 +1,5 @@
 # Makefile for creating Ragnarok iso/releases/miniroot/sets.
-# $Ragnarok: Makefile,v 1.10 2023/11/06 17:43:09 lecorbeau Exp $
+# $Ragnarok: Makefile,v 1.11 2024/01/31 19:59:50 lecorbeau Exp $
 #
 # Work in progress
 
@@ -16,15 +16,19 @@ live-config:
 
 release: miniroot iso
 
-# We're using a local apt repo and the packages' sig was
-# already checked, so no need to re-check again.
+# Note: trusted=yes is not a security concern. The repo's tgz is
+# signed with signify and the sig is verified before it gets extracted.
 miniroot:
 	chmod +x hooks/miniroot/customize02.sh
 	/usr/bin/mmdebstrap --variant=${VARIANT} \
 		--components="main non-free-firmware" \
 		--include="${PACKAGES}" \
 		--hook-directory="hooks/miniroot" \
-		${FLAVOUR} miniroot${VERSION}.tgz
+		${FLAVOUR} miniroot${VERSION}.tgz \
+		"deb [trusted=yes] copy:/var/db/repos/base01 bookworm main" \
+		"deb http://deb.debian.org/debian/ bookworm main non-free-firmware" \
+		"deb http://security.debian.org/ bookworm-security main non-free-firmware" \
+		"deb http://deb.debian.org/debian/ bookworm-updates main non-free-firmware"
 
 base:
 	/usr/bin/mmdebstrap --variant=${VARIANT} \
