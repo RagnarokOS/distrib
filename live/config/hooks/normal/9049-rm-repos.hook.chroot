@@ -1,0 +1,8 @@
+#!/bin/sh
+
+set -e
+
+# remove /var/db/repos/base01/ to save some space. A simple 'sysupdate'
+# will fetch it again.
+
+rm -r /var/db/repos/*
