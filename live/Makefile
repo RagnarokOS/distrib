@@ -1,5 +1,5 @@
 # Makefile for creating Ragnarok iso/releases/miniroot/sets.
-# $Ragnarok: Makefile,v 1.16 2024/01/02 15:20:39 lecorbeau Exp $
+# $Ragnarok: Makefile,v 1.17 2024/02/01 17:51:57 lecorbeau Exp $
 #
 # Work in progress
 
@@ -15,8 +15,7 @@ NAME		= ${DISTRO}${VERSION}
 
 all: live-config
 
-# Using live-build for now.
-# see: https://ragnarokos.github.io/logs/devnotes-june-2023.html
+# Let's test this new method.
 live-config:
 	lb config \
 		-d ${FLAVOUR} --debian-installer none \
@@ -25,15 +24,15 @@ live-config:
 		--hdd-label ${HDD_LABEL}_LIVE --iso-application ${PRETTY_NAME} \
 		--iso-volume ${NAME} --archive-areas "${COMPONENTS}" \
 		--debootstrap-options "--variant=${VARIANT}" \
-		--bootappend-live "${LIVE_BOOTPARAMS}"
+		--bootappend-live "${LIVE_BOOTPARAMS}" --cache false
 	cp -r ../../src config/includes.chroot_after_packages/usr/src/ragnarok/
 	cp ../dummies/* config/includes.chroot_after_packages/usr/src/ragnarok/
 	cp ../../xprogs${VERSION}.tgz config/includes.chroot_after_packages/usr/src/ragnarok/
 	cp ../../linux-image-${KERNEL}-ragnarok-amd64_${KERNEL}-ragnarok-amd64-${REV}_amd64.deb config/packages.chroot/
 	cp ../../linux-headers-${KERNEL}-ragnarok-amd64_${KERNEL}-ragnarok-amd64-${REV}_amd64.deb config/packages.chroot/
 	cp ../../linux-libc-dev_${KERNEL}-ragnarok-amd64-${REV}_amd64.deb config/packages.chroot/
-	tar xzf ../../base${VERSION}.tgz --strip-components=1 -C config/packages.chroot/
-	tar xzf ../../devel${VERSION}.tgz --strip-components=1 -C config/packages.chroot/
+	touch .build/bootstrap
+	mkdir -p chroot
 
 # Equivalent to 'make install'
 release: iso
@@ -61,7 +60,11 @@ iso:
 	# Set date in /var/message/welcome.txt
 	sed -i	-e "s|@DATE@|$(shell date)|g" \
 		config/includes.chroot_after_packages/var/messages/welcome.txt
-	lb build
+	tar xzpvf ../../miniroot${VERSION}.tgz --xattrs --xattrs-include='*' --numeric-owner -C chroot/
+	mkdir -p chroot/var/db/repos/
+	tar xzpf ../../base${VERSION}.tgz -C chroot/var/db/repos/
+	lb chroot
+	lb binary
 
 # Not ready. Sign manually for now
 #sign:
