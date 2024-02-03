@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# $Ragnarok: 0001-instenv.hook.chroot,v 1.17 2024/01/14 18:43:14 lecorbeau Exp $
+# $Ragnarok: 0001-instenv.hook.chroot,v 1.18 2024/02/03 17:38:49 lecorbeau Exp $
 
 set -e
 
@@ -51,10 +51,7 @@ handle_dummies() {
 # without disabling apt recommends globally.
 inst_pkgs() {
 	apt-get update && apt-get upgrade -y
-	apt-get install --no-install-recommends -y vifm groff automake libacl1-dev \
-		texinfo libattr1-dev gettext libselinux1-dev gperf libgmp3-dev libpam0g-dev \
-		libssl-dev liblockfile-dev libgcr-3-dev libglib2.0-dev libgtk-3-dev \
-		libwebkit2gtk-4.1-dev
+	apt-get install --no-install-recommends -y vifm 
 }
 
 # Set the default frontend to readline
