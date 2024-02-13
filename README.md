@@ -6,6 +6,9 @@ Release building infrastructure
 Building ISO and/or miniroot
 ==========
 
+*Under development. These build instructions may change and stop working
+at any moment. In which case simply wait for them to be updated.*
+
 Set up env:
 
     # mkdir -p /usr/src/ragnarok
