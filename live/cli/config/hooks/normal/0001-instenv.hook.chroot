@@ -1,0 +1,56 @@
+#!/bin/sh
+
+# $Ragnarok: 0001-instenv.hook.chroot,v 1.1 2024/03/14 15:22:12 lecorbeau Exp $
+
+set -e
+
+setup_wheel() {
+	sed -i '15 s/^# //' /etc/pam.d/su
+	addgroup --system wheel
+	touch /etc/doas.conf
+	echo "permit :wheel" > /etc/doas.conf
+}
+
+# Making sure roots interactive shell is ksh
+set_shell() {
+	sed -i 's/bash/ksh/g' /etc/passwd
+}
+
+set_rootpass() {
+	# setting a password for the root account
+	# since it's useful.
+	echo "root:root" | chpasswd
+}
+
+# Installing some packages here to avoid their recommends
+# without disabling apt recommends globally.
+inst_pkgs() {
+	apt-get update && apt-get upgrade -y
+	apt-get install --no-install-recommends -y vifm 
+}
+
+# Set the default frontend to readline
+set_frontend() {
+	echo 'debconf debconf/frontend select Readline' | debconf-set-selections
+}
+
+permissions() {
+	chmod 755 /usr/local/bin/*
+}
+
+# Alias root to user for mail delivery
+mail_aliases() {
+	printf '%s\n' "root:	user" > /etc/aliases
+}
+
+main() {
+	setup_wheel
+	set_shell
+	set_rootpass
+	inst_pkgs
+	set_frontend
+	mail_aliases
+	permissions
+}
+
+main
