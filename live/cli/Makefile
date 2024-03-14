@@ -1,5 +1,5 @@
 # Makefile for creating Ragnarok's cli-only live ISO.
-# $Ragnarok: Makefile,v 1.1 2024/03/14 14:49:18 lecorbeau Exp $
+# $Ragnarok: Makefile,v 1.2 2024/03/14 15:15:58 lecorbeau Exp $
 #
 # Work in progress
 
@@ -25,10 +25,9 @@ live-config:
 		--iso-volume ${NAME} --archive-areas "${COMPONENTS}" \
 		--debootstrap-options "--variant=${VARIANT}" \
 		--bootappend-live "${LIVE_BOOTPARAMS}" --cache false
-	cp ../dummies/* config/includes.chroot_after_packages/usr/src/ragnarok/
-	cp ../../linux-image-${KERNEL}-ragnarok-amd64_${KERNEL}-ragnarok-amd64-${REV}_amd64.deb config/packages.chroot/
-	cp ../../linux-headers-${KERNEL}-ragnarok-amd64_${KERNEL}-ragnarok-amd64-${REV}_amd64.deb config/packages.chroot/
-	cp ../../linux-libc-dev_${KERNEL}-ragnarok-amd64-${REV}_amd64.deb config/packages.chroot/
+	cp ../../../linux-image-${KERNEL}-ragnarok-amd64_${KERNEL}-ragnarok-amd64-${REV}_amd64.deb config/packages.chroot/
+	cp ../../../linux-headers-${KERNEL}-ragnarok-amd64_${KERNEL}-ragnarok-amd64-${REV}_amd64.deb config/packages.chroot/
+	cp ../../../linux-libc-dev_${KERNEL}-ragnarok-amd64-${REV}_amd64.deb config/packages.chroot/
 
 iso:
 	# We don't keep the bootloaders' configs in the repo
