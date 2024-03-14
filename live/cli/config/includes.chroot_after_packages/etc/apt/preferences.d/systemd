@@ -1,0 +1,11 @@
+package: systemd
+Pin: release *
+Pin-Priority: -1
+
+Package: *systemd*
+Pin: release *
+Pin-Priority: -1
+
+package: systemd:i386
+Pin: release *
+Pin-Priority: -1
