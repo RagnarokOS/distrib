@@ -1,4 +1,4 @@
-label live (x11)
+label live
 	menu label ^Live system (@FLAVOUR@)
 	menu default
 	linux @LINUX@
