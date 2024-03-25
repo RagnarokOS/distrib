@@ -3,3 +3,9 @@ URIs: https://ragnarokos.github.io/base/deb/
 Suites: current
 Components: main
 Signed-by: /etc/apt/trusted.gpg.d/ragnarok01.asc
+
+Types: deb
+URIs: https://ragnarokos.github.io/xserv/deb/
+Suites: current
+Components: main
+Signed-by: /etc/apt/trusted.gpg.d/ragnarok01.asc
