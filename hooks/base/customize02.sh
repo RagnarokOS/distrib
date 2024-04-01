@@ -1,19 +1,22 @@
 #!/bin/sh
 
-# build src
-# $Ragnarok: customize02.sh,v 1.9 2023/11/21 17:04:18 lecorbeau Exp $
-
 set -e
 
-# Install the packages that are not yet built from source
-chroot "$1" apt-get install -y build-essential git sysvinit-core sysv-rc orphan-sysvinit-scripts \
-	elogind libpam-elogind procps libarchive-tools nftables rsyslog logrotate ifupdown \
-	wpasupplicant console-data kbd tmux vim bsdextrautils libpam0g-dev libssl-dev \
-	liblockfile-dev
+# Clean up the chroot
+# $Ragnarok: customize02.sh,v 1.1 2024/04/01 17:34:39 lecorbeau Exp $
 
-# Build src
-# Check if make was already run (if miniroot was built right before) and only run if it wasn't
-if [ ! -f "../src/bin/oksh/alloc.o" ]; then
-	make -C ../src -j"$(nproc)"
-fi
-make -C ../src DESTDIR="$1" install
+chroot "$1" apt clean
+rm -rf "$1"/var/lib/apt/lists/*
+rm "$1"/var/log/apt/eipp.log.xz
+rm "$1"/var/log/apt/history.log
+rm "$1"/var/log/apt/term.log
+rm "$1"/var/log/alternatives.log
+rm "$1"/var/log/dpkg.log
+rm "$1"/etc/hostname
+rm "$1"/etc/resolv.conf
+rm "$1"/tmp/*
+for _file in /etc/machine-id /var/lib/dbus/machine-id; do
+	if [ -f "${1}/${_file}" ]; then
+		rm "${1}/${_file}"
+	fi
+done
