@@ -1,5 +1,5 @@
 # General config file for releases - Work In Progress
-# $Ragnarok: config.mk,v 1.7 2023/11/06 17:37:58 lecorbeau Exp $
+# $Ragnarok: config.mk,v 1.8 2024/04/02 14:52:36 lecorbeau Exp $
 
 DISTRO		= ragnarok
 PRETTY_NAME	= Ragnarok
@@ -14,5 +14,7 @@ SIGN_WITH	= signify
 SEC_KEY		= 
 
 # Packages included in everything.
-PACKAGES	= base-passwd adduser usrmerge policy-rcd-declarative-deny-all \
-		  libbsd0 libncurses-dev ca-certificates
+PACKAGES	= usrmerge ca-certificates
+
+# Packages in base
+BASE_PACKAGES	= ${PACKAGES} ragnarok-base

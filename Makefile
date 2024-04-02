@@ -1,5 +1,5 @@
 # Makefile for creating Ragnarok iso/releases/miniroot/sets.
-# $Ragnarok: Makefile,v 1.13 2024/04/02 14:48:00 lecorbeau Exp $
+# $Ragnarok: Makefile,v 1.14 2024/04/02 14:53:03 lecorbeau Exp $
 #
 # Work in progress
 
@@ -34,7 +34,7 @@ miniroot:
 base:
 	/usr/bin/mmdebstrap --variant=${VARIANT} \
 		--components="main non-free-firmware" \
-		--include="${PACKAGES}" \
+		--include="${BASE_PACKAGES}" \
 		--hook-directory=hooks/base \
 		${FLAVOUR} base${VERSION}.tgz \
 		"deb https://ragnarokos.github.io/base/deb/ current main" \
