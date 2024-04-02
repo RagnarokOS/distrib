@@ -1,5 +1,5 @@
 # Makefile for creating Ragnarok iso/releases/miniroot/sets.
-# $Ragnarok: Makefile,v 1.17 2024/02/01 17:51:57 lecorbeau Exp $
+# $Ragnarok: Makefile,v 1.18 2024/04/02 15:10:58 lecorbeau Exp $
 #
 # Work in progress
 
@@ -9,7 +9,7 @@
 #
 # 'make iso' will build the iso.
 
-include ../config.mk live.mk
+include ../config.mk ../live.mk
 
 NAME		= ${DISTRO}${VERSION}
 
@@ -25,17 +25,9 @@ live-config:
 		--iso-volume ${NAME} --archive-areas "${COMPONENTS}" \
 		--debootstrap-options "--variant=${VARIANT}" \
 		--bootappend-live "${LIVE_BOOTPARAMS}" --cache false
-	cp -r ../../src config/includes.chroot_after_packages/usr/src/ragnarok/
-	cp ../dummies/* config/includes.chroot_after_packages/usr/src/ragnarok/
-	cp ../../xprogs${VERSION}.tgz config/includes.chroot_after_packages/usr/src/ragnarok/
 	cp ../../linux-image-${KERNEL}-ragnarok-amd64_${KERNEL}-ragnarok-amd64-${REV}_amd64.deb config/packages.chroot/
 	cp ../../linux-headers-${KERNEL}-ragnarok-amd64_${KERNEL}-ragnarok-amd64-${REV}_amd64.deb config/packages.chroot/
 	cp ../../linux-libc-dev_${KERNEL}-ragnarok-amd64-${REV}_amd64.deb config/packages.chroot/
-	touch .build/bootstrap
-	mkdir -p chroot
-
-# Equivalent to 'make install'
-release: iso
 
 iso:
 	# We don't keep the bootloaders' configs in the repo
@@ -60,11 +52,7 @@ iso:
 	# Set date in /var/message/welcome.txt
 	sed -i	-e "s|@DATE@|$(shell date)|g" \
 		config/includes.chroot_after_packages/var/messages/welcome.txt
-	tar xzpvf ../../miniroot${VERSION}.tgz --xattrs --xattrs-include='*' --numeric-owner -C chroot/
-	mkdir -p chroot/var/db/repos/
-	tar xzpf ../../base${VERSION}.tgz -C chroot/var/db/repos/
-	lb chroot
-	lb binary
+	lb build
 
 # Not ready. Sign manually for now
 #sign:
