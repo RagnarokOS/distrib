@@ -1,5 +1,5 @@
 # Makefile for creating Ragnarok iso/releases/miniroot/sets.
-# $Ragnarok: Makefile,v 1.12 2024/03/08 19:12:52 lecorbeau Exp $
+# $Ragnarok: Makefile,v 1.13 2024/04/02 14:48:00 lecorbeau Exp $
 #
 # Work in progress
 
@@ -26,6 +26,7 @@ miniroot:
 		--hook-directory="hooks/miniroot" \
 		${FLAVOUR} miniroot${VERSION}.tgz \
 		"deb https://ragnarokos.github.io/base/deb/ current main" \
+		"deb https://ragnarokos.github.io/xserv/deb/ current main" \
 		"deb http://deb.debian.org/debian/ bookworm main non-free-firmware" \
 		"deb http://security.debian.org/ bookworm-security main non-free-firmware" \
 		"deb http://deb.debian.org/debian/ bookworm-updates main non-free-firmware"
@@ -35,7 +36,12 @@ base:
 		--components="main non-free-firmware" \
 		--include="${PACKAGES}" \
 		--hook-directory=hooks/base \
-		${FLAVOUR} base${VERSION}.tgz
+		${FLAVOUR} base${VERSION}.tgz \
+		"deb https://ragnarokos.github.io/base/deb/ current main" \
+		"deb https://ragnarokos.github.io/xserv/deb/ current main" \
+		"deb http://deb.debian.org/debian/ bookworm main non-free-firmware" \
+		"deb http://security.debian.org/ bookworm-security main non-free-firmware" \
+		"deb http://deb.debian.org/debian/ bookworm-updates main non-free-firmware"
 
 iso:
 	make -C live iso
