@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# $Ragnarok: 0001-instenv.hook.chroot,v 1.18 2024/02/03 17:38:49 lecorbeau Exp $
+# $Ragnarok: 0001-instenv.hook.chroot,v 1.19 2024/04/03 17:55:44 lecorbeau Exp $
 
 set -e
 
@@ -11,40 +11,10 @@ setup_wheel() {
 	echo "permit :wheel" > /etc/doas.conf
 }
 
-# Making sure roots interactive shell is ksh
-set_shell() {
-	sed -i 's/bash/ksh/g' /etc/passwd
-}
-
 set_rootpass() {
 	# setting a password for the root account
 	# since it's useful.
 	echo "root:root" | chpasswd
-}
-
-# Set up sysupdate properly
-set_sysupdate() {
-	useradd --system --no-create-home --home /nonexistent --shell=/usr/sbin/nologin _sysupdate
-	chown _sysupdate:_sysupdate /var/db/updates/sysupdate.list
-}
-
-# Install the dummy base-files package. First, some stuff need to be
-# removed to avoid messing up the system.
-handle_dummies() {
-	# rm bsd-mailx stuff
-	for _file in bsd-mailx.conffiles bsd-mailx.list bsd-mailx.md5sums bsd-mailx.postinst bsd-mailx.prerm; do
-		rm /var/lib/dpkg/info/"$_file"
-	done
-	# rm dma stuff
-	for _file in dma.conffiles dma.config dma.list dma.md5sums dma.postinst dma.postrm dma.preinst dma.prerm dma.templates; do
-		rm /var/lib/dpkg/info/"$_file"
-	done
-
-	dpkg -i /usr/src/ragnarok/bsd-mailx_999+ragnarok01_amd64.deb
-	dpkg -i /usr/src/ragnarok/dma_999+ragnarok01_amd64.deb
-	dpkg -i /usr/src/ragnarok/ed_999+ragnarok01_amd64.deb
-	dpkg -i /usr/src/ragnarok/man-db_999+ragnarok01_amd64.deb
-	dpkg -i /usr/src/ragnarok/yacc_999+ragnarok01_amd64.deb
 }
 
 # Installing some packages here to avoid their recommends
@@ -83,10 +53,7 @@ hardened_malloc_init() {
 
 main() {
 	setup_wheel
-	set_shell
 	set_rootpass
-	#set_sysupdate
-	handle_dummies
 	inst_pkgs
 	set_frontend
 	mail_aliases
