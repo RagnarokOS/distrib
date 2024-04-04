@@ -1,10 +1,13 @@
 #!/bin/sh
 
-# $Ragnarok: 0002-buildsrc.hook.chroot,v 1.7 2023/12/09 23:53:31 lecorbeau Exp $
+# Install LLVM/Clang from apt.llvm.org
+# LeCorbeau's note: Honestly, this hook should be replaced by a 'comp' metapackage.
+#
+# $Ragnarok: 0002-install_llvm_clang.hook.chroot,v 1.1 2024/04/04 22:56:24 lecorbeau Exp $
 
 set -e
 
-VERSION="16"
+VERSION="17"
 
 # Install the LLVM/Clang packages.
 apt-get install -y libllvm"${VERSION}" llvm-"${VERSION}" llvm-"${VERSION}"-dev \
@@ -67,39 +70,6 @@ update-alternatives --install /usr/bin/ld ld /usr/bin/ld.lld-"${VERSION}" 100
 #update-alternatives --install /usr/bin/ranlib ranlib /usr/bin/llvm-ranlib-"${VERSION}" 100
 #update-alternatives --install /usr/bin/objcopy objcopy /usr/bin/llvm-objcopy-"${VERSION}" 100
 #update-alternatives --install /usr/bin/strip strip /usr/bin/llvm-strip-"${VERSION}" 100
-
-# Build from source
-build_src() {
-	export TOPDIR=/usr/src/ragnarok/src
-	cd "${TOPDIR}" || exit
-	make -C lib
-	make -C bin
-	make -C usr/bin
-	make -C lib install
-	make -C bin install
-	make -C usr/share install
-	make -C usr/lib install
-	make -C usr/bin install
-}
-
-# Build dwm, rt and dmenu from one Makefile
-build_x11() {
-	export TOPDIR=/usr/src/ragnarok/x11
-	cd /usr/src/ragnarok/x11/progs || exit
-	make && make install && make clean
-}
-
-extract_x11() {
-	tar xzphf /usr/src/ragnarok/xprogs01.tgz --xattrs --xattrs-include='*' -C /
-	tic -sx /usr/share/doc/rt-term/rt.info
-}
-
-build_src
-extract_x11
-#build_x11
-
-# Cleanup
-rm -r /usr/src/ragnarok
 
 # Update manual pages
 /usr/sbin/makewhatis /usr/share/man
