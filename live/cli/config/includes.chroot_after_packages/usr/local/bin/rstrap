@@ -1,0 +1,45 @@
+#!/bin/ksh
+
+# Fetches miniroot.tgz and extract it to /mnt
+
+set -e
+
+MIRROR="https://github.com/RagnarokOS/base/releases/download/"
+VERSION="01"
+URL="${MIRROR}${VERSION}"
+
+# Never download stuff off the internet as the root user.
+# I take no credit for this function. All credit goes to
+# Antoine Jacoutot, who wrote OpenBSD's syspatch(1).
+unpriv() {
+	local _file=$2 _ret=0 _user=_apt
+
+	if [[ $1 == -f && -n ${_file} ]]; then
+		# shellcheck disable=SC2188
+		>${_file}
+		chown "${_user}" "${_file}"
+		chmod 0711 "${TMP}"
+		shift 2
+	fi
+	(($# >= 1))
+
+	su -s /bin/sh ${_user} -c "$@" || _ret=$?
+
+	[[ -n ${_file} ]] && chown root "${_file}"
+
+	return ${_ret}
+}
+
+# Script needs to be run as root.
+if [[ $(id -u) -ne 0 ]]; then
+	printf '%s\n' "This script needs to be run as root"
+	exit 1
+fi
+
+# Fetch the tarball.
+printf '%s\n' "Fetching ${_file}..."
+unpriv -f "${TMP}/miniroot${VERSION}.tgz" "wget -q --show-progress -P ${TMP} -O ${_file} ${URL}/miniroot${VERSION}.tgz"
+
+# Extract it to /mnt.
+printf '%s\n' "Extracting miniroot.tgz..."
+tar xzpvf "${TMP}/miniroot${VERSION}.tgz" --xattrs --xattrs-include='*' --numeric-owner -C /mnt
