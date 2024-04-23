@@ -1,5 +1,5 @@
-# Makefile for creating Ragnarok iso/releases/miniroot/sets.
-# $Ragnarok: Makefile,v 1.18 2024/04/02 15:10:58 lecorbeau Exp $
+# Makefile for creating Ragnarok's xserv ISO.
+# $Ragnarok: Makefile,v 1.19 2024/04/23 15:21:04 lecorbeau Exp $
 #
 # Work in progress
 
@@ -9,7 +9,7 @@
 #
 # 'make iso' will build the iso.
 
-include ../config.mk ../live.mk
+include ../../config.mk ../live.mk
 
 NAME		= ${DISTRO}${VERSION}
 
@@ -20,14 +20,14 @@ live-config:
 	lb config \
 		-d ${FLAVOUR} --debian-installer none \
 		--iso-publisher "${PUBLISHER}" --initsystem sysvinit \
-		--checksums sha512 --image-name ${NAME}-live \
+		--checksums sha512 --image-name ${NAME}-live-xserv \
 		--hdd-label ${HDD_LABEL}_LIVE --iso-application ${PRETTY_NAME} \
 		--iso-volume ${NAME} --archive-areas "${COMPONENTS}" \
 		--debootstrap-options "--variant=${VARIANT}" \
 		--bootappend-live "${LIVE_BOOTPARAMS}" --cache false
-	cp ../../linux-image-${KERNEL}-ragnarok-amd64_${KERNEL}-ragnarok-amd64-${REV}_amd64.deb config/packages.chroot/
-	cp ../../linux-headers-${KERNEL}-ragnarok-amd64_${KERNEL}-ragnarok-amd64-${REV}_amd64.deb config/packages.chroot/
-	cp ../../linux-libc-dev_${KERNEL}-ragnarok-amd64-${REV}_amd64.deb config/packages.chroot/
+	cp ../../../linux-image-${KERNEL}-ragnarok-amd64_${KERNEL}-ragnarok-amd64-${REV}_amd64.deb config/packages.chroot/
+	cp ../../../linux-headers-${KERNEL}-ragnarok-amd64_${KERNEL}-ragnarok-amd64-${REV}_amd64.deb config/packages.chroot/
+	cp ../../../linux-libc-dev_${KERNEL}-ragnarok-amd64-${REV}_amd64.deb config/packages.chroot/
 
 iso:
 	# We don't keep the bootloaders' configs in the repo
