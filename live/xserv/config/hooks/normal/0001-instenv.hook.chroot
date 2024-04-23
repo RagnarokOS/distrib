@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# $Ragnarok: 0001-instenv.hook.chroot,v 1.19 2024/04/03 17:55:44 lecorbeau Exp $
+# $Ragnarok: 0001-instenv.hook.chroot,v 1.20 2024/04/23 15:09:35 lecorbeau Exp $
 
 set -e
 
@@ -21,6 +21,9 @@ set_rootpass() {
 # without disabling apt recommends globally.
 inst_pkgs() {
 	apt-get update && apt-get upgrade -y
+	# install the sets
+	apt-get -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confnew" install ragnarok-base -y
+	apt-get install ragnarok-xserv ragnarok-xfonts ragnarok-xprogs -y
 	apt-get install --no-install-recommends -y vifm 
 }
 
@@ -31,13 +34,7 @@ set_frontend() {
 
 permissions() {
 	chmod 755 /usr/local/bin/*
-	chmod 755 /etc/init.d/hardened_malloc
-	chmod 755 /etc/rc.d/rc.sysinit
-	chmod 755 /etc/rc.d/rc.default
-	chmod 755 /etc/rc.d/rc.poweroff
-	chmod 755 /etc/rc.d/rc.reboot
-	chmod 755 /etc/rc.d/rc.single
-	chmod 755 /usr/bin/rcctl
+	#chmod 755 /etc/init.d/hardened_malloc
 	chmod 755 /etc/skel/.local/bin/bro.sh
 	chmod 755 /usr/bin/hostsupdate
 }
