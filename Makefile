@@ -1,5 +1,5 @@
 # Makefile for creating Ragnarok iso/releases/miniroot/sets.
-# $Ragnarok: Makefile,v 1.14 2024/04/02 14:53:03 lecorbeau Exp $
+# $Ragnarok: Makefile,v 1.15 2024/04/23 15:34:23 lecorbeau Exp $
 #
 # Work in progress
 
@@ -9,15 +9,13 @@ NAME		= ${DISTRO}${VERSION}
 
 all: live-config
 
-# Using live-build for now.
-# see: https://ragnarokos.github.io/logs/devnotes-june-2023.html
 live-config:
 	make -C live live-config
 
 release: miniroot iso
 
-# Note: trusted=yes is not a security concern. The repo's tgz is
-# signed with signify and the sig is verified before it gets extracted.
+# Note: remove miniroot and base targets soon since they're built
+# somewhere else now.
 miniroot:
 	chmod +x hooks/miniroot/customize02.sh
 	/usr/bin/mmdebstrap --variant=${VARIANT} \
