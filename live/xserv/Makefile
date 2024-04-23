@@ -1,5 +1,5 @@
 # Makefile for creating Ragnarok's xserv ISO.
-# $Ragnarok: Makefile,v 1.19 2024/04/23 15:21:04 lecorbeau Exp $
+# $Ragnarok: Makefile,v 1.20 2024/04/23 17:10:50 lecorbeau Exp $
 #
 # Work in progress
 
@@ -32,9 +32,9 @@ live-config:
 iso:
 	# We don't keep the bootloaders' configs in the repo
 	cp -r /usr/share/live/build/bootloaders config/
-	cp boot/grub.cfg config/bootloaders/grub-pc/
-	cp boot/grub_splash.png config/bootloaders/grub-pc/splash.png
-	cp boot/isolinux.cfg config/bootloaders/isolinux/
+	cp ../boot/grub.cfg config/bootloaders/grub-pc/
+	cp ../boot/grub_splash.png config/bootloaders/grub-pc/splash.png
+	cp ../boot/isolinux.cfg config/bootloaders/isolinux/
 	# Generate the actual config for syslinux
 	sed -i	-e "s#@PRETTY@#${PRETTY_NAME}#g" \
 		-e "s#@MODE@#${ISO_MODE}#g" \
