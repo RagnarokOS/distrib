@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# $Ragnarok: 0001-instenv.hook.chroot,v 1.20 2024/04/23 15:09:35 lecorbeau Exp $
+# $Ragnarok: 0001-instenv.hook.chroot,v 1.21 2024/04/23 17:19:22 lecorbeau Exp $
 
 set -e
 
@@ -36,7 +36,6 @@ permissions() {
 	chmod 755 /usr/local/bin/*
 	#chmod 755 /etc/init.d/hardened_malloc
 	chmod 755 /etc/skel/.local/bin/bro.sh
-	chmod 755 /usr/bin/hostsupdate
 }
 
 # Alias root to user for mail delivery
