@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# $Ragnarok: 0001-instenv.hook.chroot,v 1.21 2024/04/23 17:19:22 lecorbeau Exp $
+# $Ragnarok: 0001-instenv.hook.chroot,v 1.22 2024/04/24 14:31:03 lecorbeau Exp $
 
 set -e
 
@@ -9,6 +9,11 @@ setup_wheel() {
 	addgroup --system wheel
 	touch /etc/doas.conf
 	echo "permit :wheel" > /etc/doas.conf
+}
+
+# Making sure roots interactive shell is ksh
+set_shell() {
+	sed -i 's/bash/ksh/g' /etc/passwd
 }
 
 set_rootpass() {
