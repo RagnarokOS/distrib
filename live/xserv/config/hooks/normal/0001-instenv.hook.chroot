@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# $Ragnarok: 0001-instenv.hook.chroot,v 1.22 2024/04/24 14:31:03 lecorbeau Exp $
+# $Ragnarok: 0001-instenv.hook.chroot,v 1.23 2024/04/26 17:15:10 lecorbeau Exp $
 
 set -e
 
@@ -48,9 +48,9 @@ mail_aliases() {
 	printf '%s\n' "root:	user" > /etc/aliases
 }
 
-hardened_malloc_init() {
-	/usr/sbin/update-rc.d hardened_malloc defaults
-}
+#hardened_malloc_init() {
+#	/usr/sbin/update-rc.d hardened_malloc defaults
+#}
 
 main() {
 	setup_wheel
@@ -59,7 +59,7 @@ main() {
 	set_frontend
 	mail_aliases
 	permissions
-	hardened_malloc_init
+	#hardened_malloc_init
 }
 
 main
