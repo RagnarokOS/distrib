@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# $Ragnarok: 0001-instenv.hook.chroot,v 1.24 2024/05/01 16:29:42 lecorbeau Exp $
+# $Ragnarok: 0001-instenv.hook.chroot,v 1.25 2024/05/01 17:15:27 lecorbeau Exp $
 
 set -e
 
@@ -29,7 +29,7 @@ inst_pkgs() {
 	# install the sets
 	apt-get -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confnew" install ragnarok-base -y
 	apt-get install ragnarok-xserv ragnarok-xfonts ragnarok-xprogs -y
-	apt-get install --no-install-recommends -y vifm 
+	apt-get install --no-install-recommends -y vifm surf
 }
 
 # Set the default frontend to readline
