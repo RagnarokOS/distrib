@@ -1,4 +1,4 @@
-.Dd June 07, 2023
+.Dd April 29, 2024
 .Dt RAGNAROK-LIVE 8
 .Os Ragnarok
 .Sh NAME
@@ -9,6 +9,10 @@ This document attempts to give as much information as possible about Ragnarok's
 live environment. The idea is to give a quick rundown of the tools available by
 default so that users can get familiar with the system in the most straightforward
 fashion.
+.Pp
+Note: when using the cli image, only the
+.Sy SYSTEM ADMINISTRATION
+section is relevant.
 .Sh X SESSION
 .Ss Starting an Xsession
 .Pp
@@ -16,20 +20,18 @@ If not done already, you can start X11 by issuing the
 .Xr startx 1
 command.
 .Ss Window Manager
-Ragnarok includes two window managers: a fork of Suckless'
-.Xr dwm 1 ,
-which is the default when logging into X, and
+Ragnarok includes two window managers:
+.Xr Raven 1 ,
+a fork of Suckless' dwm, which is the default when logging into X, and
 .Xr cwm 1 ,
 from the OpenBSD project. Using cwm is as simple as changing the WM variable in
 .Pa ~/.xinitrc
-from "dwm" to "cwm" and (re)starting X.
-.Ss dwm
+from "raven" to "cwm" and (re)starting X.
+.Ss raven
 .Pp
-The version of
-.Xr dwm 1
-included has been patched to add the bottomstack, leftstack and deck layouts. It
-also includes gaps in all layouts (including monocle). Layouts can be set per tag
-and an option to increase/decrease the height of the bar is also available.
+The version of dwm included has been patched to add the bottomstack, leftstack and 
+deck layouts. It also includes gaps in all layouts (including monocle). Layouts can
+be set per tag and an option to increase/decrease the height of the bar is also available.
 .Pp
 This version of dwm does not support launching applications via keybindings set in
 its config file (see the
@@ -55,7 +57,7 @@ config file, and a status bar is drawn at the top of the screen, using a custom 
 ) piped to
 .Xr lemonbar 1 .
 .Pp
-Much like dwm, cwm's config file does not set keyboard shortcuts to open applications, only
+Much like raven, cwm's config file does not set keyboard shortcuts to open applications, only
 for window and group manipulation. Available keybindings for cwm can be viewed in .cwmrc 
 or by hitting the alt+shift+? keyboard shortcut.
 .Ss Terminal Emulator
@@ -81,15 +83,14 @@ This means that all program-related shortcuts will work regardless of the window
 being used.
 .Ss Extra Software
 .Pp
-The live iso also provides all other programs included in Ragnarok's X11 package set:
+The live iso also provides all other programs included in Ragnarok's xserv package set:
 .Xr xcompmgr 1 ,
 .Xr xclip 1 ,
-.Xr xwallpaper 1 ,
+.Xr hsetroot 1 ,
 .Xr dunst 1 .
 .Pp
 Many programs not available in a standard Ragnarok base system are also added for a more
 complete experience, among them:
-.Xr firefox-esr 1 ,
 .Xr vifm 1 ,
 .Xr mpv 1 ,
 .Xr nsxiv 1 ,
@@ -121,30 +122,8 @@ you can connect to the network using the ifup command:
 The live iso is rebuilt whenever the kernel receives a security update. However, other
 programs may have been updated since the iso's release and should still be updated even
 if running a live system (particularly web browsers). It is important to run the
-.Xr sysupdate 8
-command to update the base system, as well as apt-update && apt-updrade as soon as an
-internet connection is established.
-.Ss hardened malloc
-.Pp
-Ragnarok uses GrapheneOS' hardened memory allocator for extra security and provides
-three different variants: strong, medium and light, each providing different levels of
-protection. By its nature, hardened-malloc may cause performance loss under certain conditions,
-which is why it is compiled at boot time using the -march=native flag, which helps reducing
-its impact.
-.Pp
-The live system uses the light variant by default, but can be switched easily by first changing
-the variant in
-.Pa /etc/default/hardened_malloc
-and then running
-.Pp
-.Dl # rcctl stop hardened_malloc
-.Dl # rcctl start hardened_malloc
-.Pp
-Note that compiling hardened_malloc at boot time only concerns the live system. On installed
-systems, it would be compiled at system install time, and whenever an update is available.
-.Pp
-hardened_malloc's source code is available on the system at
-.Pa /usr/lib/hardened_malloc .
+.Xr apt-get
+commands to update the base system as soon as an internet connection is established.
 .Ss Firewall
 .Pp
 The base system comes with nftables installed and enabled by default, using a sane configuration
@@ -177,5 +156,3 @@ The hosts file can be updated by running the 'hostsupdate' command as a non-root
 Surf is only recommended as a web page viewer rather than as a full fledged web browser. Any browser
 available in Debian can also be installed via
 .Xr apt-get 1 .
-.Sh SEE ALSO
-.Xr sysupdate 8
