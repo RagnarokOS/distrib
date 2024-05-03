@@ -1,5 +1,5 @@
 # Makefile for creating Ragnarok's xserv ISO.
-# $Ragnarok: Makefile,v 1.20 2024/04/23 17:10:50 lecorbeau Exp $
+# $Ragnarok: Makefile,v 1.21 2024/05/03 15:54:40 lecorbeau Exp $
 #
 # Work in progress
 
@@ -20,7 +20,7 @@ live-config:
 	lb config \
 		-d ${FLAVOUR} --debian-installer none \
 		--iso-publisher "${PUBLISHER}" --initsystem sysvinit \
-		--checksums sha512 --image-name ${NAME}-live-xserv \
+		--checksums sha512 --image-name xserv${VERSION} \
 		--hdd-label ${HDD_LABEL}_LIVE --iso-application ${PRETTY_NAME} \
 		--iso-volume ${NAME} --archive-areas "${COMPONENTS}" \
 		--debootstrap-options "--variant=${VARIANT}" \
