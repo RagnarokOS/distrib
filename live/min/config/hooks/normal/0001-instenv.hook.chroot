@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# $Ragnarok: 0001-instenv.hook.chroot,v 1.4 2024/05/03 00:03:55 lecorbeau Exp $
+# $Ragnarok: 0001-instenv.hook.chroot,v 1.5 2024/05/03 15:07:23 lecorbeau Exp $
 
 set -e
 
@@ -34,12 +34,17 @@ set_frontend() {
 	echo 'debconf debconf/frontend select Readline' | debconf-set-selections
 }
 
+set_perm() {
+	chmod +x /usr/local/bin/*
+}
+
 main() {
 	inst_pkgs
 	setup_wheel
 	set_shell
 	set_rootpass
 	set_frontend
+	set_perm
 }
 
 main
