@@ -1,5 +1,5 @@
 # Makefile for creating Ragnarok's cli-only live ISO.
-# $Ragnarok: Makefile,v 1.2 2024/03/14 15:15:58 lecorbeau Exp $
+# $Ragnarok: Makefile,v 1.3 2024/05/03 15:50:23 lecorbeau Exp $
 #
 # Work in progress
 
@@ -20,7 +20,7 @@ live-config:
 	lb config \
 		-d ${FLAVOUR} --debian-installer none \
 		--iso-publisher "${PUBLISHER}" --initsystem sysvinit \
-		--checksums sha512 --image-name ${NAME}-live-cli \
+		--checksums sha512 --image-name miniso${VERSION} \
 		--hdd-label ${HDD_LABEL}_LIVE --iso-application ${PRETTY_NAME} \
 		--iso-volume ${NAME} --archive-areas "${COMPONENTS}" \
 		--debootstrap-options "--variant=${VARIANT}" \
@@ -49,9 +49,6 @@ iso:
 	sed -i -e "s#@KERNEL@#${KERNEL}#g" config/bootloaders/grub-pc/grub.cfg
 	sed -i -e "s#@DEBKERNEL@#${DEBKERNEL}#g" config/bootloaders/isolinux/isolinux.cfg
 	sed -i -e "s#@DEBKERNEL@#${DEBKERNEL}#g" config/bootloaders/grub-pc/grub.cfg
-	# Set date in /var/message/welcome.txt
-	sed -i	-e "s|@DATE@|$(shell date)|g" \
-		config/includes.chroot_after_packages/var/messages/welcome.txt
 	lb build
 
 # Not ready. Sign manually for now
