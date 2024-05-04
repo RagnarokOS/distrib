@@ -1,10 +1,7 @@
 libncurses-dev
-apt-utils
 sysvinit-core
 sysv-rc
 orphan-sysvinit-scripts
-elogind
-libpam-elogind
 procps
 nftables
 ifupdown
