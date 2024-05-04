@@ -1,5 +1,3 @@
-base-passwd
-adduser
 libncurses-dev
 apt-utils
 sysvinit-core
@@ -15,3 +13,5 @@ ifupdown
 wpasupplicant
 kbd
 console-data
+vim
+tmux
