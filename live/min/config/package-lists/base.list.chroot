@@ -7,11 +7,7 @@ elogind
 libpam-elogind
 procps
 nftables
-rsyslog
-logrotate
 ifupdown
 wpasupplicant
-kbd
-console-data
 vim
 tmux
