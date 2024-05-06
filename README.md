@@ -1,10 +1,11 @@
 iso
 ===
 
-Release building infrastructure
+Ragnarok's release building infrastructure.
 
-Building ISO and/or miniroot
-==========
+
+Building
+========
 
 *Under development. These build instructions may change and stop working
 at any moment. In which case simply wait for them to be updated.*
