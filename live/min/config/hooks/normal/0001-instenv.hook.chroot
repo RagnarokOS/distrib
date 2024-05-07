@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# $Ragnarok: 0001-instenv.hook.chroot,v 1.5 2024/05/03 15:07:23 lecorbeau Exp $
+# $Ragnarok: 0001-instenv.hook.chroot,v 1.6 2024/05/07 17:11:44 lecorbeau Exp $
 
 set -e
 
@@ -40,10 +40,10 @@ set_perm() {
 
 main() {
 	inst_pkgs
-	setup_wheel
-	set_shell
+	#setup_wheel
+	#set_shell
 	set_rootpass
-	set_frontend
+	#set_frontend
 	set_perm
 }
 

@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# $Ragnarok: 0001-instenv.hook.chroot,v 1.25 2024/05/01 17:15:27 lecorbeau Exp $
+# $Ragnarok: 0001-instenv.hook.chroot,v 1.26 2024/05/07 17:12:47 lecorbeau Exp $
 
 set -e
 
@@ -52,10 +52,10 @@ mail_aliases() {
 #}
 
 main() {
-	setup_wheel
+	#setup_wheel
 	set_rootpass
 	inst_pkgs
-	set_frontend
+	#set_frontend
 	mail_aliases
 	permissions
 	#hardened_malloc_init
