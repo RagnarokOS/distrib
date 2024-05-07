@@ -1,5 +1,5 @@
 # Makefile for creating Ragnarok's cli-only live ISO.
-# $Ragnarok: Makefile,v 1.3 2024/05/03 15:50:23 lecorbeau Exp $
+# $Ragnarok: Makefile,v 1.4 2024/05/07 16:00:53 lecorbeau Exp $
 #
 # Work in progress
 
@@ -10,8 +10,6 @@
 # 'make iso' will build the iso.
 
 include ../../config.mk ../live.mk
-
-NAME		= ${DISTRO}${VERSION}
 
 all: live-config
 
@@ -28,6 +26,8 @@ live-config:
 	cp ../../../linux-image-${KERNEL}-ragnarok-amd64_${KERNEL}-ragnarok-amd64-${REV}_amd64.deb config/packages.chroot/
 	cp ../../../linux-headers-${KERNEL}-ragnarok-amd64_${KERNEL}-ragnarok-amd64-${REV}_amd64.deb config/packages.chroot/
 	cp ../../../linux-libc-dev_${KERNEL}-ragnarok-amd64-${REV}_amd64.deb config/packages.chroot/
+	touch .build/bootstrap
+	mkdir -p chroot
 
 iso:
 	# We don't keep the bootloaders' configs in the repo
@@ -49,7 +49,9 @@ iso:
 	sed -i -e "s#@KERNEL@#${KERNEL}#g" config/bootloaders/grub-pc/grub.cfg
 	sed -i -e "s#@DEBKERNEL@#${DEBKERNEL}#g" config/bootloaders/isolinux/isolinux.cfg
 	sed -i -e "s#@DEBKERNEL@#${DEBKERNEL}#g" config/bootloaders/grub-pc/grub.cfg
-	lb build
+	tar xzpvf ../../miniroot${VERSION}.tgz --xattrs --xattrs-include='*' --numeric-owner -C chroot/
+	lb chroot
+	lb binary
 
 # Not ready. Sign manually for now
 #sign:

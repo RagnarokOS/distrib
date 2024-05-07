@@ -1,5 +1,5 @@
 # Makefile for creating Ragnarok's xserv ISO.
-# $Ragnarok: Makefile,v 1.21 2024/05/03 15:54:40 lecorbeau Exp $
+# $Ragnarok: Makefile,v 1.22 2024/05/07 17:07:19 lecorbeau Exp $
 #
 # Work in progress
 
@@ -10,8 +10,6 @@
 # 'make iso' will build the iso.
 
 include ../../config.mk ../live.mk
-
-NAME		= ${DISTRO}${VERSION}
 
 all: live-config
 
@@ -28,6 +26,8 @@ live-config:
 	cp ../../../linux-image-${KERNEL}-ragnarok-amd64_${KERNEL}-ragnarok-amd64-${REV}_amd64.deb config/packages.chroot/
 	cp ../../../linux-headers-${KERNEL}-ragnarok-amd64_${KERNEL}-ragnarok-amd64-${REV}_amd64.deb config/packages.chroot/
 	cp ../../../linux-libc-dev_${KERNEL}-ragnarok-amd64-${REV}_amd64.deb config/packages.chroot/
+	touch .build/bootstrap
+	mkdir -p chroot
 
 iso:
 	# We don't keep the bootloaders' configs in the repo
@@ -52,7 +52,8 @@ iso:
 	# Set date in /var/message/welcome.txt
 	sed -i	-e "s|@DATE@|$(shell date)|g" \
 		config/includes.chroot_after_packages/var/messages/welcome.txt
-	lb build
+	lb chroot
+	lb binary
 
 # Not ready. Sign manually for now
 #sign:
