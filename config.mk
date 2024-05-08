@@ -1,9 +1,10 @@
 # General config file for releases - Work In Progress
-# $Ragnarok: config.mk,v 1.9 2024/05/07 15:44:33 lecorbeau Exp $
+# $Ragnarok: config.mk,v 1.10 2024/05/08 15:10:35 lecorbeau Exp $
 
 DISTRO		= ragnarok
 PRETTY_NAME	= Ragnarok
 VERSION		= 01
+NAME		= ${DISTRO}${VERSION}
 CODENAME	= -current
 PUBLISHER	= Ian LeCorbeau
 FLAVOUR		= bookworm
