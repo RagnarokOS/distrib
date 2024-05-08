@@ -1,14 +1,15 @@
 #!/bin/sh
 
 # Customize before the setup phase
-# $Ragnarok: setup01.sh,v 1.4 2024/04/21 15:38:54 lecorbeau Exp $
+# $Ragnarok: setup01.sh,v 1.5 2024/05/08 15:07:10 lecorbeau Exp $
 
 set -e
 
-# Copy apt sources and keys to the chroot
-mkdir -p "$1"/etc/apt
-cp -r ../src/ragnarok-base/etc/apt/sources.list.d "$1"/etc/apt/
-cp -r ../src/ragnarok-base/etc/apt/trusted.gpg.d/ "$1"/etc/apt/
+# Copy needed files from ragnarok-base.
+mkdir -p "$1"/etc
+cp -r ../src/base/etc/apt/ "$1"/etc/
+cp -r ../src/base/etc/dpkg "$1"/etc/
+cp -r ../src/base/etc/signify "$1"/etc/
 
 # Creating /etc/mailname. bsd-mailx and dma are installed non-interactively and we need
 # this file to prevent dpkg from setting mailname to 'root' when dma is installed.
