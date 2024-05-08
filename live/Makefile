@@ -1,7 +1,7 @@
-# $Ragnarok: Makefile,v 1.1 2024/03/20 14:56:45 lecorbeau Exp $
+# $Ragnarok: Makefile,v 1.2 2024/05/08 15:18:54 lecorbeau Exp $
 
 MAKE	= make -C
-SUBDIRS	= cli xserv
+SUBDIRS	= cli full
 
 all: live-config
 
