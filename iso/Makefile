@@ -1,7 +1,7 @@
-# $Ragnarok: Makefile,v 1.2 2024/05/08 15:18:54 lecorbeau Exp $
+# $Ragnarok: Makefile,v 1.3 2024/05/10 15:43:55 lecorbeau Exp $
 
 MAKE	= make -C
-SUBDIRS	= cli full
+SUBDIRS	= live install
 
 all: live-config
 

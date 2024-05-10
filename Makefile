@@ -1,5 +1,5 @@
 # Makefile for creating Ragnarok iso/releases/miniroot/sets.
-# $Ragnarok: Makefile,v 1.16 2024/05/07 15:40:02 lecorbeau Exp $
+# $Ragnarok: Makefile,v 1.17 2024/05/10 15:43:13 lecorbeau Exp $
 #
 # Work in progress
 
@@ -10,7 +10,7 @@ NAME		= ${DISTRO}${VERSION}
 all: live-config
 
 live-config:
-	make -C live live-config
+	make -C iso live-config
 
 release: miniroot iso
 
@@ -26,7 +26,7 @@ miniroot:
 		"deb http://deb.debian.org/debian/ ${FLAVOUR}-updates main non-free-firmware"
 
 iso:
-	make -C live iso
+	make -C iso iso
 
 # Not ready. Sign manually for now
 sign:
