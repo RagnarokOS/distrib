@@ -58,7 +58,7 @@ alt + shift + w
 
 # Bro.sh with -bm option
 alt + s
-	~/.local/bin/bro.sh -bm
+	/usr/bin/bro.sh -bm
 #
 # Misc
 #
