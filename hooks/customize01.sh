@@ -1,12 +1,12 @@
 #!/bin/ksh
 
 # Commands to configure miniroot.
-# $Ragnarok: customize01.sh,v 1.2 2024/04/21 15:38:56 lecorbeau Exp $
+# $Ragnarok: customize01.sh,v 1.3 2024/05/11 15:20:31 lecorbeau Exp $
 
 set -e
 
 # Set the default debconf frontend to Readline
-chroot "$1" echo 'debconf debconf/frontend select Readline' | debconf-set-selections
+echo 'debconf debconf/frontend select Readline' | chroot "$1" debconf-set-selections
 
 # Enable the wheel group.
 sed -i '15 s/^# //' "$1"/etc/pam.d/su
