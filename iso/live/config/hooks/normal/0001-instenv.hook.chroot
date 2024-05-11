@@ -1,12 +1,12 @@
 #!/bin/sh
 
-# $Ragnarok: 0001-instenv.hook.chroot,v 1.27 2024/05/10 15:39:30 lecorbeau Exp $
+# $Ragnarok: 0001-instenv.hook.chroot,v 1.28 2024/05/11 15:16:36 lecorbeau Exp $
 
 set -e
 
-setup_wheel() {
-	sed -i '15 s/^# //' /etc/pam.d/su
-	addgroup --system wheel
+setup_doas() {
+	#sed -i '15 s/^# //' /etc/pam.d/su
+	#addgroup --system wheel
 	touch /etc/doas.conf
 	echo "permit :wheel" > /etc/doas.conf
 }
@@ -52,7 +52,7 @@ mail_aliases() {
 #}
 
 main() {
-	#setup_wheel
+	setup_doas
 	set_rootpass
 	inst_pkgs
 	#set_frontend
