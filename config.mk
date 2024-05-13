@@ -1,11 +1,11 @@
 # General config file for releases - Work In Progress
-# $Ragnarok: config.mk,v 1.11 2024/05/09 15:36:59 lecorbeau Exp $
+# $Ragnarok: config.mk,v 1.12 2024/05/13 17:03:16 lecorbeau Exp $
 
 DISTRO		= ragnarok
 PRETTY_NAME	= Ragnarok
 VERSION		= 01
 NAME		= ${DISTRO}${VERSION}
-CODENAME	= current
+CODENAME	= Dyeus
 PUBLISHER	= Ian LeCorbeau
 FLAVOUR		= bookworm
 VARIANT		= minbase
