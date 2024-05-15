@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# $Ragnarok: 0001-instenv.hook.chroot,v 1.29 2024/05/15 15:48:31 lecorbeau Exp $
+# $Ragnarok: 0001-instenv.hook.chroot,v 1.30 2024/05/15 17:32:49 lecorbeau Exp $
 
 set -e
 
@@ -28,7 +28,7 @@ inst_pkgs() {
 	apt-get update && apt-get upgrade -y
 	# install the sets
 	apt-get -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confnew" install ragnarok-base -y
-	apt-get install ragnarok-devel ragnarok-xserv ragnarok-xfonts ragnarok-xprogs -y
+	apt-get install ragnarok-devel ragnarok-xserv ragnarok-xfonts ragnarok-xprogs wmutils-core -y
 	apt-get install --no-install-recommends -y vifm surf
 }
 
