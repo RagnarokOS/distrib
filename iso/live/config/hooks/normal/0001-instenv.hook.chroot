@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# $Ragnarok: 0001-instenv.hook.chroot,v 1.28 2024/05/11 15:16:36 lecorbeau Exp $
+# $Ragnarok: 0001-instenv.hook.chroot,v 1.29 2024/05/15 15:48:31 lecorbeau Exp $
 
 set -e
 
@@ -51,6 +51,11 @@ mail_aliases() {
 #	/usr/sbin/update-rc.d hardened_malloc defaults
 #}
 
+# Update man pages db
+update_manpages() {
+	/usr/sbin/makewhatis /usr/share/man/
+}
+
 main() {
 	setup_doas
 	set_rootpass
@@ -59,6 +64,7 @@ main() {
 	mail_aliases
 	permissions
 	#hardened_malloc_init
+	update_manpages
 }
 
 main
