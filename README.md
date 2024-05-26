@@ -1,5 +1,5 @@
-iso
-===
+distrib
+=======
 
 Ragnarok's release building infrastructure.
 
@@ -12,29 +12,31 @@ at any moment. In which case simply wait for them to be updated.*
 
 Set up env:
 
+    # apt-get install --no-install-recommends -y mmdebstrap live-build
     # mkdir -p /usr/src/ragnarok
     # chown <username> /usr/src/ragnarok
     $ cd /usr/src/ragnarok
-    $ for _repo in iso src x11; do git clone https://github.com/RagnarokOS/"$_repo".git; done
+    $ for _repo in distrib src; do git clone https://github.com/RagnarokOS/"$_repo".git; done
 
-Download the base01.tgz and devel01.tgz sets from [https://github.com/RagnarokOS/minbase/releases/tag/01](https://github.com/RagnarokOS/minbase/releases/tag/01)
-as well as the latest version of [Ragnarok's Linux kernel](https://github.com/RagnarokOS/kernel-build/releases)
-into /usr/src/ragnarok.
+Get the latest version of Ragnarok's kernel build. On Ragnarok systems, the `kernupd -d`
+command will download all the relevant packages into `/var/db/kernel/`, simply move them
+to `/usr/src/ragnarok`. On other Debian based systems, simply download the kernel/headers/libc-dev
+packages from the [Release page](https://github.com/RagnarokOS/kernel-build/releases).
 
-Building the iso:
+Change directory:
 
-    # apt-get install --no-install-recommends -y live-build
-    $ cd iso
+    $ cd distrib/
+
+Build `miniroot.tgz`:
+
+    # make miniroot
+
+The resulting tarball will be saved in the current working directory (/usr/src/ragnarok/distrib).
+
+Build the iso:
+
+    $ cd iso/
     $ make live-config
     # make iso
 
-The resulting live image will be saved in iso/live.
-
-Building miniroot.tgz:
-
-    # apt-get install --no-install-recommends mmdebstrap
-    $ cd iso
-    # export TOPDIR=/usr/src/ragnarok/src
-    # make miniroot
-
-The resulting tarball will be saved in the current working directory (/usr/src/ragnarok/iso).
+The resulting ISO will be saved in /usr/src/ragnarok/distrib/iso/live.
