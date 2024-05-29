@@ -1,13 +1,14 @@
 #!/bin/sh
 
 # Customize before the setup phase
-# $Ragnarok: setup01.sh,v 1.8 2024/05/29 15:11:36 lecorbeau Exp $
+# $Ragnarok: setup01.sh,v 1.9 2024/05/29 15:19:56 lecorbeau Exp $
 
 set -e
 
 # Copy needed files from ragnarok-base.
 mkdir -p "$1"/etc
 mkdir -p "$1"/usr/bin
+mkdir -p "$1"/usr/lib
 cp -r ../src/base/etc/apt/ "$1"/etc/
 cp -r ../src/base/etc/dpkg "$1"/etc/
 cp -r ../src/base/etc/signify "$1"/etc/
