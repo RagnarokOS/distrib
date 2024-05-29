@@ -1,5 +1,5 @@
 # General config file for releases - Work In Progress
-# $Ragnarok: config.mk,v 1.13 2024/05/28 15:36:26 lecorbeau Exp $
+# $Ragnarok: config.mk,v 1.14 2024/05/29 15:13:04 lecorbeau Exp $
 
 DISTRO		= ragnarok
 PRETTY_NAME	= Ragnarok
@@ -13,4 +13,4 @@ COMPONENTS	= main non-free-firmware
 
 # Packages included in everything.
 PACKAGES	= policy-rcd-declarative-deny-all usrmerge ca-certificates \
-		  oksh signify-openbsd less
+		  oksh signify-openbsd less wget ed
