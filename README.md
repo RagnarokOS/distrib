@@ -27,16 +27,10 @@ Change directory:
 
     $ cd distrib/
 
-Build `miniroot.tgz`:
+Build a release (miniroot + live ISO):
 
-    # make miniroot
+    $ make
+    # make release
 
-The resulting tarball will be saved in the current working directory (/usr/src/ragnarok/distrib).
-
-Build the iso:
-
-    $ cd iso/
-    $ make live-config
-    # make iso
-
+The resulting miniroot tarball will be saved in the current working directory (/usr/src/ragnarok/distrib).
 The resulting ISO will be saved in /usr/src/ragnarok/distrib/iso/live.
