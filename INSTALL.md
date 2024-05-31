@@ -119,8 +119,6 @@ Update the package repository:
 
 ## Set the timezone
 
--------------------
-
 Run the following command and follow the steps:
 
     # dpkg-reconfigure tzdata
