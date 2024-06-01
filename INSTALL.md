@@ -263,7 +263,7 @@ Update the manual pages database:
 
     # makewhatis /usr/share/man
 
-Clean up to the chroot and exit:
+Clean up the chroot and exit:
 
     # apt clean
     # exit
@@ -272,7 +272,7 @@ Remove resolv.conf so it gets recreated at boot:
 
     # rm /mnt/etc/resolv.conf
 
-Unmount the devices. Assuming the standard partioning scheme was used:
+Unmount the devices. Assuming the standard partitioning scheme was used:
 
     # umount /dev/sdX3
     # umount /dev/sdX2
