@@ -197,6 +197,10 @@ Now, complete the base system installation:
 
     # apt-get install ragnarok-base -y
 
+*Tip: if asked to configure dma, simply press return at every question, leaving everything blank.
+The resulting dma.conf will be suitable for most people, and if anything more is required, you can
+always edit the file later.*
+
 ## Install extra sets (optional)
 
 These sets are optional, but highly recommended. Generally speaking, there should be a valid
@@ -257,11 +261,18 @@ For bios/legacy systems:
 If your system requires any non-free firmware package (e.g. for wireless cards), now would
 be the time to install them.
 
+Example for an intel wireless card:
+
+    # apt-get install firmware-iwlwifi wpasupplicant
+
 ## Finalizing
 
 Update the manual pages database:
 
     # makewhatis /usr/share/man
+
+If you liked some of the configuration files from the live ISO (e.g. tmux.conf, vimrc) you
+can copy 
 
 Clean up the chroot and exit:
 
@@ -271,6 +282,9 @@ Clean up the chroot and exit:
 Remove resolv.conf so it gets recreated at boot:
 
     # rm /mnt/etc/resolv.conf
+
+If you liked some of the configuration files from the live ISO (e.g. tmux.conf, vimrc) you
+can copy them to /mnt/home/*yourusername* before unmounting the devices.
 
 Unmount the devices. Assuming the standard partitioning scheme was used:
 
