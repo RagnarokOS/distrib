@@ -1,7 +1,7 @@
 #!/bin/ksh
 
 # Commands to configure miniroot.
-# $Ragnarok: customize01.sh,v 1.3 2024/05/11 15:20:31 lecorbeau Exp $
+# $Ragnarok: customize01.sh,v 1.4 2024/06/13 16:31:48 lecorbeau Exp $
 
 set -e
 
@@ -14,3 +14,6 @@ chroot "$1" addgroup --system wheel
 
 # Make sure ksh is the default shell for root.
 sed -i 's/bash/ksh/g' "$1"/etc/passwd
+
+# Create signify symlink
+chroot "$1" ln -sf /usr/bin/signify-openbsd /usr/bin/signify
