@@ -1,7 +1,7 @@
 #!/bin/ksh
 
 # Commands to configure miniroot.
-# $Ragnarok: customize01.sh,v 1.4 2024/06/13 16:31:48 lecorbeau Exp $
+# $Ragnarok: customize01.sh,v 1.5 2024/06/13 17:15:37 lecorbeau Exp $
 
 set -e
 
@@ -17,3 +17,9 @@ sed -i 's/bash/ksh/g' "$1"/etc/passwd
 
 # Create signify symlink
 chroot "$1" ln -sf /usr/bin/signify-openbsd /usr/bin/signify
+
+# Install man-db dummy
+_mdb_dummy="man-db_999+ragnarok01_amd64.deb"
+cp iso/live/config/packages.chroot/"$_mdb_dummy" "$1"/
+chroot "$1" apt-get install ./"$_mdb_dummy" -y
+chroot "$1" rm "$_mdb_dummy"
