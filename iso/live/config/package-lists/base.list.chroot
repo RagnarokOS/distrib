@@ -13,3 +13,4 @@ kbd
 console-data
 bsdextrautils
 eject
+apparmor-utils
