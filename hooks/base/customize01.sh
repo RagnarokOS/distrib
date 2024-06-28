@@ -1,7 +1,7 @@
 #!/bin/ksh
 
 # Commands to configure miniroot.
-# $Ragnarok: customize01.sh,v 1.1 2024/06/28 15:50:57 lecorbeau Exp $
+# $Ragnarok: customize01.sh,v 1.2 2024/06/28 18:00:53 lecorbeau Exp $
 
 set -e
 
@@ -15,5 +15,5 @@ chroot "$1" addgroup --system wheel
 # Make sure ksh is the default shell for root.
 sed -i 's/bash/ksh/g' "$1"/etc/passwd
 
-# Install ragnarok-base. Need to test the -o option.
-chroot "$1" apt-get -o Apt::Install-Recommends "true" install ragnarok-base -y
+# Install ragnarok-base. 
+chroot "$1" apt-get -o Apt::Install-Recommends="true" install ragnarok-base -y
