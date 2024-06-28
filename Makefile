@@ -1,5 +1,5 @@
 # Makefile for creating Ragnarok iso/releases/miniroot/sets.
-# $Ragnarok: Makefile,v 1.20 2024/06/28 18:03:52 lecorbeau Exp $
+# $Ragnarok: Makefile,v 1.21 2024/06/28 18:07:33 lecorbeau Exp $
 #
 # Work in progress
 
@@ -37,11 +37,13 @@ base:
 iso:
 	make -C iso iso
 
-release: miniroot iso
+tarball: miniroot base
+
+release: tarball iso
 
 # Not ready. Sign manually for now
 sign:
 	/usr/bin/mksig ${NAME}.tgz
 	/usr/bin/mksig ${ISO_NAME}.iso
 
-.PHONY: miniroot iso release
+.PHONY: miniroot base iso release tarball
