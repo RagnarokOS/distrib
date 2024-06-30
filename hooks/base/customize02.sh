@@ -3,7 +3,7 @@
 set -e
 
 # Clean up the chroot
-# $Ragnarok: customize02.sh,v 1.1 2024/06/28 15:51:16 lecorbeau Exp $
+# $Ragnarok: customize02.sh,v 1.2 2024/06/30 15:40:53 lecorbeau Exp $
 
 printf '%s\n' "Cleaning up the chroot..."
 
@@ -14,6 +14,8 @@ sed -i '/ragnarokos/d' "$1"/etc/apt/sources.list
 
 # Do the cleanup
 chroot "$1" apt clean
+echo "ragnarok" > "$1"/etc/hostname
+sed -i '2i 127.0.1.1\tragnarok\n' "$1"/etc/hosts
 rm -rf "$1"/var/lib/apt/lists/*
 rm "$1"/var/log/apt/eipp.log.xz
 rm "$1"/var/log/apt/history.log
