@@ -1,7 +1,7 @@
 #!/bin/ksh
 
 # Commands to configure miniroot.
-# $Ragnarok: customize01.sh,v 1.3 2024/06/30 15:21:33 lecorbeau Exp $
+# $Ragnarok: customize01.sh,v 1.4 2024/06/30 17:12:02 lecorbeau Exp $
 
 set -e
 
@@ -16,7 +16,8 @@ chroot "$1" addgroup --system wheel
 sed -i 's/bash/ksh/g' "$1"/etc/passwd
 
 # Install ragnarok-base. 
-chroot "$1" apt-get -o Apt::Install-Recommends="true" install ragnarok-base -y
+chroot "$1" apt-get -o Apt::Install-Recommends="true" \
+	-o Dpkg::Options::="--force-confdef" install ragnarok-base -y
 
 # Create signify symlink
 chroot "$1" ln -sf /usr/bin/signify-openbsd /usr/bin/signify
