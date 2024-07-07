@@ -34,3 +34,12 @@ Build a release (miniroot + live ISO):
 
 The resulting miniroot tarball will be saved in the current working directory (/usr/src/ragnarok/distrib).
 The resulting ISO will be saved in /usr/src/ragnarok/distrib/iso/live.
+
+Reporting Issues
+================
+
+If you encounter any problem, feel free to open an issue. Take note that
+the issue tracker is reserved for bug reports (as in, bugs affecting
+the functionality of the tools in this repository) and security issues
+only. Feature requests and anything unrelated to the technical aspects
+of the project will be ignored and closed.
