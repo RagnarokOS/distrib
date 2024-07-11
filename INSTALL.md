@@ -1,7 +1,7 @@
 # Install Guide
 
 Although the installer is not yet ready, it is possible to install Ragnarok
-via chroot using the miniroot tarball. The following guide assumes that you
+via chroot using the base01.tgz tarball. The following guide assumes that you
 will be using a [live](https://github.com/RagnarokOS/distrib/releases)
 Ragnarok ISO and that you know how to partition disks using command line tools
 such as fdisk or cfdisk.
@@ -16,13 +16,14 @@ Breaking changes, however, are almost guaranteed to happen at some point.
 
 ## Tip
 
-Do yourself a favor and launch tmux. The miniroot tarball being minimal, some
+Do yourself a favor and launch tmux. The base tarball being minimal, some
 things will be missing which may cause errors with the terminal once chrooted
 into the system. Doing the install in a tmux session will prevent them.
 
-## Download miniroot.tgz
+## Download base01.tgz
 
-Before doing anything, fetch the miniroot tarball from the github releases page:
+Before doing anything, fetch the latest base01.tgz tarball from the github
+releases page:
 [https://github.com/RagnarokOS/distrib/releases/](https://github.com/RagnarokOS/distrib/releases/)
 
 ## Switch to root
@@ -73,12 +74,12 @@ Legacy/Bios:
     # mkdir -p /mnt/home
     # mount -t ext4 -o defaults /dev/sdX3 /mnt/home
 
-## Extract miniroot.tgz
+## Extract base01.tgz
 
 Once you are certain all partitions are mounted to `/mnt/`, you can now untar
-miniroot01.tgz:
+base01.tgz:
 
-    # tar xzpvf miniroot01.tgz --xattrs --xattrs-include='*' --numeric-owner -C /mnt
+    # tar xzpvf base01.tgz --xattrs --xattrs-include='*' --numeric-owner -C /mnt
 
 ## Generate the fstab file
 
@@ -121,38 +122,13 @@ Run the following command and follow the steps:
 
     # dpkg-reconfigure tzdata
 
-# Create hosts and hostname files
+## Set hosts and hostname files
 
-Choose a hostname for your system, then
+The `/etc/hosts` and `/etc/hostname` files use the `ragnarok` hostname
+by default. Choose your own hostname if you want and change it using the
+following sed command (subsituting *myhostname*):
 
-    # echo "yourhostname" > /etc/hostname
-
-Use a text editor to create/open /etc/hosts. You may install vim right away
-(this package will be installed later via the ragnarok-base package either
-way) or use the already installed ed(1).
-
-If using ed, launch with a nice prompt:
-
-    # ed -p ':'
-    
-While in prompt mode, type `a`, then hit `Return` then type:
-
-    127.0.0.1   localhost
-    127.0.1.1   yourhostname
-
-    ::1         localhost ip6-localhost ip6-loopback
-    ff02::1     ip6-allnodes
-    ff02::2     ip6-allrouters
-
-When done, hit `Return` then type `.` to actually write all the lines, then
-`Return`.
-
-Back in prompt mode, type:
-
-    w /etc/hosts
-
-Hit `q` then `Return` again to exit ed. You may run `cat /etc/hosts` to make
-sure everything is correct.
+    sed -i 's/ragnarok/myhostname/g' /etc/hosts /etc/hostname
 
 ## Locale and Keyboard configuration
 
@@ -189,17 +165,10 @@ Then, download and install Ragnarok's kernel build:
 kernupd with no arguments would do both simultaneously if the kernel is out-of-date or
 not yet installed.*
 
-## Install the base set
-
-Now, complete the base system installation:
-
-    # apt-get install ragnarok-base -y
-
-*Tip: if asked to configure dma, simply press return at every question, leaving everything blank.
-The resulting dma.conf will be suitable for most people, and if anything more is required, you can
-always edit the file later.*
-
 ## Install extra sets (optional)
+
+Aside from the base set, Ragnarok has extra sets (a.k.a metapackages) containing packages
+that form the whole operating system.
 
 These sets are optional, but highly recommended. Generally speaking, there should be a valid
 reason to not install a certain set (IE: a server would obviously not need them). If you choose
@@ -214,7 +183,9 @@ xprogs: contains Window Managers (Raven and cwm) as well as the ragnarok-termina
 xfonts: contains some extra fonts (DejaVu, Liberation, Spleen)  
 (more sets to come)
 
-Installing all sets:
+These sets are packaged under the `ragnarok-setname` name.
+
+Example, installing all sets:
 
     # apt-get install ragnarok-devel ragnarok-xserv ragnarok-xprogs ragnarok-xfonts
 
