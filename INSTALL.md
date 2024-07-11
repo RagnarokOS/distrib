@@ -2,7 +2,7 @@
 
 Although the installer is not yet ready, it is possible to install Ragnarok
 via chroot using the miniroot tarball. The following guide assumes that you
-will be using a [live](https://github.com/RagnarokOS/distrib/releases/download/01/live01-amd64.hybrid.iso)
+will be using a [live](https://github.com/RagnarokOS/distrib/releases)
 Ragnarok ISO and that you know how to partition disks using command line tools
 such as fdisk or cfdisk.
 
@@ -22,10 +22,8 @@ into the system. Doing the install in a tmux session will prevent them.
 
 ## Download miniroot.tgz
 
-Before doing anything, fetch the miniroot tarball from the github releases page.
-This step should be performed as the non-root user:
-
-    $ wget -q --show-progress -O miniroot01.tgz https://github.com/RagnarokOS/distrib/releases/download/01/miniroot01.tgz
+Before doing anything, fetch the miniroot tarball from the github releases page:
+[https://github.com/RagnarokOS/distrib/releases/](https://github.com/RagnarokOS/distrib/releases/)
 
 ## Switch to root
 
