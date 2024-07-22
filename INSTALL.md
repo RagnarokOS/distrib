@@ -191,6 +191,32 @@ Example, installing all sets while keeping 'virt' as small as possible:
     # apt-get install ragnarok-devel ragnarok-xserv ragnarok-xprogs ragnarok-xfonts
     # apt-get install --no-install-recommends ragnarok-virt
 
+## Install hardened_malloc
+
+If desired, you can install GrapheneOS' hardened memory allocator.
+
+    # apt-get install hardened-malloc
+
+On first boot, you can either enable the pre-compiled binary via init:
+
+    # update-rc.d hardened_malloc defaults
+    # /etc/init.d/hardened_malloc start
+
+or recompile the package using march=native and the variant of your choice
+(light, medium or strong):
+
+    # cd /usr/src
+    # tar xvf hardened_malloc.tgz
+    # cd hardened_malloc
+    # make VARIANT=light
+    # cd
+    # update-rc.d hardened_malloc defaults
+    # /etc/init.d/hardened_malloc start
+
+Note that browsers (except Surf) tend to misbehave when hardened_malloc is enabled.
+
+See: [https://github.com/RagnarokOS/hardened_malloc](https://github.com/RagnarokOS/hardened_malloc).
+
 ## Users and passwords
 
 Set a password for the root user:
