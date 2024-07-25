@@ -177,7 +177,7 @@ to skip their installation here, you can always install them later on anyway.
 The sets that can be installed:
 
 devel:  the LLVM/Clang toolchain plus build-essential  
-virt:   minimal package set to run QEMU virtual machines
+virt:   minimal package set to run QEMU virtual machines  
 xserv:  minimal xserver and xinit  
 xprogs: contains Window Managers (Raven and cwm) as well as the ragnarok-terminal (rt) and
         dmenu.      
