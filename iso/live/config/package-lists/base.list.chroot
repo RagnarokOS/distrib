@@ -1,4 +1,5 @@
 base-passwd
+console-setup
 build-essential
 git
 apt-utils
