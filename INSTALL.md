@@ -24,7 +24,8 @@ into the system. Doing the install in a tmux session will prevent them.
 
 Before doing anything, fetch the latest base01.tgz tarball from the github
 releases page:
-[https://github.com/RagnarokOS/distrib/releases/](https://github.com/RagnarokOS/distrib/releases/)
+
+    $ wget -q --show-progress -O base01.tgz https://github.com/RagnarokOS/distrib/releases/download/01/base01.tgz
 
 ## Switch to root
 
