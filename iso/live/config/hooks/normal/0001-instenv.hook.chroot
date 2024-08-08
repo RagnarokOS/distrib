@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# $Ragnarok: 0001-instenv.hook.chroot,v 1.30 2024/05/15 17:32:49 lecorbeau Exp $
+# $Ragnarok: 0001-instenv.hook.chroot,v 1.31 2024/08/08 18:23:22 lecorbeau Exp $
 
 set -e
 
@@ -51,6 +51,13 @@ mail_aliases() {
 #	/usr/sbin/update-rc.d hardened_malloc defaults
 #}
 
+# Set console font to spleen
+set_spleen() {
+	sed -i 's/FONTFACE/#&/' /etc/default/console-setup
+	sed -i 's/FONTSIZE/#&/' /etc/default/console-setup
+	printf '%s\n' 'FONT="spleen-8x16.psfu.gz"' >> /etc/default/console-setup
+}
+
 # Update man pages db
 update_manpages() {
 	/usr/sbin/makewhatis /usr/share/man/
@@ -64,6 +71,7 @@ main() {
 	mail_aliases
 	permissions
 	#hardened_malloc_init
+	set_spleen
 	update_manpages
 }
 
