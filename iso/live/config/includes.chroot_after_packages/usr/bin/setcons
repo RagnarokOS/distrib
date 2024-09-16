@@ -1,0 +1,188 @@
+#!/bin/ksh
+
+# $Ragnarok: setcons,v 1.3 2024/08/07 17:53:37 lecorbeau Exp $
+# Configuring the console based on the locale chosen by the user.
+# Credits to the d-i team for leading me in the right direction
+# with console-setup.config.
+
+. /usr/lib/ragnarok-installer/funcs
+
+_locale=$1
+_charmap=$2
+
+# Set the codeset
+case "$_locale" in
+	*KOI8*|*koi8*)
+		CODESET=CyrKoi
+		;;
+	aa_*|af_*|an_*|ast_*|br_*|ca_*|da_*|de_*|en_*|es_*|et_*|eu_*|fi_*|fo_*|fr_*|gd_*|gl_*|gv_*|id_*|is_*|it_*|kl_*|kw_*|lg_*|ms_*|nb_*|nl_*|nn_*|oc_*|om_*|pt_*|sid_*|so_*|sq_*|st_*|sv_*|tl_*|tr_*|tt_*|uz_*|wa_*|xh_*|zu_*)
+		CODESET=Lat15
+		;;
+	am_*|byn_*|gez_*|ti_*|tig_*)
+		CODESET=Ethiopian
+		;;
+	ar_*|fa_*|ur_*)
+		CODESET=Arabic
+		;;
+	az_*bs_*)
+		CODESET=Uni3
+		;;
+	be_*|bg_*|mk_*|ru_*|sr_*|uk_*)
+		CODESET=CyrSlav
+		;;
+	bn_*|gu_*|hi_*|ja_*|kn_*|ko_*|ml_*|mr_*|ne_*|pa_*|ta_*|te_*|zh_*)
+		CODESET=unsupported
+		;;
+	cs_*|hr_*|hu_*|pl_*|ro_*|sk_*|sl_*)
+		CODESET=Lat2
+		;;
+	cy_*|eo|eo_*|eo\@*|ga_*|mt_*)
+		CODESET=Lat38
+		;;
+	el_*)
+		CODESET=Greek
+		;;
+	he_*|iw_*|yi_*)
+		CODESET=Hebrew
+		;;
+	hy_*)
+		CODESET=Armenian
+		;;
+	ka_*)
+		CODESET=Georgian
+		;;
+	lo_*)
+		CODESET=Lao
+		;;
+	lt_*|lv_*|mi_*)
+		CODESET=Lat7
+		;;
+	ky_*|mn_*|tg_*|uz_*\@cyrillic)
+		CODESET=CyrAsia
+		;;
+	se_*)
+		CODESET=Uni1
+		;;
+	th_*)
+		CODESET=Thai
+		;;
+	vi_*)
+		CODESET=Vietnamese
+		;;
+	*)	
+		CODESET=guess
+		;;
+esac
+
+if [[ $CODESET = unsupported ]]; then
+	CODESET=guess
+fi
+
+# Set the font
+case "$CODESET" in
+	Arabic|CyrKoi|Uni1)
+		FONTFACE=VGA
+		;;
+	Ethiopian)
+		FONTFACE=Goha
+		;;
+	*)
+		FONTFACE=Fixed
+		;;
+esac
+
+if lsmod 2> /dev/null | grep -q speakup; then
+	case "$CODESET" in
+		CyrAsia|CyrSlav|Greek)
+			CODESET="Full${CODESET}"
+			;;
+	esac
+fi
+
+FONTSIZE="8x16"
+
+# Set the codeset used by 'codeset47'.
+case "$CODESET" in
+	guess)	
+		CODESET47="Guess optimal character set"
+		;;
+	Arabic)	
+		CODESET47=". Arabic"
+		;;
+	Armenian)
+		CODESET47="# Armenian"
+		;;
+	CyrKoi)
+		CODESET47="# Cyrillic - KOI8-R and KOI-8-U"
+		;;
+	CyrAsia)
+		CODESET47="# Cyrillic - non-Slavic languages"
+		;;
+	FullCyrAsia)
+		CODESET47=". Cyrillic - non-Slavic languages (for blind users)"
+		;;
+	CyrSlav)
+		CODESET47="# Cyrillic - Slavic languages (also Bosnian and Serbian Latin)"
+		;;
+	FullCyrSlav)
+		CODESET47=". Cyrillic - Slavic languages (for blind users)"
+		;;
+	Ethiopian)
+		CODESET47=". Ethiopic"
+		;;
+	Georgian)
+		CODESET47="# Georgian"
+		;;
+	Greek)
+		CODESET47="# Greek"
+		;;
+	FullGreek)
+		CODESET47=". Greek (for blind users)"
+		;;
+	Hebrew)
+		CODESET47="# Hebrew"
+		;;
+	Lao)
+		CODESET47="# Lao"
+		;;
+	Lat15)
+		CODESET47="# Latin1 and Latin5 - western Europe and Turkic languages"
+		;;
+	Lat2)
+		CODESET47="# Latin2 - central Europe and Romanian"
+		;;
+	Lat38)
+		CODESET47="# Latin3 and Latin8 - Chichewa; Esperanto; Irishl Maltese and Welsh"
+		;;
+	Lat7)	CODESET47="# Latin7 - Lithuanian; Latvian; Maori and Marshallese"
+		;;
+	Vietnamese)
+		CODESET47=". Latin - Vietnamese"
+		;;
+	Thai)
+		CODESET47="# Thai"
+		;;
+	Uni1)
+		CODESET47=". Combined - Latin; Slavic Cyrillic; Hebrew; basic Arabic"
+		;;
+	Uni2)
+		CODESET47=". Combined - Latin; Slavic Cyrillic; Greek"
+		;;
+	Uni3)
+		CODESET47=". Combined - Latin; Slavic and non-Slavic Cyrillic"
+		;;
+	*)
+		CODESET47="Guess optimal character set"
+		;;
+esac
+
+
+# Set the default using debconf-set-selections
+set_opt console-setup charmap47 select "$_charmap"
+set_opt console-setup codeset47 select "$CODESET47"
+set_opt console-setup codesetcode string "$CODESET"
+set_opt console-setup fontface47 select "$FONTFACE"
+set_opt console-setup fontsize-text47 select "$FONTSIZE"
+set_opt console-setup fontsize-fb47 select "$FONTSIZE"
+set_opt console-setup fontsize string "$FONTSIZE"
+set_opt console-setup store_defaults_in_debconf_db boolean true

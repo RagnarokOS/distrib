@@ -1,0 +1,308 @@
+## Library containing functions used by Ragnarok's installers (plain-text
+## and TUI), as well as other tools (mkdisk, etc).
+
+# $Ragnarok: funcs,v 1.2 2024/08/05 17:15:09 lecorbeau Exp $
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#											#
+#	Copyright (c) 2023-2024, Ian LeCorbeau <I-LeCorbeau (at) protonmail (dot) com>	#
+#											#
+#	Permission to use, copy, modify, and/or distribute this software for any	#
+#	purpose with or without fee is hereby granted, provided that the above		#
+#	copyright notice and this permission notice appear in all copies.		#
+#											#
+#	THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES	#
+#	WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF		#
+#	MERCHANTABILITY AND FITNESS IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR		#
+#	ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES		#
+#	WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN		#
+#	ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF		#
+#	OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.			#
+#											#
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
+# This is shorter than constantly writing the printf command
+msg() {
+	local _msg=$1
+
+	printf '%s\n' "$_msg"
+}
+
+# Set values in conf files
+set_val() {
+	local _conf="$1" _value="$2" _file="$3"
+
+	printf '%s\n' "${_conf} = ${_value}" >> "$_file"
+}
+
+# Get config value from conf files
+get_val() {
+	local _conf="$1" _file="$2"
+
+	awk -v var="$_conf" '$0 ~ var { print $3 }' "$_file"
+}
+
+reset_val() {
+	local _conf="$1" _file="$2"
+
+	sed -i "/$_conf/d" "$_file"
+}
+
+# Wrapper around arch-chroot and debconf-set-selections
+set_opt() {
+	local _conf=$1 _opt=$2 _set=$3 _val=$4
+
+	echo "${_conf} ${_conf}/${_opt} ${_set} ${_val}" | arch-chroot /mnt debconf-set-selections
+}
+
+# Ask user a config question and log the answer in the conf file
+askconf() {
+	local _resp _q="$1" _val="$2" _file="$3"
+
+	read -r _resp?"$_q "
+	set_val "$_val" "$_resp" "$_file"
+}
+
+# Ask a yes/no question. Exit 0 if yes, 1 if no.
+askyn() {
+	local _resp _q="$1"
+
+	read -r _resp?"$_q "
+	case "$_resp" in
+		Y|y|Yes|yes)	exit 0
+				;;
+		N|n|No|no)	exit 1
+				;;
+		s|skip)		exit 2
+				;;
+		*)	echo "Answer Yes/yes/Y/y or No/no/N/n"
+			;;
+	esac
+}
+
+# Ask for password, and don't echo.
+askpass() {
+	local _resp _q="$1" _val="$2" _file="$3"
+
+	stty -echo
+	read -r _resp?"$_q "
+	set_val "$_val" "$_resp" "$_file"
+	stty echo
+}
+
+### Functions to setup disks. This ain't pretty to look at in some places,
+### but does the job well.
+
+# Create partition table (mbr or gpt).
+do_parttable() {
+	local _mode _disk
+
+	_mode=$(get_val MODE)
+	_disk=$(get_val DISK)
+
+	sfdisk --delete "$_disk"
+	case "$_mode" in
+		bios)	(echo o) | fdisk "$_disk"
+			;;
+		efi)	(echo g) | fdisk "$_disk"
+			;;
+	esac
+}
+
+# Create /boot partition
+do_boot() {
+	local _disk _mode
+
+	_disk=$(get_val DISK)
+	_mode=$(get_val MODE)
+
+	(echo n; echo p; echo 1; echo 2048; echo +500M; echo w) | fdisk "$_disk"
+
+	case "$_mode" in
+		bios)	sfdisk -A "$_disk"
+			;;
+		efi)	sfdisk --part-type "$_disk" 1 U
+			;;
+	esac
+}
+
+# Create the swap partition
+do_swap() {
+	local _swap _mem _swapsiz _mode _disk
+
+	_swap=$(get_val SWAPSIZE)
+	_mem=$(awk '/MemTotal:/ { print $2 }' /proc/meminfo)
+	_mode=$(get_val MODE)
+	_disk=$(get_val DISK)
+
+	# Determining the size of swap partition. This is foogly, but it works.
+	if [[ -z "$_swap" ]]; then
+		if [[ $_mem -le 3500000 ]]; then
+			_swapsiz=1G
+		elif [[ $_mem -le 8500000 ]]; then
+			_swapsiz=2G
+		elif [[ $_mem -le 12500000 ]]; then
+			_swapsiz=3G
+		elif [[ $_mem -le 16500000 ]]; then
+			_swapsiz=4G
+		elif [[ $_mem -le 24500000 ]]; then
+			_swapsiz=5G
+		elif [[ $_mem -le 32500000 ]]; then
+			_swapsiz=6G
+		elif [[ $_mem -le 64500000 ]]; then
+			_swapsiz=8G
+		elif [[ $_mem -le 128500000 ]]; then
+			_swapsiz=12G
+		elif [[ $_mem -le 256500000 ]]; then
+		_swapsiz=16G
+		fi
+	else
+		_swapsiz="$_swap"
+	fi
+
+	case "$_mode" in
+		bios) 	(echo n; echo e; echo 2; echo ; echo ; echo w) | fdisk "$_disk" && \
+			(echo n; echo ; echo +"$_swapsiz"; echo w) | fdisk "$_disk" && \
+			sfdisk --part-type "$_disk" 5 S
+			;;
+		efi)	(echo n; echo p; echo 2; echo ; echo +"$_swapsiz"; echo w) | fdisk "$_disk" && \
+			sfdisk --part-type "$_disk" 2 S
+			;;
+	esac
+}
+
+# Create the root partition
+do_root() {
+	local _root _diskspace _mode _disk
+
+	_root=$(get_val ROOTSIZE)
+	_disk=$(get_val DISK)
+	_diskspace=$(lsblk -brno SIZE "$_disk" | awk 'FNR==1')
+	_mode=$(get_val MODE)
+
+	if [[ -z "$_root" ]]; then
+		if [[ $_diskspace -le 25000000000 ]]; then	# if disk is less than 25GB
+			_rootsiz=8G
+		elif [[ $_diskspace -le 50500000000 ]]; then	# if disk is less than 50GB
+			_rootsiz=15G
+		elif [[ $_diskspace -gt 99500000000 ]]; then	# if disk is less than 99GB
+			_rootsiz=20G
+		else
+		_rootsiz=30G
+		fi
+	else
+		_rootsiz="$_root"
+	fi
+
+	case "$_mode" in
+		bios)	(echo n; echo ; echo +"$_rootsiz"; echo w) | fdisk "$_disk"
+			;;
+		efi)	(echo n; echo p; echo 3; echo ; echo +"$_rootsiz"; echo w) | fdisk "$_disk"
+			;;
+	esac
+}
+
+# Create /var/log
+do_log() {
+	local _log _logsiz _disk _mode
+
+	_log=$(get_val LOGSIZE)
+	_mode=$(get_val MODE)
+	_disk=$(get_val DISK)
+
+	if [[ -z "$_log" ]]; then
+		_logsiz="3G"
+	else
+		_logsiz="$_log"
+	fi
+
+	case "$_mode" in
+		bios)	(echo n; echo ; echo +"$_logsiz"; echo w) | fdisk "$_disk"
+			;;
+		efi)	(echo n; echo p; echo 4; echo ; echo +"$_logsiz"; echo w) | fdisk "$_disk"
+			;;
+	esac
+}
+
+do_home() {
+	local _home _homesiz _mode _disk
+
+	_mode=$(get_val MODE)
+	_disk=$(get_val DISK)
+	_home=$(get_val HOMESIZE)
+
+	if [[ -z "$_home" ]]; then
+		_homesiz=		# empty value means use remaining disk
+	else
+		_homesiz="+$_home"
+	fi
+
+	case "$_mode" in
+		bios)	(echo n; echo ; echo "$_homesiz"; echo w) | fdisk "$_disk"
+			;;
+		efi)	(echo n; echo p; echo 5; echo ; echo +"$_homesiz"; echo w) | fdisk "$_disk"
+			;;
+	esac
+}
+
+# Create filesystems and mount them
+do_fsmount() {
+	local _mode _disk
+
+	_mode=$(get_val MODE)
+	_disk=$(get_val DISK)
+
+	if [[ $_mode == bios ]]; then
+		mkfs.ext4 "$_disk"1
+		mkswap "$_disk"5
+		mkfs.ext4 "$_disk"6
+		mkfs.ext4 "$_disk"7
+		mkfs.ext4 "$_disk"8
+
+		swapon "$_disk"5
+		mount -t ext4 -o errors=remount-ro "$_disk"6 /mnt
+		mkdir -p /mnt/{boot,home,tmp,var/log}
+		mount -t ext4 -o noexec,nosuid,nodev "$_disk"1 /mnt/boot
+		mount -t ext4 -o noexec,nosuid,nodev "$_disk"7 /mnt/var/log
+		mount -t ext4 -o defaults "$_disk"8 /mnt/home
+	else
+		mkfs.fat -F 32 "$_disk"1
+		mkswap "$_disk"2
+		mkfs.ext4 "$_disk"3
+		mkfs.ext4 "$_disk"4
+		mkfs.ext4 "$_disk"5
+
+		swapon "$_disk"2
+		mount -t ext4 -o errors=remount-ro "$_disk"3 /mnt
+		mkdir -p /mnt/{boot/efi,home,var/log}
+		mount -t vfat -o umask=0077,noexec,nosuid,nodev "$_disk"1 /mnt/boot/efi
+		mount -t ext4 -o noexec,nosuid,nodev "$_disk"4 /mnt/var/log
+		mount -t ext4 -o defaults "$_disk"5 /mnt/home
+	fi
+}
+
+do_mount() {
+	local _mode _disk
+
+	_mode=$(get_var MODE)
+	_disk=$(get_var DISK)
+
+	if [[ $_mode == "bios" ]]; then
+		swapon "$_disk"5
+		mount -t ext4 -o errors=remount-ro "$_disk"6 /mnt
+		mkdir -p /mnt/{boot,home,tmp,var/log}
+		mount -t ext4 -o noexec,nosuid,nodev "$_disk"1 /mnt/boot
+		mount -t ext4 -o noexec,nosuid,nodev "$_disk"7 /mnt/var/log
+		mount -t ext4 -o defaults "$_disk"8 /mnt/home
+	else
+		swapon "$_disk"2
+		mount -t ext4 -o errors=remount-ro "$_disk"3 /mnt
+		mkdir -p /mnt/{boot/efi,home,var/log}
+		mount -t vfat -o umask=0077,noexec,nosuid,nodev "$_disk"1 /mnt/boot/efi
+		mount -t ext4 -o noexec,nosuid,nodev "$_disk"4 /mnt/var/log
+		mount -t ext4 -o defaults "$_disk"5 /mnt/home
+	fi
+
+	# Mount /tmp to tmpfs
+	mount -t tmpfs -o rw,size=2G,nr_inodes=5k,noexec,nodev,nosuid,mode=1777 tmpfs /tmp
+}

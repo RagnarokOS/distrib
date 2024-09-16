@@ -1,0 +1,240 @@
+#!/bin/ksh
+
+# mkconf - create install.conf
+# $Ragnarok: mkconf,v 1.18 2024/09/12 17:59:08 lecorbeau Exp $
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#											#
+#	Copyright (c) 2023-2024, Ian LeCorbeau <I-LeCorbeau@protonmail.com>		#
+#											#
+#	Permission to use, copy, modify, and/or distribute this software for any	#
+#	purpose with or without fee is hereby granted, provided that the above		#
+#	copyright notice and this permission notice appear in all copies.		#
+#											#
+#	THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES	#
+#	WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF		#
+#	MERCHANTABILITY AND FITNESS IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR		#
+#	ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES		#
+#	WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN		#
+#	ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF		#
+#	OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.			#
+#											#
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
+CONF=${CONF:-install.conf}
+
+. ../../lib/ragnarok-installer/funcs
+
+# Set values in conf files
+set_val() {
+	local _conf="$1" _value="$2" _file="$3"
+
+	printf '%s\n' "${_conf} = ${_value}" >> "$_file"
+}
+
+# Ask size of partitions.
+ask_part() {
+	local _resp
+
+	read -r _resp?"Enter the boot mode for this system ('efi' or 'bios'): "
+	set_val Bootmode "$_resp" "$CONF"
+	msg "Choose the size of each partitions. Hint: for values in megabytes, use M (e.g. 500M), for gigabytes, use G (e.g. 30G)"
+	read -r _resp?"Size of swap partition: "
+	set_val Swap "$_resp" "$CONF"
+	read -r _resp?"Size of the root partition: "
+	set_val Root "$_resp" "$CONF"
+	read -r _resp?"Size of home partition (leave empty to use remaining space): "
+	set_val Home "$_resp" "$CONF"
+}
+
+# Device setup
+mkdisk() {
+	local _resp _dev _swap _root _home
+
+	lsblk
+	echo
+	read -r _resp?"Which disk should the system be installed on? (enter device, e.g. /dev/sdX): "
+	set_val Device "$_resp" "$CONF"
+
+	_dev=$(get_val Device "$CONF")
+
+	read -r _resp?"The installer will create partitions on ${_dev}. Warning: all data will be erased. Proceed? (Y/n/s/?): "
+	case "$_resp" in
+		Y|y)
+			ask_part
+			;;
+		N|n)
+			sed -i '/Device/d' "$CONF"
+			sed -i '/Bootmode/d' "$CONF"
+			mkdisk
+			;;
+		s|S)	# Skip if 's' or 'S'
+			return
+			;;
+		?)
+			msg "Y/y = proceed.
+N/n = restart (e.g. if the wrong disk was selected).
+S/s = skip (if the device was partitioned beforehand).
+?   = show this help message then restart." | less -c
+			sed -i '/Device/d' "$CONF"
+			sed -i '/Bootmode/d' "$CONF"
+			mkdisk
+			;;
+		*)
+			ask_part
+			;;
+	esac
+
+	_mode=$(get_val Bootmode "$CONF")
+	_swap=$(get_val Swap "$CONF")
+	_root=$(get_val Root "$CONF")
+	_home=$(get_val Home "$CONF")
+
+	case "$_mode" in
+		bios)	_boottype="ext4"
+			;;
+		efi)	_boottype="Fat32"
+			;;
+	esac
+
+	if [[ -z "${_home}" ]]; then
+		_homesize="using the remaining free space"
+	else
+		_homesize="of $_home in size"
+	fi
+
+	read -r _resp?"The following partitions will be created on ${_dev}:
+
+a 500M $_boottype /boot partition on ${_dev}1,
+a swap partition of $_swap in size on ${_dev}2,
+an ext4 /root partition of $_root in size on ${_dev}3
+and an ext4 /home partition $_homesize on ${_dev}4.
+
+Proceed? (Y/n): "
+	case "$_resp" in
+		Y|y)
+			# Proceed with the rest of the script
+			return
+			;;
+		N|n)
+			# Reset config values and run mkpart again.
+			sed -i	-e '/Device/d' \
+				-e '/Swap/d' \
+				-e '/Root/d' \
+				-e '/Home/d' \
+				"$CONF"
+			mkdisk
+			;;
+		*)
+			return
+			;;
+	esac
+}
+
+# Ask for the hostname
+ask_hosts() {
+	local _resp
+
+	read -r _resp?"Enter the hostname for this system: "
+	set_val Hostname "$_resp" "$CONF"
+}
+
+# Ask timezone
+ask_tz() {
+	local _resp _q="$1"
+
+	read -r _resp?"$_q "
+	case "$_resp" in
+		l)	less --prompt="/ to search, j/k to navigate, q to quit, h for help " /usr/share/ragnarok-installer/lists/tz.list; ask_tz "$@"
+			;;
+		*)	set_val Timezone "$_resp" "$CONF"
+			;;
+	esac
+}
+
+# Ask locale
+ask_locale() {
+	local _resp _q="$1"
+
+	read -r _resp?"$_q "
+	case "$_resp" in
+		l)	less --prompt="/ to search, j/k to navigate, q to quit, h for help " /usr/share/ragnarok-installer/lists/locales.list; ask_locale "$@"
+			;;
+		*)	set_val Locale "$_resp" "$CONF"
+			;;
+	esac
+}
+
+# Keyboard layout
+ask_kb() {
+	local _resp _q="$1"
+
+	read -r _resp?"$_q "
+	case "$_resp" in
+		l)	less --prompt="/ to search, j/k to navigate, q to quit, h for help " /usr/share/ragnarok-installer/lists/xkblayout.list; ask_kb "$@"
+			;;
+		*)	set_val KB_Layout "$_resp" "$CONF"
+			# Get variant from the list of available keymaps. One less question to ask.
+			_variant=$(awk -v var="^${_resp}" '$0 ~ var { $1=""; print substr($0,2) }' /usr/share/ragnarok-installer/lists/xkblayout.list)
+			set_val KB_Variant "$_variant" "$CONF"
+			;;
+	esac
+}
+
+# Function for set selection
+ask_sets() {
+	local _resp _sets _Yn
+
+	read -r _resp?"Aside from the base system, the following sets (metapackages)
+can be installed:
+[x] devel   | The git and build-essential packages, plus LLVM/Clang toolchain.
+[x] virt    | Minimal package set to run virtual machines with QEMU.
+[x] xserv   | Minimal xorg + xinit.
+[x] xfonts  | Extra fonts for xserv.
+[x] xprogs  | Window Managers (Raven, cwm) + ragnarok-terminal and dmenu.
+
+Leave empty to install all sets, type 'none' to skip set installation, or type
+the name of the sets to be installed. Press Return when done.
+
+Sets to install [all]: "
+	echo
+
+	# We need word splitting.
+	# shellcheck disable=SC2086
+	if [[ -n $_resp ]]; then
+		set -A _sets -- $_resp
+	else
+		set -A _sets -- devel virt xserv xfonts xprogs
+	fi
+
+	read -r _Yn?"The following sets will be installed: ${_sets[*]}. Proceed? (Y/n): "
+	case "$_Yn" in
+		Y|y)	set_val Sets "${_sets[*]}" "$CONF"
+			;;
+		N|n)	ask_sets
+			;;
+		*)	set_val Sets "${_sets[*]}" "$CONF"
+			;;
+	esac
+
+}
+
+## Begin actual script.
+
+# mkdisk
+mkdisk
+
+# Hostname
+ask_hosts
+
+# Timezone
+ask_tz "Enter the time zone for this system. e.g. America/New_York. ('l' for a list of supported time zones):"
+
+# Locale
+ask_locale "Enter the locale for this system. e.g. en_US.UTF-8 ('l' for a list of supported locales):"
+
+# Keyboard layout
+ask_kb "Set the keyboard layout. e.g. 'us'. ('l' for a list of available layouts):"
+
+# Sets/metapackage selection
+ask_sets

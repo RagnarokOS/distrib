@@ -1,0 +1,192 @@
+  pc101           Generic 101-key PC
+  pc102           Generic 102-key PC (intl.)
+  pc104           Generic 104-key PC
+  pc105           Generic 105-key PC (intl.)
+  dell101         Dell 101-key PC
+  latitude        Dell Latitude laptop
+  dellm65         Dell Precision M65 laptop
+  everex          Everex STEPnote
+  flexpro         Keytronic FlexPro
+  microsoft       Microsoft Natural
+  omnikey101      Northgate OmniKey 101
+  winbook         Winbook Model XP5
+  pc98            PC-98
+  a4techKB21      A4Tech KB-21
+  a4techKBS8      A4Tech KBS-8
+  a4_rfkb23       A4Tech Wireless Desktop RFKB-23
+  airkey          Acer AirKey V
+  azonaRF2300     Azona RF2300 wireless Internet
+  scorpius        Advance Scorpius KI
+  brother         Brother Internet
+  btc5113rf       BTC 5113RF Multimedia
+  btc5126t        BTC 5126T
+  btc6301urf      BTC 6301URF
+  btc9000         BTC 9000
+  btc9000a        BTC 9000A
+  btc9001ah       BTC 9001AH
+  btc5090         BTC 5090
+  btc9019u        BTC 9019U
+  btc9116u        BTC 9116U Mini Wireless Internet and Gaming
+  cherryblue      Cherry Blue Line CyBo@rd
+  cherryblueb     Cherry CyMotion Master XPress
+  cherrybluea     Cherry Blue Line CyBo@rd (alt.)
+  cherrycyboard   Cherry CyBo@rd USB-Hub
+  cherrycmexpert  Cherry CyMotion Expert
+  cherrybunlim    Cherry B.UNLIMITED
+  chicony         Chicony Internet
+  chicony0108     Chicony KU-0108
+  chicony0420     Chicony KU-0420
+  chicony9885     Chicony KB-9885
+  compaqeak8      Compaq Easy Access
+  compaqik7       Compaq Internet (7 keys)
+  compaqik13      Compaq Internet (13 keys)
+  compaqik18      Compaq Internet (18 keys)
+  cymotionlinux   Cherry CyMotion Master Linux
+  armada          Compaq Armada laptop
+  presario        Compaq Presario laptop
+  ipaq            Compaq iPaq
+  dell            Dell
+  dellsk8125      Dell SK-8125
+  dellsk8135      Dell SK-8135
+  dellusbmm       Dell USB Multimedia
+  inspiron        Dell Inspiron 6000/8000 laptop
+  precision_m     Dell Precision M laptop
+  dexxa           Dexxa Wireless Desktop
+  diamond         Diamond 9801/9802
+  dtk2000         DTK2000
+  ennyah_dkb1008  Ennyah DKB-1008
+  fscaa1667g      Fujitsu-Siemens Amilo laptop
+  genius          Genius Comfy KB-16M/Multimedia KWD-910
+  geniuscomfy     Genius Comfy KB-12e
+  geniuscomfy2    Genius Comfy KB-21e-Scroll
+  geniuskb19e     Genius KB-19e NB
+  geniuskkb2050hs Genius KKB-2050HS
+  gyration        Gyration
+  kinesis         Kinesis
+  logitech_base   Logitech
+  logitech_g15    Logitech G15 extra keys via G15daemon
+  hpi6            Hewlett-Packard Internet
+  hp250x          Hewlett-Packard NEC SK-2500 Multimedia
+  hpxe3gc         Hewlett-Packard Omnibook XE3 GC
+  hpxe3gf         Hewlett-Packard Omnibook XE3 GF
+  hpxt1000        Hewlett-Packard Omnibook XT1000
+  hpdv5           Hewlett-Packard Pavilion dv5
+  hpzt11xx        Hewlett-Packard Pavilion ZT1100
+  hp500fa         Hewlett-Packard Omnibook 500 FA
+  hp5xx           Hewlett-Packard Omnibook 500
+  hpnx9020        Hewlett-Packard nx9020
+  hp6000          Hewlett-Packard Omnibook 6000/6100
+  honeywell_euroboard Honeywell Euroboard
+  hpmini110       Hewlett-Packard Mini 110 laptop
+  rapidaccess     IBM Rapid Access
+  rapidaccess2    IBM Rapid Access II
+  thinkpad        IBM ThinkPad 560Z/600/600E/A22E
+  thinkpad60      IBM ThinkPad R60/T60/R61/T61
+  thinkpadz60     IBM ThinkPad Z60m/Z60t/Z61m/Z61t
+  ibm_spacesaver  IBM Space Saver
+  logiaccess      Logitech Access
+  logiclx300      Logitech Cordless Desktop LX-300
+  logii350        Logitech Internet 350
+  logimel         Logitech Internet 350
+  logicd          Logitech Cordless Desktop
+  logicd_it       Logitech Cordless Desktop iTouch
+  logicd_nav      Logitech Cordless Desktop Navigator
+  logicd_opt      Logitech Cordless Desktop Optical
+  logicda         Logitech Cordless Desktop (alt.)
+  logicdpa2       Logitech Cordless Desktop Pro (2nd alt.)
+  logicfn         Logitech Cordless Freedom/Desktop Navigator
+  logicdn         Logitech Cordless Desktop Navigator
+  logiitc         Logitech iTouch Cordless Y-RB6
+  logiik          Logitech Internet
+  itouch          Logitech iTouch
+  logicink        Logitech Internet Navigator
+  logiex110       Logitech Cordless Desktop EX110
+  logiinkse       Logitech iTouch Internet Navigator SE
+  logiinkseusb    Logitech iTouch Internet Navigator SE USB
+  logiultrax      Logitech Ultra-X
+  logiultraxc     Logitech Ultra-X Cordless Media Desktop
+  logidinovo      Logitech diNovo
+  logidinovoedge  Logitech diNovo Edge
+  mx1998          Memorex MX1998
+  mx2500          Memorex MX2500 EZ-Access
+  mx2750          Memorex MX2750
+  microsoft4000   Microsoft Natural Ergonomic 4000
+  microsoft7000   Microsoft Natural Wireless Ergonomic 7000
+  microsoftinet   Microsoft Internet
+  microsoftpro    Microsoft Natural Pro/Internet Pro
+  microsoftprousb Microsoft Natural Pro USB/Internet Pro
+  microsoftprooem Microsoft Natural Pro OEM
+  vsonku306       ViewSonic KU-306 Internet
+  microsoftprose  Microsoft Internet Pro (Swedish)
+  microsoftoffice Microsoft Office Keyboard
+  microsoftmult   Microsoft Wireless Multimedia 1.0A
+  microsoftsurface Microsoft Surface
+  microsoftelite  Microsoft Natural Elite
+  microsoftccurve2k Microsoft Comfort Curve 2000
+  oretec          Ortek Multimedia/Internet MCK-800
+  propeller       Propeller Voyager KTEZ-1000
+  qtronix         QTronix Scorpius 98N+
+  samsung4500     Samsung SDM 4500P
+  samsung4510     Samsung SDM 4510P
+  sanwaskbkg3     Sanwa Supply SKB-KG3
+  sk1300          NEC SK-1300
+  sk2500          NEC SK-2500
+  sk6200          NEC SK-6200
+  sk7100          NEC SK-7100
+  sp_inet         Super Power Multimedia
+  sven            SVEN Ergonomic 2500
+  sven303         SVEN Slim 303
+  symplon         Symplon PaceBook tablet
+  toshiba_s3000   Toshiba Satellite S3000
+  trust           Trust Wireless Classic
+  trustda         Trust Direct Access
+  trust_slimline  Trust Slimline
+  tm2020          TypeMatrix EZ-Reach 2020
+  tm2030PS2       TypeMatrix EZ-Reach 2030 PS2
+  tm2030USB       TypeMatrix EZ-Reach 2030 USB
+  tm2030USB-102   TypeMatrix EZ-Reach 2030 USB (102/105:EU mode)
+  tm2030USB-106   TypeMatrix EZ-Reach 2030 USB (106:JP mode)
+  yahoo           Yahoo! Internet
+  macbook78       MacBook/MacBook Pro
+  macbook79       MacBook/MacBook Pro (intl.)
+  macintosh       Macintosh
+  macintosh_old   Macintosh Old
+  macintosh_hhk   Happy Hacking for Mac
+  acer_c300       Acer C300
+  acer_ferrari4k  Acer Ferrari 4000
+  acer_laptop     Acer laptop
+  asus_laptop     Asus laptop
+  apple           Apple
+  apple_laptop    Apple laptop
+  applealu_ansi   Apple Aluminium (ANSI)
+  applealu_iso    Apple Aluminium (ISO)
+  applealu_jis    Apple Aluminium (JIS)
+  silvercrest     Silvercrest Multimedia Wireless
+  emachines       eMachines m6800 laptop
+  benqx           BenQ X-Touch
+  benqx730        BenQ X-Touch 730
+  benqx800        BenQ X-Touch 800
+  hhk             Happy Hacking
+  classmate       Classmate PC
+  olpc            OLPC
+  sun_type7_usb   Sun Type 7 USB
+  sun_type7_euro_usb Sun Type 7 USB (European)
+  sun_type7_unix_usb Sun Type 7 USB (Unix)
+  sun_type7_jp_usb Sun Type 7 USB (Japanese)/Japanese 106-key
+  sun_type6_usb   Sun Type 6/7 USB
+  sun_type6_euro_usb Sun Type 6/7 USB (European)
+  sun_type6_unix_usb Sun Type 6 USB (Unix)
+  sun_type6_jp_usb Sun Type 6 USB (Japanese)
+  sun_type6_jp    Sun Type 6 (Japanese)
+  targa_v811      Targa Visionary 811
+  unitekkb1925    Unitek KB-1925
+  compalfl90      FL90
+  creativedw7000  Creative Desktop Wireless 7000
+  teck227         Truly Ergonomic 227
+  teck229         Truly Ergonomic 229
+  apex300         SteelSeries Apex 300 (Apex RAW)
+  chromebook      Chromebook
+  teck227         Truly Ergonomic Computer Keyboard Model 227 (Wide Alt keys)
+  teck229         Truly Ergonomic Computer Keyboard Model 229 (Standard sized Alt keys, additional Super and Menu key)
+
+
