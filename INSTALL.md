@@ -1,292 +1,164 @@
 # Install Guide
 
-Although the installer is not yet ready, it is possible to install Ragnarok
-via chroot using the base01.tgz tarball. The following guide assumes that you
-will be using a [live](https://github.com/RagnarokOS/distrib/releases)
-Ragnarok ISO and that you know how to partition disks using command line tools
-such as fdisk or cfdisk.
+This will guide you though a full Ragnarok install, using the official
+installer, by showing the questions asked at install time and tips for
+the answers.
 
-## Disclaimer
+*Note: this guide assumes the reader is a complete beginner.*
 
-This is only for testing purposes. Ragnarok is not fully ready for production.
-Under normal circumstances, system breakages should not happen but the absence
-of bugs can not be guaranteed.
+## Before the install
 
-Breaking changes, however, are almost guaranteed to happen at some point.
+Boot from the latest [Ragnarok live ISO](https://ragnarokos.github.io/download.html).
+Change to the root account and ensure that the repo is up to date.
+(Tip: do it in tmux)
 
-## Tip
+    $ tmux
+    $ su
+    # apt update && apt upgrade
 
-Do yourself a favor and launch tmux. The base tarball being minimal, some
-things will be missing which may cause errors with the terminal once chrooted
-into the system. Doing the install in a tmux session will prevent them.
+*The password for root is 'root'*
 
-## Download base01.tgz
+## Further preparation
 
-Before doing anything, fetch the latest base01.tgz tarball from the github
-releases page:
+Next, decide whether you will create custom partitions or use the default
+Ragnarok partitioning scheme which consists of a 500M /boot partition (Fat32
+for efi systems, ext4 for bios/legacy systems), and separate swap, root and
+home partitions whose size you will be asked to choose at install time.
 
-    $ wget -q --show-progress -O base01.tgz https://github.com/RagnarokOS/distrib/releases/download/01/base01.tgz
+Custom partitions can be created with whatever tool you prefer. Ragnarok's
+ISO include fdisk/sfdisk/cfdisk by default, while parted is available in
+the repository.
 
-## Switch to root
+If you choose to create custom partitions, **ensure that they are mounted
+to /mnt**. Also note that in this scenario, you will be tasked with setting
+up the bootloader yourself.
 
-From then on, all commands need to be run as root. In a live Ragnarok system,
-simply use the `su` command. The password is `root`.
+Once you've decided, launch the installer:
 
-## Preparing the disk
+    # ragnarok-install
 
-External tools such as fdisk or cfdisk can be used to create partitions.
-Use whatever tool you want, but make sure that once the partitioning is done,
-all partitions are mounted to `/mnt/`. If your system uses EFI, make sure that
-the first partition is in fat32 format with at least 500mb of space.
+## Disk Partitioning
 
-When you're done creating the partitions, use mkfs to format the filesystems,
-then mount the partitions to /mnt.
+Q: "Which disk should the system be installed on?"
 
-A recommended scheme for EFI systems is a 500mb /boot partition, a swap partition
-at least equal in size to the system's available RAM, a 30-35Gb root partition and
-a home partition utilizing the rest of the available space.
+Enter the device on which the system will be installed, e.g. /dev/sdX
+(replace X with the proper letter).
 
-For legacy systems, the same scheme can be used, minus the boot partition.
+Q: "The installer will create partitions on \<device\>. Warning all
+data will be erased. Proceed (Y/n/s/?): "
 
-Example mkfs/mount commands, assuming you have used the recommended partitioning
-scheme (substitute *X* with the proper device letter):
+'Y/y' will proceed with the rest of the disk configuration portion.
+'N/n' will restart the process (e.g. if you entered the wrong device).
+'S/s' will skip the rest of the disk configuration process. Choose this
+option if you created a custom partitioning scheme.
+'?' will show a help message.
 
-EFI:  
+If you chose 'S/s', you can move on to the next section.
 
-    # mkfs.fat -F 32 /dev/sdX1
-    # mkswap /dev/sdX2
-    # mkfs.ext4 /dev/sdX3
-    # mkfs.ext4 /dev/sdX4
+Q: "Enter the boot mode for this system ('efi' or 'bios'): "
 
-    # mount -t ext4 -o errors=remount-ro /dev/sdX3 /mnt
-    # swapon /dev/sdX2
-    # mkdir -p /mnt/{boot/efi,home}
-    # mount -t vfat -o umask=0077,noexec,nosuid,nodev /dev/sdX1 /mnt/boot/efi
-    # mount -t ext4 -o defaults /dev/sdX4 /mnt/home
+Self-explanatory. Note: Ragnarok uses grub for efi systems, and syslinux
+(extlinux) for bios/legacy systems. This may help choosing if you can
+actually decide the boot mode yourself (if your computer supports both,
+or if installing the system in a virtual machine).
 
-Legacy/Bios:  
+Q: "Choose the size of each partitions."
 
-    # mkswap /dev/sdX1
-    # swapon /dev/sdX1
-    # mkfs.ext4 /dev/sdX2
-    # mkfs.ext4 /dev/sdX3
+You will be asked to enter the size for the swap, root and home partitions
+either in megabytes or gigabytes.
 
-    # mount -t ext4 -o errors=remount-ro /dev/sdX2 /mnt
-    # mkdir -p /mnt/home
-    # mount -t ext4 -o defaults /dev/sdX3 /mnt/home
+For size in megabytes, the format is **\<number\>M**, e.g. 500M.
+For size in gigabytes, the format is **\<number\>G**, e.g. 30G.
 
-## Extract base01.tgz
+If you want /home to use the rest of the available space, you can simply
+press return without entering any size.
 
-Once you are certain all partitions are mounted to `/mnt/`, you can now untar
-base01.tgz:
+You will then be shown the partition table to be created and asked to proceed
+or not. Answer 'Y' or 'y' to proceed, 'N' or 'n' to restart redo the device
+partitioning part.
 
-    # tar xzpvf base01.tgz --xattrs --xattrs-include='*' --numeric-owner -C /mnt
+## Hostname / Timezone / Locale / Keyboard
 
-## Generate the fstab file
+Q: "Enter the hostname for this system: "
 
-Use the `genfstab` command to generate a proper fstab file:
+This cna be whatever you want. Spaces in the name are not allowed.
 
-    # genfstab -U /mnt >> /mnt/etc/fstab
+For the next three config settings, typing 'l' will open a list of available
+options in `less`. 
 
-## Networking
+Q: "Enter the timezone for this system. e.g. America/New_York. "
 
-Copy the system's /etc/resolv.conf to the chroot:
+Set your timezone
 
-    # cp /etc/resolv.conf /mnt/etc/resolv.conf
+Q: "Enter the locale for this system. e.g. en_US.UTF-8 UTF-8: "
 
-Copy /etc/network/interfaces to the chroot for good measure:
+Set the system's locale. It is important to not miss the charmap (e.g. UTF-8).
 
-    # mkdir -p /mnt/etc/network
-    # cp /etc/network/interfaces /mnt/etc/network/
+Q: "Set the keyboard layout. e.g. 'us': "
 
-If you configured a wireless connection in /etc/network/interfaces.d/, you
-can copy this directory to the chroot as well:
+Set the keymap for both the console and X11.
 
-    # cp -r /etc/network/interfaces.d/ /mnt/etc/network/
+## Select the sets
 
-## Chroot to the new system
+You will then be asked to select which extra set to install. These are
+metapackages containing extra software and are entirely optional. 
 
-Now, use the arch-chroot command to chroot into the system:
+The `devel` set contains git, build-essential and the full LLVM/Clang
+toolchain from the project's own apt repo.
 
-    # arch-chroot /mnt/ /bin/ksh
+The `virt` set contains the bare minimum required to run virtual machines
+directly with QEMU.
 
+The `xserv` set contains a minimal xserver, xinit and alsa.
 
-## Updates
+The `xfonts` set contains extra fronts for xorg (spleen, liberation, DejaVu).
 
-Update the package repository:
+The `xprogs` sets contain two window managers: OpenBSD's cwm, and Raven, a
+fork of Suckless' dwm. It also contains rt (a fork of Suckless' st terminali),
+dmenu, xcompmgr, xclip, xterm and hsetroot.
 
-    # apt-get update
+To install all the sets, simple leave empty and press Return. To install none
+of the sets, type 'none' then Return. To pick and choose which set to install
+simply type their name separated by a space.
 
-## Set the timezone
+If you chose to omit one or more set you can always install them later via
+apt-get, e.g.
 
-Run the following command and follow the steps:
-
-    # dpkg-reconfigure tzdata
-
-## Set hosts and hostname files
-
-The `/etc/hosts` and `/etc/hostname` files use the `ragnarok` hostname
-by default. Choose your own hostname if you want and change it using the
-following sed command (subsituting *myhostname*):
-
-    sed -i 's/ragnarok/myhostname/g' /etc/hosts /etc/hostname
-
-## Locale and Keyboard configuration
-
-Set your locale and configure keymaps:
-
-    # apt-get install locales -y
-    # dpkg-reconfigure locales
-    # apt-get install console-setup -y
-
-## Install the kernel
-
-Ragnarok has its own experimental kernel built with LLVM/Clang, which takes advantage
-of Clang's ThinLTO feature and bakes in many security options. Although no bugs were
-found, it has not been tested on enough hardware to guarantee that none will ever be
-found.
-
-It is recommended to install Ragnarok's kernel as well as Debian's as a backup. Do note,
-however, that Ragnarok's kernel build does not support secure boot, so if secure boot is
-needed, only install Debian's.
-
-Use the kernupd(8) utility to install Ragnarok's kernel flavour (this utility will have to
-be used to update the kernel, for as long as it remains experimental.
-
-Install Debian's kernel first:
-
-    # apt-get install linux-image-amd64 -y
-
-Then, download and install Ragnarok's kernel build:
-
-    # kernupd -d
-    # kernupd -i
-
-*The download and install need to be done separately here, but under normal circumstances
-kernupd with no arguments would do both simultaneously if the kernel is out-of-date or
-not yet installed.*
-
-## Install extra sets (optional)
-
-Aside from the base set, Ragnarok has extra sets (a.k.a metapackages) containing packages
-that form the whole operating system.
-
-These sets are optional, but highly recommended. Generally speaking, there should be a valid
-reason to not install a certain set (IE: a server would obviously not need them). If you choose
-to skip their installation here, you can always install them later on anyway.
-
-The sets that can be installed:
-
-devel:  the LLVM/Clang toolchain plus build-essential  
-virt:   minimal package set to run QEMU virtual machines  
-xserv:  minimal xserver and xinit  
-xprogs: contains Window Managers (Raven and cwm) as well as the ragnarok-terminal (rt) and
-        dmenu.      
-xfonts: contains some extra fonts (DejaVu, Liberation, Spleen)  
-(more sets to come)
-
-These sets are packaged under the `ragnarok-setname` name.
-
-Example, installing all sets while keeping 'virt' as small as possible:
-
-    # apt-get install ragnarok-devel ragnarok-xserv ragnarok-xprogs ragnarok-xfonts
-    # apt-get install --no-install-recommends ragnarok-virt
-
-## Install hardened_malloc
-
-If desired, you can install GrapheneOS' hardened memory allocator.
-
-    # apt-get install hardened-malloc
-
-On first boot, you can either enable the pre-compiled binary via init:
-
-    # update-rc.d hardened_malloc defaults
-    # /etc/init.d/hardened_malloc start
-
-or recompile the package using march=native and the variant of your choice
-(light, medium or strong):
-
-    # cd /usr/src
-    # tar xvf hardened_malloc.tgz
-    # cd hardened_malloc
-    # make VARIANT=light
-    # cd
-    # update-rc.d hardened_malloc defaults
-    # /etc/init.d/hardened_malloc start
-
-Note that browsers (except Surf) tend to misbehave when hardened_malloc is enabled.
-
-See: [https://github.com/RagnarokOS/hardened_malloc](https://github.com/RagnarokOS/hardened_malloc).
+    apt-get install ragnarok-xserv ragnarok-xfonts
 
 ## Users and passwords
 
-Set a password for the root user:
+Q: "Password for the root account? "
 
-    # passwd
+This cannot be skipped. If you want to lock the root account, you can do it
+after the install, though you should probably ensure to at least redirect
+root's mail to the default user via /etc/aliases.
 
-Create a new user and set password:
+Q: "Setup a default user? [Y/n]: "
 
-    # useradd -m -s /bin/ksh username
-    # usermod -aG wheel,cdrom,floppy,audio,dip,video,plugdev,netdev username
-    # passwd username
+Choose if you want to create a default user. Typing 'n' will skip user
+creation.
 
-## Configure doas
+If you typed 'Y/y':
 
-Regular users part of the *wheel* group may be allowed to run commands as root by using doas
-(a simpler replacement for sudo) by configuring the `/etc/doas.conf` file:
+Q: "Name of the default user: "
+Q: "Password for \<username\> "
 
-    # echo "premit :wheel" > /etc/doas.conf
+Self-explanatory. Enter username and password.
 
-See the doas(1) man page for more configuration options.
+## System installation
 
-## Setup the bootloader
+Grab a cup of coffee or a beer and let the installer do its thing.
 
-On EFI systems:
+When the installation process is done, you will be prompted to either type
+'e' to exit the installer or 'r' to reboot. If you need extra non-free firmware,
+you may type 'e' and use the `arch-chroot` command to install them, e.g.
 
+    # arch-chroot /mnt apt-get install firmware-iwlwifi
 
-    # apt install grub-efi-amd64
-    # grub-install --target=x86_64-efi --efi-directory=/boot/efi
-    # update-grub
+would install non-free firmware for intel wifi cards.
 
-For bios/legacy systems:
+## Afterboot
 
-    # apt-get install grub-pc
-    # grub-install /dev/sdX     (where X is the device mount to /mnt)
-    # update-grub
-
-## Installing non-free firmware
-
-If your system requires any non-free firmware package (e.g. for wireless cards), now would
-be the time to install them.
-
-Example for an intel wireless card:
-
-    # apt-get install firmware-iwlwifi wpasupplicant
-
-## Finalizing
-
-Update the manual pages database:
-
-    # makewhatis /usr/share/man
-
-If you liked some of the configuration files from the live ISO (e.g. tmux.conf, vimrc) you
-can copy 
-
-Clean up the chroot and exit:
-
-    # apt clean
-    # exit
-
-Remove resolv.conf so it gets recreated at boot:
-
-    # rm /mnt/etc/resolv.conf
-
-If you liked some of the configuration files from the live ISO (e.g. tmux.conf, vimrc) you
-can copy them to /mnt/home/*yourusername* before unmounting the devices.
-
-Unmount the devices. Assuming the standard partitioning scheme was used:
-
-    # umount /dev/sdX3
-    # umount /dev/sdX2
-
-You can now reboot to the newly installed system.
+Once booted into the new system, don't forget to read root's mail and
+the afterboot(8) manual.
