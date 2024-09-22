@@ -109,13 +109,13 @@ toolchain from the project's own apt repo.
 The `virt` set contains the bare minimum required to run virtual machines
 directly with QEMU.
 
-The `xserv` set contains a minimal xserver, xinit and alsa.
+The `xserv` set contains a minimal xserver, xinit, xterm and alsa.
 
 The `xfonts` set contains extra fronts for xorg (spleen, liberation, DejaVu).
 
 The `xprogs` sets contain two window managers: OpenBSD's cwm, and Raven, a
-fork of Suckless' dwm. It also contains rt (a fork of Suckless' st terminali),
-dmenu, xcompmgr, xclip, xterm and hsetroot.
+fork of Suckless' dwm. It also contains rt (a fork of Suckless' st terminal),
+dmenu, xcompmgr, xclip and hsetroot.
 
 To install all the sets, simple leave empty and press Return. To install none
 of the sets, type 'none' then Return. To pick and choose which set to install
