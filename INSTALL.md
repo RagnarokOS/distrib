@@ -74,14 +74,14 @@ If you want /home to use the rest of the available space, you can simply
 press return without entering any size.
 
 You will then be shown the partition table to be created and asked to proceed
-or not. Answer 'Y' or 'y' to proceed, 'N' or 'n' to restart redo the device
+or not. Answer 'Y' or 'y' to proceed, 'N' or 'n' to restart the device
 partitioning part.
 
 ## Hostname / Timezone / Locale / Keyboard
 
 Q: "Enter the hostname for this system: "
 
-This cna be whatever you want. Spaces in the name are not allowed.
+This can be whatever you want. Spaces in the name are not allowed.
 
 For the next three config settings, typing 'l' will open a list of available
 options in `less`. 
@@ -117,7 +117,7 @@ The `xprogs` sets contain two window managers: OpenBSD's cwm, and Raven, a
 fork of Suckless' dwm. It also contains rt (a fork of Suckless' st terminal),
 dmenu, xcompmgr, xclip and hsetroot.
 
-To install all the sets, simple leave empty and press Return. To install none
+To install all the sets, simply leave empty and press Return. To install none
 of the sets, type 'none' then Return. To pick and choose which set to install
 simply type their name separated by a space.
 
@@ -141,7 +141,7 @@ creation.
 
 If you typed 'Y/y':
 
-Q: "Name of the default user: "
+Q: "Name of the default user: "  
 Q: "Password for \<username\> "
 
 Self-explanatory. Enter username and password.
