@@ -113,8 +113,7 @@ First, refresh the system's apt repos:
 
     # arch-chroot /mnt apt-get update
 
-Then, use the `setlocale` utility can be used to set the system's locale and
-charmap, e.g.:
+Then, use the `setlocale` utility to set the system's locale and charmap, e.g.:
 
     # setlocale en_US.UTF-8 UTF-8
 
