@@ -104,24 +104,42 @@ can copy this directory to the chroot as well:
 
     # cp -r /etc/network/interfaces.d/ /mnt/etc/network/
 
+## Set locale, timezone and keyboard
+
+Before chrooting to the base system, use tools provided by the installer to
+quickly set the locale, timezone and keyboard.
+
+First, refresh the system's apt repos:
+
+    # arch-chroot /mnt apt-get update
+
+Then, use the `setlocale` utility can be used to set the system's locale and
+charmap, e.g.:
+
+    # setlocale en_US.UTF-8 UTF-8
+
+See `/usr/share/ragnarok-installer/lists/locales.list` for a list of available
+locales/charmaps. `setlocale` will also take care of setting up the console.
+
+The `settz` utility can be used to set the timezone, e.g.
+
+    # settz America/New_York
+
+See `/usr/share/ragnarok-installer/tz.list` for a list of available timezones.
+
+Finally, the setkb utility can be used to set the keyboard layout for both the
+console and X11, e.g.
+
+    # setkb us
+
+See `/usr/share/ragnarok-installer/xkblayout.list` for a list of available keyboard
+layouts.
+
 ## Chroot to the new system
 
 Now, use the arch-chroot command to chroot into the system:
 
     # arch-chroot /mnt/ /bin/ksh
-
-
-## Updates
-
-Update the package repository:
-
-    # apt-get update
-
-## Set the timezone
-
-Run the following command and follow the steps:
-
-    # dpkg-reconfigure tzdata
 
 ## Set hosts and hostname files
 
@@ -130,14 +148,6 @@ by default. Choose your own hostname if you want and change it using the
 following sed command (subsituting *myhostname*):
 
     sed -i 's/ragnarok/myhostname/g' /etc/hosts /etc/hostname
-
-## Locale and Keyboard configuration
-
-Set your locale and configure keymaps:
-
-    # apt-get install locales -y
-    # dpkg-reconfigure locales
-    # apt-get install console-setup -y
 
 ## Install the kernel
 
@@ -235,7 +245,7 @@ Create a new user and set password:
 Regular users part of the *wheel* group may be allowed to run commands as root by using doas
 (a simpler replacement for sudo) by configuring the `/etc/doas.conf` file:
 
-    # echo "premit :wheel" > /etc/doas.conf
+    # echo "permit :wheel" > /etc/doas.conf
 
 See the doas(1) man page for more configuration options.
 

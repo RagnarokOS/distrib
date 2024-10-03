@@ -46,7 +46,7 @@ Always take into account that the installer will create a 500M boot partition
 at install time.
 
 `KB_Layout`: layout for the console and X11. A list of available layouts is
-located at `/usr/share/ragnarok-installer/lists/xkblayout.list. First column
+located at `/usr/share/ragnarok-installer/lists/xkblayout.list`. First column
 lists the layout, the second lists its variant.
 
 `KB_Variant` can be determined by searching for your `KB_Layout` in the
