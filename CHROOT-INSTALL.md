@@ -1,18 +1,10 @@
 # Install Guide
 
-Although the installer is not yet ready, it is possible to install Ragnarok
-via chroot using the base01.tgz tarball. The following guide assumes that you
-will be using a [live](https://github.com/RagnarokOS/distrib/releases)
+Although Ragnarok has its official installer, it is possible perform a
+'chroot-style' install using the base tarball. The following guide
+assumes that you will be using a [live](https://github.com/RagnarokOS/distrib/releases)
 Ragnarok ISO and that you know how to partition disks using command line tools
 such as fdisk or cfdisk.
-
-## Disclaimer
-
-This is only for testing purposes. Ragnarok is not fully ready for production.
-Under normal circumstances, system breakages should not happen but the absence
-of bugs can not be guaranteed.
-
-Breaking changes, however, are almost guaranteed to happen at some point.
 
 ## Tip
 
@@ -160,7 +152,7 @@ however, that Ragnarok's kernel build does not support secure boot, so if secure
 needed, only install Debian's.
 
 Use the kernupd(8) utility to install Ragnarok's kernel flavour (this utility will have to
-be used to update the kernel, for as long as it remains experimental.
+be used to update the kernel, for as long as it remains experimental).
 
 Install Debian's kernel first:
 
@@ -190,7 +182,7 @@ devel:  the LLVM/Clang toolchain plus build-essential
 virt:   minimal package set to run QEMU virtual machines  
 xserv:  minimal xserver and xinit  
 xprogs: contains Window Managers (Raven and cwm) as well as the ragnarok-terminal (rt) and
-        dmenu.      
+        dmenu, xcompmgr, xclip and hsetroot.      
 xfonts: contains some extra fonts (DejaVu, Liberation, Spleen)  
 (more sets to come)
 
@@ -207,13 +199,12 @@ If desired, you can install GrapheneOS' hardened memory allocator.
 
     # apt-get install hardened-malloc
 
-On first boot, you can either enable the pre-compiled binary via init:
+You can either enable the pre-compiled binary via init:
 
     # update-rc.d hardened_malloc defaults
-    # /etc/init.d/hardened_malloc start
 
 or recompile the package using march=native and the variant of your choice
-(light, medium or strong):
+(light, medium or strong) if the `devel` set is installed:
 
     # cd /usr/src
     # tar xvf hardened_malloc.tgz
@@ -221,7 +212,6 @@ or recompile the package using march=native and the variant of your choice
     # make VARIANT=light
     # cd
     # update-rc.d hardened_malloc defaults
-    # /etc/init.d/hardened_malloc start
 
 Note that browsers (except Surf) tend to misbehave when hardened_malloc is enabled.
 
@@ -278,9 +268,6 @@ Update the manual pages database:
 
     # makewhatis /usr/share/man
 
-If you liked some of the configuration files from the live ISO (e.g. tmux.conf, vimrc) you
-can copy 
-
 Clean up the chroot and exit:
 
     # apt clean
@@ -291,7 +278,8 @@ Remove resolv.conf so it gets recreated at boot:
     # rm /mnt/etc/resolv.conf
 
 If you liked some of the configuration files from the live ISO (e.g. tmux.conf, vimrc) you
-can copy them to /mnt/home/*yourusername* before unmounting the devices.
+can copy them to /mnt/home/*yourusername* before unmounting the devices (don't forget to check
+the copied files' permissions).
 
 Unmount the devices. Assuming the standard partitioning scheme was used:
 
