@@ -1,5 +1,5 @@
 # Makefile for creating Ragnarok's xserv ISO.
-# $Ragnarok: Makefile,v 1.24 2024/05/09 17:22:26 lecorbeau Exp $
+# $Ragnarok: Makefile,v 1.25 2024/10/18 15:55:26 lecorbeau Exp $
 #
 # Work in progress
 
@@ -52,6 +52,8 @@ iso:
 	# Set date in /var/message/welcome.txt
 	sed -i	-e "s|@DATE@|$(shell date)|g" \
 		config/includes.chroot_after_packages/var/messages/welcome.txt
+	mkdir -p config/includes.chroot_after_packages/var/db/dummies
+	cp config/packages.chroot/man-db_999+ragnarok01_amd64.deb config/includes.chroot_after_packages/var/db/dummies/
 	tar xzpvf ../../miniroot${VERSION}.tgz --xattrs --xattrs-include='*' --numeric-owner -C chroot/
 	lb chroot
 	lb binary
