@@ -1,5 +1,5 @@
 # Makefile for creating Ragnarok's xserv ISO.
-# $Ragnarok: Makefile,v 1.25 2024/10/18 15:55:26 lecorbeau Exp $
+# $Ragnarok: Makefile,v 1.26 2024/10/28 19:09:33 lecorbeau Exp $
 #
 # Work in progress
 
@@ -23,9 +23,6 @@ live-config:
 		--iso-volume ${NAME} --archive-areas "${COMPONENTS}" \
 		--debootstrap-options "--variant=${VARIANT}" \
 		--bootappend-live "${LIVE_BOOTPARAMS}" --cache false
-	cp ../../../linux-image-${KERNEL}-ragnarok-amd64_${KERNEL}-ragnarok-amd64-${REV}_amd64.deb config/packages.chroot/
-	cp ../../../linux-headers-${KERNEL}-ragnarok-amd64_${KERNEL}-ragnarok-amd64-${REV}_amd64.deb config/packages.chroot/
-	cp ../../../linux-libc-dev_${KERNEL}-ragnarok-amd64-${REV}_amd64.deb config/packages.chroot/
 	touch .build/bootstrap
 	mkdir -p chroot
 
