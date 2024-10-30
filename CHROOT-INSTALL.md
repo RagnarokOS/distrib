@@ -142,30 +142,32 @@ following sed command (subsituting *myhostname*):
 
 ## Install the kernel
 
-Ragnarok has its own experimental kernel built with LLVM/Clang, which takes advantage
-of Clang's ThinLTO feature and bakes in many security options. Although no bugs were
-found, it has not been tested on enough hardware to guarantee that none will ever be
-found.
+Ragnarok has its own kernel built with LLVM/Clang, which takes advantage of Clang's
+ThinLTO feature and bakes in many security options[1]. Although no bugs were found,
+it has not been tested on enough hardware to guarantee that none will ever be found,
+so users may install Debian's standard kernel as a backup if they wish.
 
-It is recommended to install Ragnarok's kernel as well as Debian's as a backup. Do note,
-however, that Ragnarok's kernel build does not support secure boot, so if secure boot is
-needed, only install Debian's.
+*Note: Ragnarok's kernel does not support secure-boot out of the box. Furthermore,
+hibernation is disabled as a security measure (however, suspend works as intended).*
 
-Use the kernupd(8) utility to install Ragnarok's kernel flavour (this utility will have to
-be used to update the kernel, for as long as it remains experimental).
-
-Install Debian's kernel first:
+Installing both kernels:
 
     # apt-get install linux-image-amd64 -y
+    # apt-get install linux-image-ragnarok-amd64
 
-Then, download and install Ragnarok's kernel build:
+Installing only the Ragnarok kernel:
 
-    # kernupd -d
-    # kernupd -i
+    # apt-get install ragnarok-kernel
 
-*The download and install need to be done separately here, but under normal circumstances
-kernupd with no arguments would do both simultaneously if the kernel is out-of-date or
-not yet installed.*
+Differences between `linux-image-ragnarok-amd64` and `ragnarok-kernel`:
+
+* `linux-image-ragnarok-amd64` only provides the kernel, its headers and libc-dev
+packages.
+
+* `ragnarok-kernel` installs `linux-image-ragnarok-amd64` plus all kernel dependencies
+as well as all `dpkg` scripts normally provided by Debian's standard kernel (which are
+not provided by other kernel packages but necessary to perform the preinst, postinst,
+prerm and postrm tasks).
 
 ## Install extra sets (optional)
 
@@ -287,3 +289,8 @@ Unmount the devices. Assuming the standard partitioning scheme was used:
     # umount /dev/sdX2
 
 You can now reboot to the newly installed system.
+
+### Links
+
+[1] - [https://ragnarokos.github.io/docs/kernel-security.html](https://ragnarokos.github.io/docs/kernel-security.html)
+
