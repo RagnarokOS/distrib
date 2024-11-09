@@ -18,21 +18,28 @@ Set up env:
     $ cd /usr/src/ragnarok
     $ for _repo in distrib src; do git clone https://github.com/RagnarokOS/"$_repo".git; done
 
-Get the latest version of Ragnarok's kernel build. On Ragnarok systems, the `kernupd -d`
-command will download all the relevant packages into `/var/db/kernel/`, simply move them
-to `/usr/src/ragnarok`. On other Debian based systems, simply download the kernel/headers/libc-dev
+Get the latest version of Ragnarok's kernel build. On Ragnarok systems, you can use apt
+to download all the relevant packages:
+
+    $ apt-get download linux-image-$VERSION-ragnarok-amd64 linux-headers-$VERSION-ragnarok-amd64 linux-libc-dev
+
+Replace `$VERSION` with the latest version.
+
+On other Debian based systems, simply download the kernel/headers/libc-dev
 packages from the [Release page](https://github.com/RagnarokOS/kernel-build/releases).
+
+Ensure that all kernel-related packages are in `/usr/src/ragnarok`, then
 
 Change directory:
 
     $ cd distrib/
 
-Build a release (miniroot + live ISO):
+Build a release (miniroot, base + live ISO):
 
     $ make
     # make release
 
-The resulting miniroot tarball will be saved in the current working directory (/usr/src/ragnarok/distrib).
+The resulting tarballs will be saved in the current working directory (/usr/src/ragnarok/distrib).
 The resulting ISO will be saved in /usr/src/ragnarok/distrib/iso/live.
 
 Reporting Issues
