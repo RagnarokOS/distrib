@@ -1,5 +1,5 @@
-# Makefile for creating Ragnarok's cli-only live ISO.
-# $Ragnarok: Makefile,v 1.4 2024/05/07 16:00:53 lecorbeau Exp $
+# Makefile for creating Ragnarok's installer ISO.
+# $Ragnarok: Makefile,v 1.5 2024/11/13 23:37:22 lecorbeau Exp $
 #
 # Work in progress
 
@@ -11,30 +11,27 @@
 
 include ../../config.mk ../live.mk
 
-all: live-config
+all: installer-config
 
 # Let's test this new method.
-live-config:
+installer-config:
 	lb config \
 		-d ${FLAVOUR} --debian-installer none \
 		--iso-publisher "${PUBLISHER}" --initsystem sysvinit \
-		--checksums sha512 --image-name miniso${VERSION} \
-		--hdd-label ${HDD_LABEL}_LIVE --iso-application ${PRETTY_NAME} \
+		--checksums sha512 --image-name install${VERSION} \
+		--hdd-label ${HDD_LABEL} --iso-application ${PRETTY_NAME} \
 		--iso-volume ${NAME} --archive-areas "${COMPONENTS}" \
 		--debootstrap-options "--variant=${VARIANT}" \
-		--bootappend-live "${LIVE_BOOTPARAMS}" --cache false
-	cp ../../../linux-image-${KERNEL}-ragnarok-amd64_${KERNEL}-ragnarok-amd64-${REV}_amd64.deb config/packages.chroot/
-	cp ../../../linux-headers-${KERNEL}-ragnarok-amd64_${KERNEL}-ragnarok-amd64-${REV}_amd64.deb config/packages.chroot/
-	cp ../../../linux-libc-dev_${KERNEL}-ragnarok-amd64-${REV}_amd64.deb config/packages.chroot/
+		--system normal --cache false
 	touch .build/bootstrap
 	mkdir -p chroot
 
 iso:
 	# We don't keep the bootloaders' configs in the repo
 	cp -r /usr/share/live/build/bootloaders config/
-	cp ../boot/grub.cfg config/bootloaders/grub-pc/
+	cp ../boot/grub-installer.cfg config/bootloaders/grub-pc/grub.cfg
 	cp ../boot/grub_splash.png config/bootloaders/grub-pc/splash.png
-	cp ../boot/isolinux.cfg config/bootloaders/isolinux/
+	cp ../boot/isolinux-installer.cfg config/bootloaders/isolinux/isolinux.cfg
 	# Generate the actual config for syslinux
 	sed -i	-e "s#@PRETTY@#${PRETTY_NAME}#g" \
 		-e "s#@MODE@#${ISO_MODE}#g" \
