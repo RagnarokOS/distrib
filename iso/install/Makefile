@@ -1,13 +1,7 @@
 # Makefile for creating Ragnarok's installer ISO.
-# $Ragnarok: Makefile,v 1.5 2024/11/13 23:37:22 lecorbeau Exp $
+# $Ragnarok: Makefile,v 1.6 2024/11/20 16:03:47 lecorbeau Exp $
 #
 # Work in progress
-
-# Usage:
-# 'make live-config' will create a live configuration.
-# This should never be run as root.
-#
-# 'make iso' will build the iso.
 
 include ../../config.mk ../live.mk
 
