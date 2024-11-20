@@ -1,20 +1,8 @@
 #!/bin/sh
 
-# $Ragnarok: 0001-instenv.hook.chroot,v 1.6 2024/05/07 17:11:44 lecorbeau Exp $
+# $Ragnarok: 0001-instenv.hook.chroot,v 1.7 2024/11/20 15:59:57 lecorbeau Exp $
 
 set -e
-
-setup_wheel() {
-	sed -i '15 s/^# //' /etc/pam.d/su
-	addgroup --system wheel
-	touch /etc/doas.conf
-	echo "permit :wheel" > /etc/doas.conf
-}
-
-# Making sure roots interactive shell is ksh
-set_shell() {
-	sed -i 's/bash/ksh/g' /etc/passwd
-}
 
 set_rootpass() {
 	# setting a password for the root account
@@ -22,29 +10,14 @@ set_rootpass() {
 	echo "root:root" | chpasswd
 }
 
-# Installing some packages here.
-inst_pkgs() {
-	apt-get update && apt-get upgrade -y
-	apt-get install oksh signify-openbsd ca-certificates \
-		policy-rcd-declarative-deny-all -y
-}
-
 # Set the default frontend to readline
 set_frontend() {
 	echo 'debconf debconf/frontend select Readline' | debconf-set-selections
 }
 
-set_perm() {
-	chmod +x /usr/local/bin/*
-}
-
 main() {
-	inst_pkgs
-	#setup_wheel
-	#set_shell
 	set_rootpass
-	#set_frontend
-	set_perm
+	set_frontend
 }
 
 main

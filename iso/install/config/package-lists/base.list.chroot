@@ -4,7 +4,3 @@ sysv-rc
 orphan-sysvinit-scripts
 procps
 nftables
-ifupdown
-wpasupplicant
-vim
-tmux
