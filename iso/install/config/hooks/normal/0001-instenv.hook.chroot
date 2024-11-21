@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# $Ragnarok: 0001-instenv.hook.chroot,v 1.7 2024/11/20 15:59:57 lecorbeau Exp $
+# $Ragnarok: 0001-instenv.hook.chroot,v 1.8 2024/11/21 19:11:36 lecorbeau Exp $
 
 set -e
 
@@ -15,9 +15,16 @@ set_frontend() {
 	echo 'debconf debconf/frontend select Readline' | debconf-set-selections
 }
 
+inst_pkgs() {
+	apt-get update && apt-get upgrade -y
+	apt-get install linux-image-ragnarok-amd64 -y
+	apt-get install ragnarok-installer -y
+}
+
 main() {
 	set_rootpass
 	set_frontend
+	inst_pkgs
 }
 
 main
