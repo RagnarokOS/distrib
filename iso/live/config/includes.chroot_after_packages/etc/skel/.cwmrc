@@ -50,49 +50,59 @@ bind-key 4M-7 group-toggle-7
 bind-key 4M-8 group-toggle-8
 bind-key 4M-9 group-toggle-9
 
-bind-key MS-1 window-movetogroup-1
-bind-key MS-2 window-movetogroup-2
-bind-key MS-3 window-movetogroup-3
-bind-key MS-4 window-movetogroup-4
-bind-key MS-5 window-movetogroup-5
-bind-key MS-6 window-movetogroup-6
-bind-key MS-7 window-movetogroup-7
-bind-key MS-8 window-movetogroup-8
-bind-key 4S-9 window-movetogroup-9
+bind-key MS-1 		window-movetogroup-1
+bind-key MS-2 		window-movetogroup-2
+bind-key MS-3 		window-movetogroup-3
+bind-key MS-4 		window-movetogroup-4
+bind-key MS-5 		window-movetogroup-5
+bind-key MS-6 		window-movetogroup-6
+bind-key MS-7 		window-movetogroup-7
+bind-key MS-8 		window-movetogroup-8
+bind-key 4S-9 		window-movetogroup-9
 
-bind-key 4-a group-toggle-all
-bind-key 4-g window-group
+bind-key 4-a 		group-toggle-all
+bind-key 4-g 		window-group
 
-bind-key 4-r restart
-bind-key 4-q quit
+bind-key 4-r 		restart
+bind-key 4-q 		quit
 
-bind-key 4-c window-close
-bind-key 4-u window-hide
+bind-key 4-c 		window-close
+bind-key 4-u 		window-hide
 
-bind-key 4-f window-fullscreen
-bind-key 4-m window-maximize
-bind-key 4-t window-htile
-bind-key 4S-t window-vtile
+bind-key 4-f 		window-fullscreen
+bind-key 4-m 		window-maximize
+bind-key 4-t 		window-htile
+bind-key 4S-t 		window-vtile
 
-bind-key 4-j window-cycle
-bind-key 4-k window-rcycle
+bind-key 4-j 		window-cycle
+bind-key 4-k 		window-rcycle
 
-bind-key 4S-h window-move-left
-bind-key 4S-j window-move-down
-bind-key 4S-k window-move-up
-bind-key 4S-l window-move-right
+bind-key 4S-h 		window-move-left
+bind-key 4S-j 		window-move-down
+bind-key 4S-k 		window-move-up
+bind-key 4S-l 		window-move-right
 
-bind-key 4M-h window-snap-left
-bind-key 4M-j window-snap-down
-bind-key 4M-k window-snap-up
-bind-key 4M-l window-snap-right
+bind-key 4M-h 		window-snap-left
+bind-key 4M-j		window-snap-down
+bind-key 4M-k		window-snap-up
+bind-key 4M-l		window-snap-right
 
-bind-key 4M-m menu-window
-bind-key 4M-g menu-group
-bind-key 4M-a menu-cmd
-bind-key 4M-e menu-exec
+bind-key M-m 		menu-window
+bind-key M-g 		menu-group
+bind-key M-a 		menu-cmd
+bind-key MS-p 		menu-exec
+
+# Keybindings to launch programs
+bind-key M-Return	"/usr/bin/rt"
+bind-key MS-Return	"/usr/bin/xterm"
+bind-key MS-f		"/usr/bin/rt -e vifm"
+
+# Mouse
+unbind-mouse 		all
+bind-mouse 4-1		window-move
+bind-mouse 4-3		window-resize
 
 # Autogroup some apps
-autogroup 1	"st,st"
+autogroup 3	"brave-browser,Brave-browser"
 autogroup 3	"Navigator,Firefox-esr"
 autogroup 7	"mpv"

@@ -3,12 +3,12 @@
 #
 
 # terminal emulator
-alt + Return
-	/usr/bin/rt
+#alt + Return
+#	/usr/bin/rt
 
 # Xterm
-alt + shift + Return
-	xterm
+#alt + shift + Return
+#	xterm
 
 # program launcher
 alt + p
