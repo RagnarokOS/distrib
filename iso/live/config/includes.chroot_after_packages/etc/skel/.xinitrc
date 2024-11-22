@@ -40,7 +40,8 @@ dunst &
 sxhkd &
 
 case "$WM" in
-	cwm)	/usr/local/bin/cwmbar &
+	cwm)	killall -q polybar
+		/usr/bin/polybar cwmbar &
 		exec /usr/bin/cwm
 		;;
 	raven)	/usr/local/bin/statusbar.sh &
