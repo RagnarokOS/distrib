@@ -1,4 +1,4 @@
-# $Ragnarok: live.mk,v 1.15 2024/11/09 18:51:21 lecorbeau Exp $
+# $Ragnarok: live.mk,v 1.16 2024/11/25 16:09:01 lecorbeau Exp $
 
 # iso-specific config file
 
@@ -11,6 +11,6 @@ LIVE_BOOTPARAMS	= live-config.hooks=filesystem live-config.locales=en_CA.UTF-8 \
 		  init_on_alloc=1 init_on_free=1 page_alloc.shuffle=1 pti=on \
 		  randomize_kstack_offset=on vsyscall=none debugfs=off \
 		  lockdown=confidentiality
-KERNEL		= 6.1.115
+KERNEL		= 6.1.119
 REV		= 1
-DEBKERNEL	= 6.1.0-27
+DEBKERNEL	= 6.1.0-28
