@@ -1,0 +1,4 @@
+#!/bin/sh
+
+# Launch Brave without JIT for extra security.
+/usr/bin/brave-browser --js-flags='--jitless' &
