@@ -16,19 +16,16 @@ Set up env:
     # mkdir -p /usr/src/ragnarok
     # chown <username> /usr/src/ragnarok
     $ cd /usr/src/ragnarok
-    $ for _repo in distrib src; do git clone https://github.com/RagnarokOS/"$_repo".git; done
+    $ for _repo in distrib src; do git clone -b stable/$VERSION https://github.com/RagnarokOS/"$_repo".git; done
 
-Get the latest version of Ragnarok's kernel build. On Ragnarok systems, you can use apt
-to download all the relevant packages:
+Replace `$VERSION` with the latest stable version of Ragnarok (currently 01).
 
-    $ apt-get download linux-image-$VERSION-ragnarok-amd64 linux-headers-$VERSION-ragnarok-amd64 linux-libc-dev
-
-Replace `$VERSION` with the latest version.
-
-On other Debian based systems, simply download the kernel/headers/libc-dev
-packages from the [Release page](https://github.com/RagnarokOS/kernel-build/releases).
-
-Ensure that all kernel-related packages are in `/usr/src/ragnarok`, then
+*Note: unless you specifically want to try building a release for the
+-current (development) version of Ragnarok, you most definitely want to
+use 'git clone -b stable/$VERSION'. -current is not meant to be a daily
+driver, but if you insist on making a release for it, omit the '-b' flag
+and understand that the build may fail due to a not-yet-fully-implemented
+change.*
 
 Change directory:
 
