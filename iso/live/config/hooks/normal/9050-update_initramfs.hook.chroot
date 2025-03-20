@@ -1,7 +1,0 @@
-#!/bin/sh
-
-# $Ragnarok: 9050-update_initramfs.hook.chroot,v 1.1 2023/09/27 17:03:51 lecorbeau Exp $
-
-set -e
-
-update-initramfs -c -k all

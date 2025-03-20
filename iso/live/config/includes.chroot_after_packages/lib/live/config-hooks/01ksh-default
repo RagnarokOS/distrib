@@ -1,4 +1,0 @@
-#!/bin/sh
-
-# Set ksh as default shell for the live user
-usermod -s /bin/ksh user

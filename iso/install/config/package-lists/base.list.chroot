@@ -1,6 +1,0 @@
-libncurses-dev
-sysvinit-core
-sysv-rc
-orphan-sysvinit-scripts
-procps
-nftables
