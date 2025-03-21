@@ -13,34 +13,7 @@ Building
 *Under development. These build instructions may change and stop working
 at any moment. In which case simply wait for them to be updated.*
 
-Set up env:
-
-    # apt-get install --no-install-recommends -y mmdebstrap live-build
-    # mkdir -p /usr/src/ragnarok
-    # chown <username> /usr/src/ragnarok
-    $ cd /usr/src/ragnarok
-    $ for _repo in distrib src; do git clone -b stable/$VERSION https://github.com/RagnarokOS/"$_repo".git; done
-
-Replace `$VERSION` with the latest stable version of Ragnarok (currently 01).
-
-*Note: unless you specifically want to try building a release for the
--current (development) version of Ragnarok, you most definitely want to
-use 'git clone -b stable/$VERSION'. -current is not meant to be a daily
-driver, but if you insist on making a release for it, omit the '-b' flag
-and understand that the build may fail due to a not-yet-fully-implemented
-change.*
-
-Change directory:
-
-    $ cd distrib/
-
-Build a release (miniroot, base + live ISO):
-
-    $ make
-    # make release
-
-The resulting tarballs will be saved in the current working directory (/usr/src/ragnarok/distrib).
-The resulting ISO will be saved in /usr/src/ragnarok/distrib/iso/live.
+Soon...
 
 Reporting Issues
 ================
