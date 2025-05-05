@@ -1,5 +1,5 @@
 # Makefile for creating Ragnarok releases.
-# $Ragnarok: Makefile,v 1.24 2025/03/21 15:45:45 lecorbeau Exp $
+# $Ragnarok: Makefile,v 1.25 2025/05/05 23:21:17 lecorbeau Exp $
 #
 # Work in progress
 
@@ -12,7 +12,11 @@ MAKE	= make -C
 # creating stage 4.
 miniroot:
 	tar xpvf ${TARBALL} --xattrs-include='*.*' --numeric-owner -C ${DESTDIR}
-	${MAKE} ${SRCDIR} miniroot
+	#${MAKE} ${SRCDIR} miniroot
+	# It should be possible to build any custom stage4 archive with
+	# this, not just Ragnarok's own releases, so re-think how we go
+	# about taking files from 'src' and copy them to the unpacked
+	# stage3.
 	scripts/genmount.sh ${DESTDIR}
 	scripts/mkrepo.sh ${SRCDIR} ${DESTDIR}
 
