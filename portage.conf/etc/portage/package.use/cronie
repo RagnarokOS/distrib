@@ -1,0 +1,3 @@
+# I'd rather set up cron jobs to run at a time when I know the system
+# will be up, so no need for anacron.
+sys-process/cronie -anacron

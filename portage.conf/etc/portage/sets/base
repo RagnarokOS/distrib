@@ -1,0 +1,14 @@
+app-text/mandoc
+app-admin/doas
+app-admin/logrotate
+app-admin/rsyslog
+mail-client/mailx
+mail-mta/opensmtpd
+media-sound/alsa-utils
+net-firewall/nftables
+net-misc/chrony
+sec-policy/apparmor-profiles
+sys-apps/apparmor
+sys-apps/apparmor-utils
+sys-process/cronie
+app-misc/tmux

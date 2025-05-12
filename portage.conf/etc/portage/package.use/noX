@@ -1,0 +1,4 @@
+app-crypt/pinentry -X
+app-editors/vim -X
+app-editors/xemacs -X
+app-misc/vifm -X

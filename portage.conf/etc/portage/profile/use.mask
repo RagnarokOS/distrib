@@ -1,0 +1,2 @@
+# precompiled headers are not compat with ASLR.
+pch

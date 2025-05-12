@@ -1,0 +1,7 @@
+# For packages that can't be built with LTO.
+COMMON_FLAGS="-O2 -pipe -march=x86-64 -mtune=generic"
+HARDENING_CFLAGS="-Wformat -Wformat-security -fstack-clash-protection -fstack-protector-strong --param=ssp-buffer-size=4 -fcf-protection"
+CFLAGS="${COMMON_FLAGS} ${HARDENING_CFLAGS}"
+CPPFLAGS="-D_FORTIFY_SOURCE=2"
+CXXFLAGS="${COMMON_FLAGS}"
+LDFLAGS="-Wl,-O2 -Wl,--as-needed -Wl,-z,relro,-z,now -Wl,-z,pack-relative-relocs"
