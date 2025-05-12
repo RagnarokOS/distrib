@@ -1,5 +1,5 @@
 # Makefile for creating Ragnarok releases.
-# $Ragnarok: Makefile,v 1.26 2025/05/07 17:15:30 lecorbeau Exp $
+# $Ragnarok: Makefile,v 1.27 2025/05/12 17:55:57 lecorbeau Exp $
 #
 # Work in progress
 
@@ -12,10 +12,8 @@ MAKE	= make -C
 # creating stage 4.
 miniroot:
 	@tar xpvf ${TARBALL} --xattrs-include='*.*' --numeric-owner -C ${DESTDIR}
-	@for _dir in ${INCLUDES}; do \
-		rsync -Klrv $$_dir/ ${DESTDIR}/; \
-		done
-	@scripts/genmount.sh ${DESTDIR}
+	@rsync -Klrv portage.conf/ ${DESTDIR}/
 	@scripts/mkrepo.sh ${SRCDIR} ${DESTDIR}
+	@rsync -Klrv portage.conf/ ${DESTDIR}/
 
 .PHONY: miniroot
