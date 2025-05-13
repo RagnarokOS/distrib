@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# $Ragnarok: mkrepo.sh,v 1.2 2025/05/13 15:02:27 lecorbeau Exp $
+# $Ragnarok: mkrepo.sh,v 1.3 2025/05/13 18:06:55 lecorbeau Exp $
 # Setup the repositories inside miniroot and base chroots.
 
 _DEST=$1
@@ -13,6 +13,9 @@ _DEST=$1
 
 # Delete the old repo.
 /usr/bin/rm -rf "${_DEST}"/var/db/repos/gentoo
+
+# Copy portage config to the chroot.
+/usr/bin/rsync -Klrv portage.conf/ "${_DEST}/"
 
 # Sync the repos separately.
 /usr/bin/chroot "${_DEST}" /bin/bash -c "emaint sync -r gentoo"
