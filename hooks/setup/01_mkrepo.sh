@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# $Ragnarok: mkrepo.sh,v 1.3 2025/05/13 18:06:55 lecorbeau Exp $
+# $Ragnarok: 01_mkrepo.sh 1.3 2025/05/13 18:06:55 lecorbeau Exp $
 # Setup the repositories inside miniroot and base chroots.
 
 _DEST=$1
