@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 
-# $Ragnarok: runhooks,v 1.1 2025/05/14 23:38:01 lecorbeau Exp ian $
+# $Ragnarok: runhooks,v 1.2 2025/05/15 15:57:26 lecorbeau Exp $
 # Execute hooks in dir $1.
 
 use strict;
