@@ -1,5 +1,5 @@
 # Makefile for creating Ragnarok releases.
-# $Ragnarok: Makefile,v 1.29 2025/05/13 22:28:52 lecorbeau Exp $
+# $Ragnarok: Makefile,v 1.30 2025/05/15 15:32:00 lecorbeau Exp $
 #
 # Work in progress
 
@@ -12,6 +12,6 @@ MAKE	= make -C
 # creating stage 4.
 miniroot:
 	@tar xpvf ${TARBALL} --xattrs-include='*.*' --numeric-owner -C ${DESTDIR}
-	@scripts/mkrepo.sh ${DESTDIR}
+	@./runhooks hooks/extract
 
 .PHONY: miniroot
