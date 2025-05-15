@@ -1,18 +1,20 @@
 #!/usr/bin/env perl
 
-# $Ragnarok: runhooks,v 1.1 2025/05/14 23:38:01 lecorbeau Exp $
+# $Ragnarok: runhooks,v 1.1 2025/05/14 23:38:01 lecorbeau Exp ian $
 # Execute hooks in dir $1.
 
 use strict;
 use warnings;
 
 my $dir = $ARGV[0];
+my $stage = $ARGV[1];
 
 opendir(my $hookdir, $dir) or die("Cannot open $dir\n");
-my @scripts = readdir($hookdir);
+my @files = readdir($hookdir);
 closedir($hookdir) or die("Cannot close $dir\n");
 
-@scripts = sort { $a cmp $b } @scripts;
+@files = sort { $a cmp $b } @files;
+my @scripts = grep(/$stage/, @files);
 
 foreach my $script (@scripts) {
 	if($script =~ /^\./ or -d "$dir/$script") {
