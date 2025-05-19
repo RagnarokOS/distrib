@@ -1,0 +1,23 @@
+#!/usr/bin/env perl
+
+# $Ragnarok: getval,v 1.1 2025/05/19 16:07:16 lecorbeau Exp $
+#
+# getval: get config value from key = val in config file.
+# This is going to be more useful for hook scripts. No need to awk or
+# grep values, and it will work even when a value is set to a variable,
+# eg. DESTDIR = ${SRCDIR} will use whatever SRCDIR is.
+
+use strict;
+use warnings;
+use Config::General;
+
+my ($value, $conffile)	= @ARGV;
+
+my $conf = Config::General->new(
+	-ConfigFile		=> $conffile,
+	-SplitPolicy		=> 'equalsign',
+	-InterPolateVars	=> 1
+);
+
+my %config = $conf->getall;
+print("$config{$value}\n");
