@@ -20,3 +20,6 @@ hooks. This is the stage where Portage/repositories should be set up.
 and the repositories were set up. Ideally, this is where extra configuration
 happens and where updating @world, and installing custom packages, should
 be performed.
+
+* `cleanup`: scripts named `****_cleanup.*` will be executed last. These
+are for tasks related to cleaning up the chroot before creating the tarball.
