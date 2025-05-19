@@ -1,0 +1,11 @@
+#!/bin/sh
+
+# $Ragnarok: chrootcmd,v 1.1 2025/05/19 15:36:39 lecorbeau Exp $
+# Wrapper script around the chroot command. Can be used by hook scripts
+# instead of constantly writing the full thing.
+
+TARGET="$1"
+shift
+CMD="$*"
+
+/usr/bin/chroot "${TARGET}" /bin/bash -c "${CMD}"
