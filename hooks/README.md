@@ -14,12 +14,15 @@ repositories have no been synced yet. This is the earliest stage in which
 any hook can be executed.
 
 * `setup`: scripts named `****_setup.*` will be executed after extract
-hooks. This is the stage where Portage/repositories should be set up.
+hooks, but before rebuilding the `@world` set. This is the stage where
+extra repositories should be set up/enabled, and where any tasks that
+should be performed before updating the world set are done.
 
-* `configure`: scripts named `****_configure.*` will be executed after Portage
-and the repositories were set up. Ideally, this is where extra configuration
-happens and where updating @world, and installing custom packages, should
-be performed.
+* `configure`: scripts named `****_configure.*` will be executed after
+the `@world` set was rebuilt and the contents of the `includes.miniroot`
+directory were copied to the chroot. Configure scripts are meant for the
+building of full `stage 4` archives (eg. Ragnarok's `base` tarball) and
+are not called in the `miniroot` target inside the `Makefile`.
 
 * `cleanup`: scripts named `****_cleanup.*` will be executed last. These
 are for tasks related to cleaning up the chroot before creating the tarball.
