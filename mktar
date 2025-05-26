@@ -1,0 +1,14 @@
+#!/bin/sh
+
+# $Ragnarok: mktar,v 1.1 2025/05/26 16:01:53 lecorbeau Exp $
+# Create a tarball of dir $1.
+
+_dir=$1
+_workdir=$(pwd)
+
+cd "$_dir" || exit
+
+/usr/bin/tar cpPvf "${_workdir}/${_dir}.tgz" --ingore-failed-read \
+	--xattrs-include='*.*' --numeric-owner -X "${_workdir}/excludes.txt" .
+
+cd "$_workdir" || exit
