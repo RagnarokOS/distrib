@@ -1,5 +1,5 @@
 # Makefile for creating Ragnarok releases.
-# $Ragnarok: Makefile,v 1.36 2025/05/26 16:06:04 lecorbeau Exp $
+# $Ragnarok: Makefile,v 1.37 2025/05/26 17:25:39 lecorbeau Exp $
 #
 # Work in progress
 
@@ -27,5 +27,10 @@ miniroot: extract portage-config
 	@./runhooks hooks/miniroot setup
 	@./chrootcmd ${DESTDIR} "emerge -avuDN --with-bdeps=y @world"
 	@./mktar miniroot
+
+clean-miniroot:
+	@./runhooks hooks/miniroot clean
+
+clean: clean-miniroot
 
 .PHONY: miniroot
