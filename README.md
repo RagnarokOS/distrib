@@ -34,6 +34,19 @@ eg:
 
 This script should only be called from the Makefile.
 
+## Directories
+
+* `portage.conf`: custom portage configuration. These get copied to the
+`miniroot` chroot before emerging `@world`. 
+
+* `includes.preinst` / `includes.postinst`: if these directories exists,
+any content will be copied to the `base` chroot. The content in `*.preinst`
+is copied before custom packages are emerged, while `*.postinst` get copied
+after the emerge command.
+
+The structure of these directories should be the same as any root filesystem
+(see: `portage.conf`).
+
 ## Building
 
 *Under development. These build instructions may change and stop working
