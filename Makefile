@@ -1,5 +1,5 @@
 # Makefile for creating Ragnarok releases.
-# $Ragnarok: Makefile,v 1.39 2025/05/27 16:01:18 lecorbeau Exp $
+# $Ragnarok: Makefile,v 1.40 2025/05/27 16:03:28 lecorbeau Exp $
 #
 # Work in progress
 
@@ -34,7 +34,7 @@ base:
 	@mkdir ${DESTDIR}/base
 	@tar xpvf miniroot${VERSION}.tgz --xattrs-include='*.*' --numeric-owner -C ${DESTDIR}/base
 	@./runhooks hooks/base configure
-	@./chrootcmd ${DESTDIR} "emerge -v sys-apps/ragnarok-base"
+	@./chrootcmd ${DESTDIR}/base "emerge -v sys-apps/ragnarok-base"
 
 release: miniroot base
 
