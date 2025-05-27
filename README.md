@@ -15,19 +15,19 @@ When called from hooks, these scripts need to be prefixed by a './', eg:
 
 since hooks are executed in this directory (distrib/).
 
-* `chrootcmd`: chroots into `$TARGET` and executes command, then exits,
+`chrootcmd`: chroots into `$TARGET` and executes command, then exits,
 eg:
 
     # ./chrootcmd miniroot "emerge --sync"
 
-* `genmount`: properly mounts `$TARGET` dirs as types/binds/slaves.
+`genmount`: properly mounts `$TARGET` dirs as types/binds/slaves.
 Do not call this script in hooks. It is called in Makefile.
 
-* `getval`: get value from config file, ex:
+`getval`: get value from config file, ex:
 
     $ ./getval DESTDIR config.mk
 
-* `runhooks`: run all executable hook scripts in $dir for specific stage,
+`runhooks`: run all executable hook scripts in $dir for specific stage,
 eg:
 
     ./runhooks hooks/miniroot configure
