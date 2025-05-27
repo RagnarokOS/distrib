@@ -1,5 +1,5 @@
 # Makefile for creating Ragnarok releases.
-# $Ragnarok: Makefile,v 1.37 2025/05/26 17:25:39 lecorbeau Exp $
+# $Ragnarok: Makefile,v 1.38 2025/05/27 15:55:50 lecorbeau Exp $
 #
 # Work in progress
 
@@ -13,19 +13,19 @@ extract:
 
 # Configure portage.
 portage-config:
-	@./chrootcmd ${DESTDIR} "emerge-webrsync"
-	@./chrootcmd ${DESTDIR} "emerge -v app-eselect/eselect-repository dev-vcs/git"
-	@./chrootcmd ${DESTDIR} "eselect repository disable gentoo" || true
-	@./chrootcmd ${DESTDIR} "eselect repository enable gentoo" || true
-	@rm -rf ${DESTDIR}/var/db/repos/gentoo
-	@rsync -Klrv portage.conf/ ${DESTDIR}/
-	@./chrootcmd ${DESTDIR} "emerge --sync"
+	@./chrootcmd ${DESTDIR}/miniroot "emerge-webrsync"
+	@./chrootcmd ${DESTDIR}/miniroot "emerge -v app-eselect/eselect-repository dev-vcs/git"
+	@./chrootcmd ${DESTDIR}/miniroot "eselect repository disable gentoo" || true
+	@./chrootcmd ${DESTDIR}/miniroot "eselect repository enable gentoo" || true
+	@rm -rf ${DESTDIR}/miniroot/var/db/repos/gentoo
+	@rsync -Klrv portage.conf/ ${DESTDIR}/miniroot/
+	@./chrootcmd ${DESTDIR}/miniroot "emerge --sync"
 
 # TODO: lots of stuff, but especially, don't forget to cleanup before
 # creating stage 4.
 miniroot: extract portage-config
 	@./runhooks hooks/miniroot setup
-	@./chrootcmd ${DESTDIR} "emerge -avuDN --with-bdeps=y @world"
+	@./chrootcmd ${DESTDIR}/miniroot "emerge -avuDN --with-bdeps=y @world"
 	@./mktar miniroot
 
 clean-miniroot:
