@@ -1,5 +1,5 @@
 # Makefile for creating Ragnarok releases.
-# $Ragnarok: Makefile,v 1.38 2025/05/27 15:55:50 lecorbeau Exp $
+# $Ragnarok: Makefile,v 1.39 2025/05/27 16:01:18 lecorbeau Exp $
 #
 # Work in progress
 
@@ -8,7 +8,8 @@ include config.mk
 MAKE	= make -C
 
 extract:
-	@tar xpvf ${TARBALL} --xattrs-include='*.*' --numeric-owner -C ${DESTDIR}
+	@mkdir ${DESTDIR}/miniroot
+	@tar xpvf ${TARBALL} --xattrs-include='*.*' --numeric-owner -C ${DESTDIR}/miniroot
 	@./runhooks hooks/miniroot extract
 
 # Configure portage.
@@ -27,6 +28,15 @@ miniroot: extract portage-config
 	@./runhooks hooks/miniroot setup
 	@./chrootcmd ${DESTDIR}/miniroot "emerge -avuDN --with-bdeps=y @world"
 	@./mktar miniroot
+
+# Base is built using miniroot
+base:
+	@mkdir ${DESTDIR}/base
+	@tar xpvf miniroot${VERSION}.tgz --xattrs-include='*.*' --numeric-owner -C ${DESTDIR}/base
+	@./runhooks hooks/base configure
+	@./chrootcmd ${DESTDIR} "emerge -v sys-apps/ragnarok-base"
+
+release: miniroot base
 
 clean-miniroot:
 	@./runhooks hooks/miniroot clean
