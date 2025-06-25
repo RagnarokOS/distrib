@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# $Ragnarok: 0100_cleanup.sh,v 1.3 2025/05/27 16:18:35 lecorbeau Exp $
+# $Ragnarok: 0100_clean.sh,v 1.1 2025/06/25 18:10:32 lecorbeau Exp $
 #
 # Cleanup miniroot before creating tarball.
 
