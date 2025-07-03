@@ -1,5 +1,5 @@
 # Makefile for creating Ragnarok releases.
-# $Ragnarok: Makefile,v 1.48 2025/06/27 16:04:26 lecorbeau Exp $
+# $Ragnarok: Makefile,v 1.49 2025/07/03 18:28:43 lecorbeau Exp $
 #
 # Work in progress
 
@@ -14,7 +14,6 @@ extract:
 	mkdir ${MINIROOT}
 	tar xpvf ${TARBALL} --xattrs-include='*.*' --numeric-owner -C ${MINIROOT}
 	./runhooks hooks/miniroot extract
-	./genmount.sh ${MINIROOT}
 
 # Configure portage.
 portage-config:
