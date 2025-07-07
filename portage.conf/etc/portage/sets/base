@@ -1,3 +1,5 @@
+acct-group/sysupdate
+acct-user/sysupdate
 app-text/mandoc
 app-admin/doas
 app-admin/logrotate
@@ -12,3 +14,5 @@ sys-apps/apparmor
 sys-apps/apparmor-utils
 sys-process/cronie
 app-misc/tmux
+net-misc/dhcpcd
+app-editors/opened
