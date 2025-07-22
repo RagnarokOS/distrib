@@ -1,10 +1,9 @@
 #!/bin/sh
 
-# $Ragnarok: 0005_extract.sh,v 1.1 2025/07/20 15:24:06 lecorbeau Exp $
+# $Ragnarok: 0005_extract.sh,v 1.2 2025/07/22 16:08:08 lecorbeau Exp $
 
 TARGET="$(getval MINIROOT config.mk)"
 
-# Copy Ragnarok's public key PGP key if TOOLCHAIN = "true".
-if [ "$(getval TOOLCHAIN config.mk)" = "true" ]; then
-	cp /usr/share/openpgp-keys/lecorbeau.asc "${TARGET}/usr/share/openpgp-keys/"
-fi
+# Copy Ragnarok's Signify and PGP public keys to the chroot.
+cp /usr/share/openpgp-keys/lecorbeau.asc "${TARGET}/usr/share/openpgp-keys/"
+cp -r /etc/signify "${TARGET}/etc/"
