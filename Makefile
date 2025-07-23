@@ -1,5 +1,5 @@
 # Makefile for creating Ragnarok releases.
-# $Ragnarok: Makefile,v 1.51 2025/07/20 15:29:08 lecorbeau Exp $
+# $Ragnarok: Makefile,v 1.52 2025/07/23 15:06:02 lecorbeau Exp $
 #
 # Work in progress
 
@@ -17,11 +17,6 @@ extract:
 
 # Configure portage.
 portage-config:
-	./chrootcmd ${MINIROOT} "emerge-webrsync"
-	./chrootcmd ${MINIROOT} "emerge -v app-eselect/eselect-repository dev-vcs/git"
-	./chrootcmd ${MINIROOT} "eselect repository disable gentoo" || true
-	./chrootcmd ${MINIROOT} "eselect repository enable gentoo" || true
-	rm -rf ${MINIROOT}/var/db/repos/gentoo
 	rsync -Klrv portage.conf/ ${MINIROOT}/
 	./chrootcmd ${MINIROOT} "emerge --sync"
 
