@@ -1,0 +1,4 @@
+sys-boot/grub
+sys-kernel/dracut
+sys-kernel/gentoo-sources
+sys-fs/dosfstools

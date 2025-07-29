@@ -1,0 +1,20 @@
+# Note: this can cause issues with rust and zig. Fortunately, they both
+# have a -bin package, so use them, or enable all targets and rebuild.
+#
+# Note 2: It might be wise to enable the AMDPGU target?
+
+*/* -llvm_targets_AArch64
+#*/* -llvm_targets_AMDGPU
+*/* -llvm_targets_ARM
+*/* -llvm_targets_AVR
+*/* -llvm_targets_BPF
+*/* -llvm_targets_Hexagon
+*/* -llvm_targets_Lanai
+*/* -llvm_targets_MSP430
+*/* -llvm_targets_Mips
+*/* -llvm_targets_NVPTX
+*/* -llvm_targets_PowerPC
+*/* -llvm_targets_RISCV
+*/* -llvm_targets_Sparc
+*/* -llvm_targets_SystemZ
+*/* -llvm_targets_VE

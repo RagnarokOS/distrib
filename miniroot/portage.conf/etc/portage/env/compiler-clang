@@ -1,0 +1,26 @@
+# For now, we'll use this to build packages with Clang.
+COMMON_FLAGS="-O2 -pipe -march=x86-64 -mtune=generic"
+CFLAGS="${COMMON_FLAGS}"
+CXXFLAGS="${COMMON_FLAGS}"
+LDFLAGS="-fuse-ld=lld -rtlib=compiler-rt -unwindlib=libunwind -Wl,-O2 -Wl,--as-needed -Wl,-z,relro,-z,now -Wl,-z,pack-relative-relocs"
+
+MAKEOPTS="-j3"
+
+# Enable Clang as the default toolchain.
+CC="clang"
+CPP="clang-cpp"
+CXX="clang++"
+LD="ld.lld"
+
+# Use utils provided by LLVM
+AR="llvm-ar"
+AS="clang -c"
+CPP="clang-cpp"
+NM="llvm-nm"
+STRIP="llvm-strip"
+RANLIB="llvm-ranlib"
+OBJCOPY="llvm-objcopy"
+STRINGS="llvm-strings"
+OBJDUMP="llvm-objdump"
+READELF="llvm-readelf"
+ADDR2LINE="llvm-addr2line"

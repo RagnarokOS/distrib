@@ -1,0 +1,6 @@
+# Override $COMMON_FLAGS to set -march=native on specific packages.
+# Add any package that should be built with -march=native, or any
+# other overrides, to /etc/portage/package.env, eg:
+# echo "media-video/mpv native" >> /etc/portage/package.env
+
+COMMON_FLAGS="-O2 -pipe -march=native -flto=thin"

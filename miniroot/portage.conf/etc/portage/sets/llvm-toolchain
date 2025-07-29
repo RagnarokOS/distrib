@@ -1,0 +1,14 @@
+llvm-core/clang-runtime
+llvm-core/libclc
+llvm-core/clang-common
+llvm-core/lld
+llvm-core/clang-toolchain-symlinks
+llvm-core/lld-toolchain-symlinks
+llvm-core/llvm-common
+llvm-core/llvm
+llvm-core/clang
+llvm-core/llvm-toolchain-symlinks
+llvm-runtimes/libunwind
+llvm-runtimes/compiler-rt
+llvm-runtimes/compiler-rt-sanitizers
+llvm-runtimes/openmp
