@@ -1,5 +1,5 @@
 # Makefile for creating Ragnarok releases.
-# $Ragnarok: Makefile,v 1.53 2025/07/23 15:16:52 lecorbeau Exp $
+# $Ragnarok: Makefile,v 1.54 2025/07/30 15:50:08 lecorbeau Exp $
 #
 # Work in progress
 
@@ -20,6 +20,9 @@ extract:
 portage-config:
 	rsync -Klrv portage.conf/ ${MINIROOT}/
 	${EXEC_DIR}/chrootcmd ${MINIROOT} "emerge --sync"
+
+buildchroot:
+	${MAKE} buildchroot buildchroot
 
 # TODO: lots of stuff, but especially, don't forget to cleanup before
 # creating stage 4.
