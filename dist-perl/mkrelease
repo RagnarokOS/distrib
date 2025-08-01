@@ -1,0 +1,78 @@
+#!/usr/bin/env perl
+
+# $Ragnarok$
+
+use strict;
+use warnings;
+use Config::General;
+
+my $conffile	= $ARGV[0];
+
+my $conf = Config::General->new(
+	-ConfigFile		=> $conffile,
+	-SplitPolicy		=> 'equalsign',
+	-InterPolateVars	=> 1,
+	-AutoTrue		=> 1
+);
+
+my %config	= $conf->getall;
+my $workdir	= $config{'SRCDIR'};
+my $version	= $config{'VERSION'};
+my $stage3	= $config{'STAGE3'};
+my $port_git	= $config{'PORTAGE_GIT'};
+my $toolchain	= $config{'TOOLCHAIN'};
+my $destdir	= $config{'DESTDIR'};
+my $miniroot	= $config{'MINIROOT'};
+my $base	= $config{'BASE'};
+
+## Subroutines
+
+# Handle errors
+sub error {
+	my $err = shift;
+	$err	= "Error: $err";
+
+	die("$err\n");
+}
+
+# Print message (just makes the code more readable, again).
+sub msg {
+	my $msg = shift;
+	print("$msg\n");
+}
+
+# Extract a stage 3, whether it's a Gentoo archive or miniroot.
+# TODO: support multiple archive format.
+sub extract {
+	my ($tarball, $dir) = @_;
+
+	system("/usr/bin/tar", "xpvf", "$tarball", "--xattrs-include='*.*'", "--numeric-owner", "-C", "$dir") == 0
+		or error("Can't extract $tarball to $dir");
+}
+
+# Create stage tarball.
+sub archive {
+}
+
+# Run hooks
+sub runhooks {
+	my ($dir, $stage) = @_;
+
+	opendir(my $hookdir, $dir) or die("Cannot open $dir\n");
+	my @files = readdir($hookdir);
+	closedir($hookdir) or die("Cannot close $dir\n");
+
+	@files = sort { $a cmp $b } @files;
+	my @scripts = grep(/$stage/, @files);
+
+	foreach my $script (@scripts) {
+		if($script =~ /^\./ or -d "$dir/$script") {
+			next;
+		}
+		if(-x "$dir/$script") {
+			print("Running $script from $dir...\n");
+			system("$dir/$script") == 0
+				or die("Cannot run $script, exiting...\n");
+		}
+	}
+}
