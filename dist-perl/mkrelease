@@ -5,6 +5,8 @@
 use strict;
 use warnings;
 use Config::General;
+use Cwd;
+use File::chdir;
 
 my $conffile	= $ARGV[0];
 
@@ -28,9 +30,9 @@ my $base	= $config{'BASE'};
 ## Subroutines
 
 # Handle errors
-sub error {
-	my $err = shift;
-	$err	= "Error: $err";
+sub err {
+	my $error	= shift;
+	$error		= "Error: $err";
 
 	die("$err\n");
 }
@@ -47,11 +49,19 @@ sub extract {
 	my ($tarball, $dir) = @_;
 
 	system("/usr/bin/tar", "xpvf", "$tarball", "--xattrs-include='*.*'", "--numeric-owner", "-C", "$dir") == 0
-		or error("Can't extract $tarball to $dir");
+		or err("Can't extract $tarball to $dir");
 }
 
 # Create stage tarball.
 sub archive {
+	my ($tarball, $tardir)	= @_;
+
+	# Change to dir and create tarball.
+	chdir("$tardir") or err("Can't change to testdir");
+	system("/usr/bin/tar", "cpPJvf", "../$tarball", "--ignore-failed-read", "--xattrs-include='*.*'", "--numeric-owner", "-X", "../excludes.txt", ".") == 0
+		or err("Can't extract $tarball to $tardir");
+	# Make sure we're back to the working directory.
+	chdir("$workdir") or err("Can't change to $workdir");
 }
 
 # Run hooks
