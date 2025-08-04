@@ -32,9 +32,9 @@ my $base	= $config{'BASE'};
 # Handle errors
 sub err {
 	my $error	= shift;
-	$error		= "Error: $err";
+	$error		= "Error: $error";
 
-	die("$err\n");
+	die("$error\n");
 }
 
 # Print message (just makes the code more readable, again).
@@ -85,4 +85,16 @@ sub runhooks {
 				or die("Cannot run $script, exiting...\n");
 		}
 	}
+}
+
+# Copy files to the chroot using rsync (for now at least).
+sub copy_files {
+	my ($dir, $dest)	= @_;
+
+	# Make sure the path provided by dir and dest ends in a slash.
+	$dir	       .= '/' unless("$dir" =~ m{/$});
+	$dest	       .= '/' unless("$dest" =~ m{/$});
+
+	system("/usr/bin/rsync", "-Klrv", "$dir", "$dest") == 0
+		or err("Cannot copy $dir to $dest");
 }
