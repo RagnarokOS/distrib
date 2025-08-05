@@ -98,3 +98,15 @@ sub copy_files {
 	system("/usr/bin/rsync", "-Klrv", "$dir", "$dest") == 0
 		or err("Cannot copy $dir to $dest");
 }
+
+## Main Subs
+sub miniroot {
+	unless(-d "$destdir") {
+		mkdir("$destdir") or err("Can't create $destdir");
+	}
+	extract("$stage3", "$destdir");
+	runhooks("hooks/miniroot", "extract");
+	copy_files("$workdir/portage.conf/", "$destdir");
+	runhooks("hooks/miniroot", "setup");
+
+}
