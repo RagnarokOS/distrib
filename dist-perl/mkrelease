@@ -99,6 +99,13 @@ sub copy_files {
 		or err("Cannot copy $dir to $dest");
 }
 
+sub chrootcmd {
+	my ($target, $cmd)	= @_;
+
+	system("/usr/bin/chroot", "$target", "/bin/bash", "-c", "source /etc/profile && $cmd") == 0
+		or err("Can't execute $cmd in $target");
+}
+
 ## Main Subs
 sub miniroot {
 	unless(-d "$destdir") {
