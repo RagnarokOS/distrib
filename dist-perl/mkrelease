@@ -43,6 +43,14 @@ sub msg {
 	print("$msg\n");
 }
 
+# Call scripts/genmount.sh
+sub mount {
+	my ($target)	= @_;
+
+	system("sh", "scripts/genmount.sh", "$target") == 0
+		or err("Can't run genmount.sh against $target");
+}
+
 # Extract a stage 3, whether it's a Gentoo archive or miniroot.
 # TODO: support multiple archive format.
 sub extract {
@@ -115,5 +123,4 @@ sub miniroot {
 	runhooks("hooks/miniroot", "extract");
 	copy_files("$workdir/portage.conf/", "$destdir");
 	runhooks("hooks/miniroot", "setup");
-
 }
