@@ -114,12 +114,19 @@ sub chrootcmd {
 		or err("Can't execute $cmd in $target");
 }
 
+# Emerge @world inside the chroot.
+sub emergecmd {
+	system("/usr/bin/emerge", "-av", "--emptytree", "--with-bdeps=y", "--usepkg", '@world') == 0
+		or err("Can't emerge.");
+}
+
 ## Main Subs
 sub miniroot {
 	unless(-d "$destdir") {
 		mkdir("$destdir") or err("Can't create $destdir");
 	}
 	extract("$stage3", "$destdir");
+	mount("$destdir");
 	runhooks("hooks/miniroot", "extract");
 	copy_files("$workdir/portage.conf/", "$destdir");
 	runhooks("hooks/miniroot", "setup");
