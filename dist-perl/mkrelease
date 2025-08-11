@@ -24,8 +24,6 @@ my $stage3	= $config{'STAGE3'};
 my $port_git	= $config{'PORTAGE_GIT'};
 my $toolchain	= $config{'TOOLCHAIN'};
 my $destdir	= $config{'DESTDIR'};
-my $miniroot	= $config{'MINIROOT'};
-my $base	= $config{'BASE'};
 
 ## Subroutines
 
@@ -120,8 +118,7 @@ sub emergecmd {
 		or err("Can't emerge.");
 }
 
-## Main Subs
-sub miniroot {
+sub main {
 	unless(-d "$destdir") {
 		mkdir("$destdir") or err("Can't create $destdir");
 	}
@@ -131,3 +128,4 @@ sub miniroot {
 	copy_files("$workdir/portage.conf/", "$destdir");
 	runhooks("hooks/miniroot", "setup");
 }
+main
