@@ -133,6 +133,9 @@ sub main {
 	msg("Running miniroot hooks");
 	runhooks("hooks/miniroot", "extract");
 
+	msg("Copying portage.conf to $destdir");
+	copy_files("$workdir/portage.conf/", "$destdir");
+
 	msg("Running setup hooks");
 	runhooks("hooks/miniroot", "setup");
 
