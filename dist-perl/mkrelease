@@ -25,7 +25,7 @@ my $stage3	= $config{'STAGE3'};
 my $port_git	= $config{'PORTAGE_GIT'};
 my $toolchain	= $config{'TOOLCHAIN'};
 my $destdir	= $config{'DESTDIR'};
-my $worldbuild	= $config{'WORLD_BUILD'};
+my $emergeopts	= $config{'EMERGE_OPTS'};
 
 ## Subroutines
 
