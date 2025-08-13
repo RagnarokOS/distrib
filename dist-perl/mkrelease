@@ -12,8 +12,8 @@ my $conffile	= $ARGV[0];
 
 my $conf = Config::General->new(
 	-ConfigFile		=> $conffile,
-	-SplitPolicy		=> 'equalsign',
-	-InterPolateVars	=> 1,
+	-SplitPolicy		=> 'custom',
+	-SplitDelimiter		=> '\s+=\s+',
 	-AutoTrue		=> 1
 );
 
@@ -113,13 +113,9 @@ sub chrootcmd {
 		or err("Can't execute $cmd in $target");
 }
 
-# Emerge @world inside the chroot.
-sub emergecmd {
-	system("/usr/bin/emerge", "-av", "--emptytree", "--with-bdeps=y", "--usepkg", '@world') == 0
-		or err("Can't emerge.");
-}
-
 sub main {
+	my @buildopts	= split(' ', $emergeopts);
+
 	unless(-d "$destdir") {
 		msg("Creating missing $destdir");
 		mkdir("$destdir") or err("Can't create $destdir");
@@ -139,6 +135,9 @@ sub main {
 
 	msg("Running setup hooks");
 	runhooks("hooks/miniroot", "setup");
+
+	msg('Rebuilding @world inside the chroot');
+	chrootcmd($destdir, "/usr/bin/emerge @opts \@world");
 
 	# If this is a miniroot, create the tarball and exit.
 	if($destdir =~ "miniroot") {
