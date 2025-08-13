@@ -120,12 +120,26 @@ sub emergecmd {
 
 sub main {
 	unless(-d "$destdir") {
+		msg("Creating missing $destdir");
 		mkdir("$destdir") or err("Can't create $destdir");
 	}
+
+	msg("Extracting $stage3 to $destdir");
 	extract("$stage3", "$destdir");
+
+	msg("Mounting necessary filesystems to $destdir");
 	mount("$destdir");
+
+	msg("Running miniroot hooks");
 	runhooks("hooks/miniroot", "extract");
-	copy_files("$workdir/portage.conf/", "$destdir");
+
+	msg("Running setup hooks");
 	runhooks("hooks/miniroot", "setup");
+
+	# If this is a miniroot, create the tarball and exit.
+	if($destdir =~ "miniroot") {
+		msg("Creating miniroot tarball");
+		archive("$destdir.tar.xz", $destdir);
+		exit(0);
+	}
 }
-main
