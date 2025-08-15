@@ -19,13 +19,14 @@ my $conf = Config::General->new(
 );
 
 my %config	= $conf->getall;
-my $workdir	= $config{'SRCDIR'};
+my $workdir	= $config{'SRC_DIR'};
 my $version	= $config{'VERSION'};
 my $stage3	= $config{'STAGE3'};
 my $port_git	= $config{'PORTAGE_GIT'};
 my $toolchain	= $config{'TOOLCHAIN'};
 my $destdir	= $config{'DESTDIR'};
 my $emergeopts	= $config{'EMERGE_OPTS'};
+my $hookdir	= $config{'HOOK_DIR'};
 
 ## Subroutines
 
