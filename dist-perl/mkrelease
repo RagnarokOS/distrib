@@ -75,11 +75,11 @@ sub archive {
 
 # Run hooks
 sub runhooks {
-	my ($dir, $stage) = @_;
+	my ($stage) = @_;
 
-	opendir(my $hookdir, $dir) or die("Cannot open $dir\n");
-	my @files = readdir($hookdir);
-	closedir($hookdir) or die("Cannot close $dir\n");
+	opendir($dir, $hookdir) or die("Cannot open $dir\n");
+	my @files = readdir($dir);
+	closedir($dir) or die("Cannot close $dir\n");
 
 	@files = sort { $a cmp $b } @files;
 	my @scripts = grep(/$stage/, @files);
@@ -130,13 +130,13 @@ sub main {
 	mount("$destdir");
 
 	msg("Running miniroot hooks");
-	runhooks("hooks/miniroot", "extract");
+	runhooks("extract");
 
 	msg("Copying portage.conf to $destdir");
 	copy_files("$workdir/portage.conf/", "$destdir");
 
 	msg("Running setup hooks");
-	runhooks("hooks/miniroot", "setup");
+	runhooks("setup");
 
 	msg('Rebuilding @world inside the chroot');
 	chrootcmd($destdir, "/usr/bin/emerge @buildopts \@world");
@@ -144,7 +144,7 @@ sub main {
 	# If this is a miniroot, create the tarball and exit.
 	if($destdir =~ "miniroot") {
 		msg("Cleaning up the chroot...");
-		runhooks("hooks/miniroot", "clean");
+		runhooks("clean");
 		msg("Creating miniroot tarball");
 		archive("$destdir.tar.xz", $destdir);
 		exit(0);
