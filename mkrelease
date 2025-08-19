@@ -149,4 +149,10 @@ sub main {
 		archive("$destdir.tar.xz", $destdir);
 		exit(0);
 	}
+
+	msg("Copying extra config files");
+	copy_files("$workdir/includes.preinst", "$destdir");
+
+	msg("Running configure hooks");
+	runhooks("configure");
 }
