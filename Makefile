@@ -11,7 +11,8 @@ DIRS		= ${PREFIX}share/${PKG} \
 		  ${MANPREFIX}/man1 \
 		  ${MANPREFIX}/man5
 EXAMPLES	= miniroot base
-SCRIPTS		= scripts/genmount.sh scripts/checkdep.sh
+SCRIPTS		= scripts/genmount.sh scripts/checkdep.sh \
+		  scripts/getval
 
 dirs:
 	for _dir in ${DIRS}; do \
