@@ -138,11 +138,10 @@ sub main {
 	msg("Running setup hooks");
 	runhooks("setup");
 
-	msg('Rebuilding @world inside the chroot');
-	chrootcmd($destdir, "/usr/bin/emerge @buildopts \@world");
-
-	# If this is a miniroot, create the tarball and exit.
+	# If this is a miniroot, rebuild @world and create the tarball and exit.
 	if($destdir =~ "miniroot") {
+		msg('Rebuilding @world inside the chroot');
+		chrootcmd($destdir, "/usr/bin/emerge @buildopts \@world");
 		msg("Cleaning up the chroot...");
 		runhooks("clean");
 		msg("Creating miniroot tarball");
