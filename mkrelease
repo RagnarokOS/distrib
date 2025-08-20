@@ -90,7 +90,7 @@ sub runhooks {
 		}
 		if(-x "$dir/$script") {
 			print("Running $script from $dir...\n");
-			system("$dir/$script") == 0
+			system("$dir/$script", "$destdir") == 0
 				or die("Cannot run $script, exiting...\n");
 		}
 	}
