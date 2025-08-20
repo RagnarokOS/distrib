@@ -1,12 +1,12 @@
 #!/bin/sh
 
-# $Ragnarok: 0100_clean.sh,v 1.1 2025/06/25 18:10:32 lecorbeau Exp $
+# $Ragnarok: 0100_clean.sh,v 1.2 2025/08/20 16:06:29 lecorbeau Exp $
 #
 # Cleanup miniroot before creating tarball.
 
 set -e
 
-TARGET="$(getval MINIROOT config.mk)"
+TARGET="$1"
 
 # Start by removing resolv.conf, if it exists.
 if [ -f "${TARGET}/etc/resolv.conf" ]; then
