@@ -108,11 +108,23 @@ sub copy_files {
 		or err("Cannot copy $dir to $dest");
 }
 
+# TODO: use perl's built-in chroot instead of using system().
 sub chrootcmd {
 	my ($target, $cmd)	= @_;
 
 	system("/usr/bin/chroot", "$target", "/bin/bash", "-c", "source /etc/profile && $cmd") == 0
 		or err("Can't execute $cmd in $target");
+}
+
+# Install an alt. toolchain.
+sub toolchain {
+	extract("toolchain.tgz", "$workdir");
+	copy_files("toolchain.tgz", "$destdir/var/cache/binpkgs/");
+	chrootcmd("$destdir", "emaint -f binhost");
+	chrootcmd("$destdir", "emerge -v --usepkg llvm-core/clang");
+	chrootcmd("$destdir", "emerge -v --usepkg binutils gcc glibc");
+	chrootcmd("$destdir", 'emerge -v --usepkg @llvm-toolchain');
+	chrootcmd("$destdir", 'emerge -v --usepkg @build');
 }
 
 sub main {
@@ -134,6 +146,10 @@ sub main {
 
 	msg("Copying portage.conf to $destdir");
 	copy_files("$workdir/portage.conf/", "$destdir");
+
+	if("$toolchain" eq "true") {
+		toolchain();
+	}
 
 	msg("Running setup hooks");
 	runhooks("setup");
