@@ -1,4 +1,3 @@
-llvm-core/clang-runtime
 llvm-core/libclc
 llvm-core/clang-common
 llvm-core/lld
@@ -8,6 +7,7 @@ llvm-core/llvm-common
 llvm-core/llvm
 llvm-core/clang
 llvm-core/llvm-toolchain-symlinks
+llvm-runtimes/clang-runtime
 llvm-runtimes/libunwind
 llvm-runtimes/compiler-rt
 llvm-runtimes/compiler-rt-sanitizers
