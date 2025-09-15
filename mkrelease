@@ -119,12 +119,22 @@ sub chrootcmd {
 # Install an alt. toolchain.
 sub toolchain {
 	extract("toolchain.tgz", "$workdir");
-	copy_files("toolchain.tgz", "$destdir/var/cache/binpkgs/");
+	copy_files("toolchain/", "$destdir/var/cache/binpkgs/");
 	chrootcmd("$destdir", "emaint -f binhost");
 	chrootcmd("$destdir", "emerge -v --usepkg llvm-core/clang");
 	chrootcmd("$destdir", "emerge -v --usepkg binutils gcc glibc");
 	chrootcmd("$destdir", 'emerge -v --usepkg @llvm-toolchain');
 	chrootcmd("$destdir", 'emerge -v --usepkg @build');
+}
+
+# Configure portage with git if PORTAGE_GIT is true.
+sub portage_git {
+	extract("portage-git.tgz", "$workdir");
+	copy_files("portage-git/", "$destdir/var/cache/binpkgs/");
+	chrootcmd("$destdir", "emaint -f binhost");
+	chrootcmd("$destdir", "emerge -v --usepkg app-eselect/eselect-repository dev-vcs/git");
+	chrootcmd("$destdir", "rm -r /var/db/repos/gentoo");
+	chrootcmd("$destdir", "emerge --sync");
 }
 
 sub main {
@@ -149,6 +159,10 @@ sub main {
 
 	if("$toolchain" eq "true") {
 		toolchain();
+	}
+
+	if("$port_git" eq "true") {
+		portage_git();
 	}
 
 	msg("Running setup hooks");
