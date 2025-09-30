@@ -179,14 +179,18 @@ sub main {
 		exit(0);
 	}
 
-	msg("Copying includes.preinst to the chroot");
-	copy_files("$workdir/includes.preinst", "$destdir");
+	if (-d "$workdir/includes.preinst") {
+		msg("Copying includes.preinst to the chroot");
+		copy_files("$workdir/includes.preinst", "$destdir");
+	}
 	
 	msg('Rebuilding @world inside the chroot');
 	chrootcmd($destdir, "/usr/bin/emerge @buildopts \@world");
 
-	msg("Copying includes.postinst to the chroot");
-	copy_files("$workdir/includes.postinst", "$destdir");
+	if (-d "$workdir/includes.postinst") {
+		msg("Copying includes.postinst to the chroot");
+		copy_files("$workdir/includes.postinst", "$destdir");
+	}
 
 	msg("Running configure hooks");
 	runhooks("configure");
