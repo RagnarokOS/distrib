@@ -15,4 +15,3 @@ sys-apps/apparmor-utils
 sys-process/cronie
 app-misc/tmux
 net-misc/dhcpcd
-app-editors/opened
