@@ -12,8 +12,9 @@ my $conffile	= $ARGV[0];
 
 my $conf = Config::General->new(
 	-ConfigFile		=> $conffile,
-	-IncludeRelative	=> '1',
-	-UseApacheInclude	=> '1',
+	-MergeDuplicateOptions	=> 1,
+	-IncludeRelative	=> 1,
+	-UseApacheInclude	=> 1,
 	-SplitPolicy		=> 'custom',
 	-SplitDelimiter		=> '\s+=\s+',
 	-InterPolateVars	=> 1,
@@ -29,6 +30,7 @@ my $toolchain	= $config{'TOOLCHAIN'};
 my $destdir	= $config{'CHROOT'};
 my $emergeopts	= $config{'EMERGE_OPTS'};
 my $hookdir	= $config{'HOOK_DIR'};
+my $pkg_cache	= $config{'PKG_CACHE'};
 
 ## Subroutines
 
@@ -118,11 +120,23 @@ sub chrootcmd {
 		or err("Can't execute $cmd in $target");
 }
 
+sub binpkgs {
+	# Only extract/copy binpkgs if binpkgs.tar.xz exists, fail otherwise.
+	if (-e 'binpkgs.tar.xz') {
+		extract("binpkgs.tar.xz", "$workdir");
+		copy_files("binpkgs/", "$destdir/var/cache/binpkgs/");
+		chrootcmd("$destdir", "emaint -f binhost");
+	} else {
+		msg("No binpkgs.tar.xz found. Exiting...");
+		exit(1);
+	}
+}
+
 # Install an alt. toolchain.
 sub toolchain {
-	extract("toolchain.tgz", "$workdir");
-	copy_files("toolchain/", "$destdir/var/cache/binpkgs/");
-	chrootcmd("$destdir", "emaint -f binhost");
+#	extract("toolchain.tgz", "$workdir");
+#	copy_files("toolchain/", "$destdir/var/cache/binpkgs/");
+#	chrootcmd("$destdir", "emaint -f binhost");
 	chrootcmd("$destdir", "emerge -v --usepkg llvm-core/clang");
 	chrootcmd("$destdir", "emerge -v --usepkg binutils gcc glibc");
 	chrootcmd("$destdir", 'emerge -v --usepkg @llvm-toolchain');
@@ -131,9 +145,9 @@ sub toolchain {
 
 # Configure portage with git if PORTAGE_GIT is true.
 sub portage_git {
-	extract("portage-git.tgz", "$workdir");
-	copy_files("portage-git/", "$destdir/var/cache/binpkgs/");
-	chrootcmd("$destdir", "emaint -f binhost");
+#	extract("portage-git.tgz", "$workdir");
+#	copy_files("portage-git/", "$destdir/var/cache/binpkgs/");
+#	chrootcmd("$destdir", "emaint -f binhost");
 	chrootcmd("$destdir", "emerge -v --usepkg app-eselect/eselect-repository dev-vcs/git");
 	chrootcmd("$destdir", "rm -r /var/db/repos/gentoo");
 	chrootcmd("$destdir", "emerge --sync");
@@ -158,6 +172,10 @@ sub main {
 
 	msg("Copying portage.conf to $destdir");
 	copy_files("$workdir/portage.conf/", "$destdir");
+
+	if ("$pkg_cache" eq "true") {
+		binpkgs();
+	}
 
 	if("$toolchain" eq "true") {
 		toolchain();
@@ -196,4 +214,10 @@ sub main {
 
 	msg("Running configure hooks");
 	runhooks("configure");
+
+	if ($backup_bin eq "true") {
+		system('/usr/bin/tar', 'cJvf', "$workdir/binpkgs.tar.xz", '-C', "$destdir/var/cache/binpkgs", '.') == 0
+			or err("Can't create binpkgs tarball");
+	}
+
 }
