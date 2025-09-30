@@ -12,6 +12,8 @@ my $conffile	= $ARGV[0];
 
 my $conf = Config::General->new(
 	-ConfigFile		=> $conffile,
+	-IncludeRelative	=> '1',
+	-UseApacheInclude	=> '1',
 	-SplitPolicy		=> 'custom',
 	-SplitDelimiter		=> '\s+=\s+',
 	-InterPolateVars	=> 1,
@@ -24,7 +26,7 @@ my $version	= $config{'VERSION'};
 my $stage3	= $config{'STAGE3'};
 my $port_git	= $config{'PORTAGE_GIT'};
 my $toolchain	= $config{'TOOLCHAIN'};
-my $destdir	= $config{'DESTDIR'};
+my $destdir	= $config{'CHROOT'};
 my $emergeopts	= $config{'EMERGE_OPTS'};
 my $hookdir	= $config{'HOOK_DIR'};
 
