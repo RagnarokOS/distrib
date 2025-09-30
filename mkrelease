@@ -215,7 +215,7 @@ sub main {
 	msg("Running configure hooks");
 	runhooks("configure");
 
-	if ($backup_bin eq "true") {
+	if ($pkg_cache eq "true") {
 		system('/usr/bin/tar', 'cJvf', "$workdir/binpkgs.tar.xz", '-C', "$destdir/var/cache/binpkgs", '.') == 0
 			or err("Can't create binpkgs tarball");
 	}
