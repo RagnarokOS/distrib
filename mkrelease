@@ -180,17 +180,17 @@ sub main {
 	msg("Copying portage.conf to $destdir");
 	copy_files("$workdir/portage.conf/", "$destdir");
 
-	if ("$pkg_cache" eq "true") {
+	if ($pkg_cache) {
 		msg("Extracting binpkgs directory to $destdir/var/cache/");
 		binpkgs();
 	}
 
-	if("$toolchain" eq "true") {
+	if($toolchain) {
 		msg("Installing toolchain...");
 		toolchain();
 	}
 
-	if("$port_git" eq "true") {
+	if($port_git) {
 		msg("Configuring portage with git");
 		portage_git();
 	}
@@ -202,7 +202,7 @@ sub main {
 	if($destdir =~ "miniroot") {
 		msg('Rebuilding @world inside the chroot');
 		chrootcmd($destdir, "/usr/bin/emerge @buildopts \@world");
-		if ($pkg_cache eq "true") {
+		if ($pkg_cache) {
 			msg("Caching $destdir/var/cache/binpkgs/");
 			pkg_cache("$workdir/binpkgs.tar.xz");
 		}
@@ -229,7 +229,7 @@ sub main {
 	msg("Running configure hooks");
 	runhooks("configure");
 
-	if ($pkg_cache eq "true") {
+	if ($pkg_cache) {
 		msg("Caching $destdir/var/cache/binpkgs/");
 		pkg_cache("$workdir/binpkgs.tar.xz");
 	}
