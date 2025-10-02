@@ -202,6 +202,10 @@ sub main {
 	if($destdir =~ "miniroot") {
 		msg('Rebuilding @world inside the chroot');
 		chrootcmd($destdir, "/usr/bin/emerge @buildopts \@world");
+		if ($pkg_cache eq "true") {
+			msg("Caching $destdir/var/cache/binpkgs/");
+			pkg_cache("$workdir/binpkgs.tar.xz");
+		}
 		msg("Cleaning up the chroot...");
 		runhooks("clean");
 		msg("Creating miniroot tarball");
@@ -226,6 +230,7 @@ sub main {
 	runhooks("configure");
 
 	if ($pkg_cache eq "true") {
+		msg("Caching $destdir/var/cache/binpkgs/");
 		pkg_cache("$workdir/binpkgs.tar.xz");
 	}
 
