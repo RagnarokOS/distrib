@@ -181,14 +181,17 @@ sub main {
 	copy_files("$workdir/portage.conf/", "$destdir");
 
 	if ("$pkg_cache" eq "true") {
+		msg("Extracting binpkgs directory to $destdir/var/cache/");
 		binpkgs();
 	}
 
 	if("$toolchain" eq "true") {
+		msg("Installing toolchain...");
 		toolchain();
 	}
 
 	if("$port_git" eq "true") {
+		msg("Configuring portage with git");
 		portage_git();
 	}
 
