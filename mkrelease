@@ -153,6 +153,13 @@ sub portage_git {
 	chrootcmd("$destdir", "emerge --sync");
 }
 
+sub pkg_cache {
+	my ($archive)	= @_;
+
+	system('/usr/bin/tar', 'cJvf', "$archive", '-C', "$destdir/var/cache/binpkgs", '.') == 0
+		or err("Can't create binpkgs tarball");
+}
+
 sub main {
 	my @buildopts	= split(' ', $emergeopts);
 
@@ -216,8 +223,7 @@ sub main {
 	runhooks("configure");
 
 	if ($pkg_cache eq "true") {
-		system('/usr/bin/tar', 'cJvf', "$workdir/binpkgs.tar.xz", '-C', "$destdir/var/cache/binpkgs", '.') == 0
-			or err("Can't create binpkgs tarball");
+		pkg_cache("$workdir/binpkgs.tar.xz");
 	}
 
 }
