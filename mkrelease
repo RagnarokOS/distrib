@@ -5,6 +5,7 @@
 use strict;
 use warnings;
 use Config::General;
+use IPC::System::Simple qw(runx);
 use Cwd;
 use File::chdir;
 
@@ -48,6 +49,21 @@ sub msg {
 	print("$msg\n");
 }
 
+# Wrapper around runx.
+sub runcmd {
+	my $cmd		= shift @_;
+	my @args	= @_;
+
+	eval {
+		runx($cmd, @args);
+	};
+
+	if ($@) {
+		print("Can't run $cmd: $@\n");
+	}
+}
+
+
 # Call scripts/genmount.sh
 sub mount {
 	my ($target)	= @_;
@@ -61,8 +77,8 @@ sub mount {
 sub extract {
 	my ($tarball, $dir) = @_;
 
-	system("/usr/bin/tar", "xpvf", "$tarball", "--xattrs-include='*.*'", "--numeric-owner", "-C", "$dir") == 0
-		or err("Can't extract $tarball to $dir");
+	runcmd("/usr/bin/tar", "xpvf", "$tarball", "--xattrs-include='*.*'",
+		"--numeric-owner", "-C", "$dir");
 }
 
 # Create stage tarball.
@@ -71,8 +87,9 @@ sub archive {
 
 	# Change to dir and create tarball.
 	chdir("$tardir") or err("Can't change to testdir");
-	system("/usr/bin/tar", "cpPJvf", "../$tarball", "--ignore-failed-read", "--xattrs-include='*.*'", "--numeric-owner", "-X", "../excludes.txt", ".") == 0
-		or err("Can't extract $tarball to $tardir");
+	runcmd("/usr/bin/tar", "cpPJvf", "../$tarball",
+		"--ignore-failed-read", "--xattrs-include='*.*'",
+		"--numeric-owner", "-X", "../excludes.txt", ".");
 	# Make sure we're back to the working directory.
 	chdir("$workdir") or err("Can't change to $workdir");
 }
@@ -108,16 +125,15 @@ sub copy_files {
 	$dir	       .= '/' unless("$dir" =~ m{/$});
 	$dest	       .= '/' unless("$dest" =~ m{/$});
 
-	system("/usr/bin/rsync", "-Klrv", "$dir", "$dest") == 0
-		or err("Cannot copy $dir to $dest");
+	runcmd("/usr/bin/rsync", "-Klrv", "$dir", "$dest");
 }
 
 # TODO: use perl's built-in chroot instead of using system().
 sub chrootcmd {
 	my ($target, $cmd)	= @_;
 
-	system("/usr/bin/chroot", "$target", "/bin/bash", "-c", "source /etc/profile && $cmd") == 0
-		or err("Can't execute $cmd in $target");
+	runcmd("/usr/bin/chroot", "$target", "/bin/bash", "-c",
+		"source /etc/profile && $cmd");
 }
 
 sub binpkgs {
@@ -156,8 +172,8 @@ sub portage_git {
 sub pkg_cache {
 	my ($archive)	= @_;
 
-	system('/usr/bin/tar', 'cJvf', "$archive", '-C', "$destdir/var/cache/binpkgs", '.') == 0
-		or err("Can't create binpkgs tarball");
+	runcmd('/usr/bin/tar', 'cJvf', "$archive", '-C',
+		"$destdir/var/cache/binpkgs", '.');
 }
 
 sub main {
