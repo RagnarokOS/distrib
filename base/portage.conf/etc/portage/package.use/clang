@@ -1,3 +1,6 @@
 llvm-core/clang-common cet default-compiler-rt default-lld llvm-libunwind
-llvm-runtimes/clang-runtime sanitize compiler-rt default-compiler-rt default-lld llvm-libunwind
+llvm-runtimes/clang-runtime sanitize default-compiler-rt llvm-libunwind default-lld compiler-rt
 llvm-runtimes/compiler-rt-sanitizers clang
+llvm-core/clang-linker-config default-lld
+llvm-runtimes/clang-rtlib-config default-compiler-rt
+llvm-runtimes/clang-unwindlib-config default-compiler-rt llvm-libunwind
